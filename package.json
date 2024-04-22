@@ -6,7 +6,9 @@
   "scripts": {
     "start": "concurrently \"npm run start:backend\" \"npm run start:frontend\"",
     "start:backend": "cd backend && node index.js",
-    "start:frontend": "cd frontend && npm start"
+    "start:frontend": "cd frontend && npm start",
+    "preinstall": "cd backend && npm install",
+    "postinstall": "cd frontend && npm install"
   },
   "keywords": [],
   "author": "",
