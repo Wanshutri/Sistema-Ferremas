@@ -6,6 +6,7 @@ const Home = () => {
             <header>
                 <NavBar></NavBar> {/* Podemos importar componentes en otros componentes, este caso importamos el componente navbar en el componente de la propia pagina home */}
             </header>
+            PENE VS VAGINA
         </div>
     )
 }
