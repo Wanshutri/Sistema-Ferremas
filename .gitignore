@@ -1,0 +1,5 @@
+# Ignorar node_modules en todas las carpetas
+**/node_modules/
+
+# Ignorar directorios de configuración de editores
+.vscode/
