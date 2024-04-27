@@ -5,6 +5,7 @@ import banner from './../../assets/img/banner.png'
 import logo from './../../assets/img/logo.png'
 import Flicking from "@egjs/react-flicking";
 import "@egjs/react-flicking/dist/flicking.css";
+import LeftMenu from '../../components/leftMenu/leftMenu';
 
 class Home extends Component {
 
@@ -71,8 +72,9 @@ class Home extends Component {
 
         return (
             <div>
-                <img className="banner" src={banner} alt="Banner"></img>
+                <LeftMenu></LeftMenu>
                 <header>
+                    <img className="banner" src={banner} alt="Banner"></img>
                     <nav className="navbar navbar-expand-lg">
                         <div className="container-fluid">
                             <button className="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNavAltMarkup" aria-controls="navbarNavAltMarkup" aria-expanded="false" aria-label="Toggle navigation">
