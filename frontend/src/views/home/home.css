@@ -2,12 +2,18 @@
     width: 80%;
 }
 
-.nav-link {
+.navbar-nav .nav-link {
     margin-right: 15%;
     width: fit-content;
     height: fit-content;
     padding: 0;
-    transition: transform 0.3s ease;
+    transition: transform 0.1s ease;
+    color: white;
+}
+
+.navbar-nav .nav-link:hover {
+    transform: scale(1.05);
+    cursor: pointer;
     color: white;
 }
 
@@ -20,11 +26,7 @@
     height: 30rem;
 }
 
-.nav-link:hover {
-    transform: scale(1.1);
-    cursor: pointer;
-    color: white;
-}
+
 
 .logo-img {
     width: 30%;
@@ -138,7 +140,8 @@
 .my-flicking .card-body .btn {
     width: 100%;
     border: 1px solid black;
-    margin-top: 5%
+    margin-top: 5%;
+    transition: transform 0.3s ease;
 }
 
 footer {

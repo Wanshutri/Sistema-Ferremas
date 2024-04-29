@@ -18,7 +18,7 @@ const LeftMenu = () => {
         </button>
         <div className="offcanvas offcanvas-start text-bg-dark" tabIndex="-1" id="offcanvasDarkNavbar" aria-labelledby="offcanvasDarkNavbarLabel">
           <div className="offcanvas-header">
-            <h5 className="offcanvas-title" id="offcanvasDarkNavbarLabel"><img src={FerremasLogo} class="logoFerremas"/></h5>
+            <h5 className="offcanvas-title" id="offcanvasDarkNavbarLabel"><img src={FerremasLogo} className="logoFerremas" /></h5>
             <button type="button" className="btn-close btn-close-white" data-bs-dismiss="offcanvas" aria-label="Close"></button>
           </div>
           <div className="offcanvas-body">
@@ -30,10 +30,10 @@ const LeftMenu = () => {
                 <a className="btn btn-primary nav-link b1" href="#"><FontAwesomeIcon icon={faCartShopping} />Carrito</a>
               </li>
               <li className="nav-item dropdown">
-                <a class="btn btn-primary nav-link b1" data-bs-toggle="collapse" href="#multiCollapseExample1" role="button" aria-expanded="false" aria-controls="multiCollapseExample1"><FontAwesomeIcon icon={faMobile} />
+                <a className="btn btn-primary nav-link b1" data-bs-toggle="collapse" href="#multiCollapseExample1" role="button" aria-expanded="false" aria-controls="multiCollapseExample1"><FontAwesomeIcon icon={faMobile} />
                   Contacto
                 </a>
-                <ul class="collapse multi-collapse" id="multiCollapseExample1">
+                <ul className="collapse multi-collapse" id="multiCollapseExample1">
 
                   <li><a>Formulario</a></li>
                   <li><a>Escribenos al +56945020474</a></li>
