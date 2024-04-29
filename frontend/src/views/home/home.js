@@ -4,6 +4,7 @@ import Footer from "../../components/footer/footer";
 import BannerCom from "../../components/banner/bannerCom"
 import logo from "./../../img/logo.png"
 import banner from "./../../img/banner.png"
+import flicking from "../../components/flicking/flicking"
 
 
 
@@ -18,13 +19,15 @@ const Home = () => {
                     </header>
                     <main>
                         {/* Main content */}
+
                     </main>
                     <footer>
-                        <Footer logoSrc={logo}/>
+                        <Footer logoSrc={logo} />
                     </footer>
                 </div>
             </div>
         </div>
+        
     )
 }
 
