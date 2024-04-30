@@ -14,6 +14,7 @@ root.render(
       <Route path="/">
         <Route index element={<Home></Home>} /> {/*Podemos importar paginas y componentes para cada ruta pertinente*/}
         <Route path="test" element={<h1>PAGINA DE TEST</h1>} />
+        <Route path="sobrenosotros" element={<h1>Sobre Nosotros</h1>} />
         <Route path="*" element={<h1>Pagina no encontrada</h1>} />
       </Route>
     </Routes>
