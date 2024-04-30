@@ -16,7 +16,6 @@ if (result.error) {
     console.error('Error al cargar el archivo .env:', result.error);
 }
 
-
 // Función para establecer la conexión a la base de datos
 function conectar() {
     //console.log('Valores de las variables de entorno:');
