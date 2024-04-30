@@ -1,4 +1,4 @@
-const mysql = require('mysql');
+const mysql = require('mysql2');
 require('dotenv').config();
 
 // Configuración de la conexión a la base de datos
@@ -34,7 +34,7 @@ function conectar() {
             console.error('Error al conectar a la base de datos:', err);
             return;
         }
-        console.log('Conexión exitosa a la base Sde datos MySQL.');
+        console.log('Conexión exitosa a la base de datos MySQL.');
     });
 
     // Escuchar eventos de error y cerrar conexión

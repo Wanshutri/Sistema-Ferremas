@@ -1,15 +1,4 @@
-/*
---Creacion de DATABASE Y USUARIO
-CREATE DATABASE ferremasDB;
-CREATE USER 'ferremasUser'@'localhost' IDENTIFIED BY 'SistemaFerremas2024';
-ALTER USER 'ferremasUser'@'localhost' IDENTIFIED WITH mysql_native_password BY 'SistemaFerremas2024'; --ESTO ES SI DA ERROR "R_NOT_SUPPORTED_AUTH_MODE" EN EL NODE ()
-FLUSH PRIVILEGES;
-GRANT ALL PRIVILEGES ON ferremasDB.* TO 'ferremasUser'@'localhost';
-FLUSH PRIVILEGES;
 -- Creacion de la base de datos
-*/
-
-USE ferremasBD;
 
 CREATE TABLE sucursal(
     idSucursal INTEGER AUTO_INCREMENT NOT NULL PRIMARY KEY,

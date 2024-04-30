@@ -1,0 +1,26 @@
+footer {
+    margin-top: 5vw;
+}
+
+footer div {
+    width: 100%;
+    height: 15vw;
+    
+}
+
+.linksfooter{
+    text-align: end;
+}
+
+.list-groupfooter{
+    margin-top: 20px;
+    margin-right: 20px;
+    list-style-type: none;
+}
+.logofooter{
+    width: fit-content;
+}
+
+.linksf{
+    padding: 10px;
+}
