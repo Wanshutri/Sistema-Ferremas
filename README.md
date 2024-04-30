@@ -1,16 +1,16 @@
-## Configuracion del proyecto
+<h1>Configuracion del proyecto</h1>
 
-#Instalando las dependencias del proyecto
+<h3>Instalando las dependencias del proyecto</h3>
 
-Al realizar el comando npm install en la raiz del proyecto, se va a instalar las dependencias raiz y las subcarpetas (frontend y backend), este efecto no es viceversa, por lo que si se necesita instalar una dependencia para el desarrollo y no para importar en el proyecto, debe hacerce en la subcarpeta. Por ejemplo si necesitaramos instalar la libreria de mysql, tendriamos que primero ir a la carpeta de backend (cd backend) y luego instalar la libreria (npm install mysql)
+<p>Al realizar el comando npm install en la raiz del proyecto, se va a instalar las dependencias raiz y las subcarpetas (frontend y backend), este efecto no es viceversa, por lo que si se necesita instalar una dependencia para el desarrollo y no para importar en el proyecto, debe hacerce en la subcarpeta. Por ejemplo si necesitaramos instalar la libreria de mysql, tendriamos que primero ir a la carpeta de backend (cd backend) y luego instalar la libreria (npm install mysql)</p>
 
-#Iniciando el proyecto
+<h3>Iniciando el proyecto</h3>
 
 Para iniciar el proyecto podemos hacer npm start en la raiz, lo cual levantaria los servidores de backend y frontend simultaneamente para el desarrollo o posterior despliegue. Tambien podemos iniciar cada uno independientemente entrando en la carpeta correspondiente, en el caso de frontend con "npm start" y backend "node ./index.js"
 
-##Conexion a base de datos MYSQL
+<h1>Conexion a base de datos MYSQL</h1>
 
-#Instalando la base de datos
+<h3>Instalando la base de datos</h3>
 
 Para el proyecto usamos la base de datos MYSQl Community Server, el cual lo descargamos en este enlace  https://dev.mysql.com/downloads/mysql/ con el correspondiente sistema operativo.
 
