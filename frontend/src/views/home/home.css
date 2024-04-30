@@ -1,0 +1,41 @@
+.logo-img {
+    width: 30%;
+}
+
+.form-div {
+    width: 50%;
+    height: 45%;
+    margin: 0 auto;
+    border: 1px solid black;
+    border-radius: 25px;
+}
+
+.form-div input {
+    border: 0;
+    width: 87.5%;
+}
+
+.form-div input:focus {
+    outline: none;
+}
+
+.btnsearch {
+    width: 10%;
+    height: auto;
+    transition: transform 0.3s ease;
+}
+
+.btnsearch:hover {
+    transform: scale(1.05);
+}
+
+.search-div {
+    margin-left: 15%;
+    align-items: center;
+    margin-top: 5%;
+}
+
+.bi-search {
+    width: 80%;
+    height: 80%;
+}
