@@ -5,7 +5,7 @@ import { faMagnifyingGlass } from '@fortawesome/free-solid-svg-icons';
 import { faMobile } from '@fortawesome/free-solid-svg-icons';
 import { faCartShopping } from '@fortawesome/free-solid-svg-icons';
 import { faHouse } from '@fortawesome/free-solid-svg-icons';
-import FerremasLogo from '../../img/FerremasLogo.png';
+import logo from '../../img/logo.png';
 
 
 
@@ -18,8 +18,8 @@ const LeftMenu = () => {
         </button>
         <div className="offcanvas offcanvas-start text-bg-dark" tabIndex="-1" id="offcanvasDarkNavbar" aria-labelledby="offcanvasDarkNavbarLabel">
           <div className="offcanvas-header">
-            <h5 className="offcanvas-title" id="offcanvasDarkNavbarLabel"><img src={FerremasLogo} className="logoFerremas" /></h5>
-            <button type="button" className="btn-close btn-close-white" data-bs-dismiss="offcanvas" aria-label="Close"></button>
+            <h5 className="offcanvas-title" id="offcanvasDarkNavbarLabel"><img src={logo} class="logoFerremas"/></h5>
+            <button type="button" className="btn-close btn-close-white b2" data-bs-dismiss="offcanvas" aria-label="Close"></button>
           </div>
           <div className="offcanvas-body">
             <ul className="navbar-nav justify-content-end flex-grow-1 pe-3">
@@ -44,7 +44,7 @@ const LeftMenu = () => {
             </ul>
             <form className="d-flex mt-3" role="search">
               <input className="form-control me-2" type="search" placeholder="¿Qué deseas buscar?" aria-label="Search" />
-              <button className="btn btn-primary" type="submit"> <FontAwesomeIcon icon={faMagnifyingGlass} />Buscar</button>
+              <button className="btn btn-primary b2" type="submit"> <FontAwesomeIcon icon={faMagnifyingGlass} />Buscar</button>
             </form>
           </div>
         </div>
