@@ -10,6 +10,7 @@ footer div {
 
 .linksfooter{
     text-align: end;
+    display: block ruby;
 }
 
 .list-groupfooter{
@@ -22,5 +23,10 @@ footer div {
 }
 
 .linksf{
+    text-align: left;
     padding: 10px;
+}
+
+.iconfooter{
+    margin-right: 5px;
 }
