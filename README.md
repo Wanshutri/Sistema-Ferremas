@@ -25,12 +25,12 @@ Seguimos la siguiente configuracion:
 7- Ahora next hasta que te deje ejecutar y empiece a configurar. Luego next y termina.
 
 #Creando la base de datos
-1- Abre la terminal de mysql y escribe la contraseña que definiste. Ejecuta uno a uno cada uno de estas lineas
-CREATE DATABASE ferremasBD;
-CREATE USER 'ferremasUser'@'localhost' IDENTIFIED BY 'SistemaFerremas2024';
-GRANT ALL PRIVILEGES ON ferremasBD.* TO 'ferremasUser'@'localhost';
-FLUSH PRIVILEGES;
-USE ferremasBD;
-source C:\Users\DUOC\Desktop\Sistema-Ferremas\bd.sql
+1- Abre la terminal de mysql y escribe la contraseña que definiste. Ejecuta uno a uno cada uno de estas lineas <br>
+CREATE DATABASE ferremasBD; <br>
+CREATE USER 'ferremasUser'@'localhost' IDENTIFIED BY 'SistemaFerremas2024'; <br>
+GRANT ALL PRIVILEGES ON ferremasBD.* TO 'ferremasUser'@'localhost'; <br>
+FLUSH PRIVILEGES; <br>
+USE ferremasBD; <br>
+source C:\Users\DUOC\Desktop\Sistema-Ferremas\bd.sql <br>
 
 todos deberian darte la respuesta "OK", puedes cerrar la terminal ahora
