@@ -11,7 +11,7 @@ import logo from '../../img/logo.png';
 
 const LeftMenu = () => {
   return (
-    <nav className="navbar navbar-dark bg-dark fixed-top">
+    <nav className="navbar navbar-dark bg-transparent fixed-top">
       <div className="container-fluid">
         <button className="navbar-toggler" type="button" data-bs-toggle="offcanvas" data-bs-target="#offcanvasDarkNavbar" aria-controls="offcanvasDarkNavbar" aria-label="Toggle navigation">
           <span className="navbar-toggler-icon"></span>
