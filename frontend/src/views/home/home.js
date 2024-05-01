@@ -40,7 +40,7 @@ const Home = () => {
                                     <Cards imagen={bob} />
                                 </div>
                                 <div class="col">
-                                    <Cards imagen={bob}/>
+                                    <Cards imagen={bob} />
                                 </div>
                                 <div class="col">
                                     <Cards imagen={bob} />

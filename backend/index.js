@@ -1,16 +1,19 @@
 const express = require('express');
+const cors = require('cors'); // Importar el middleware de cors
 const { getProductos } = require('./resources/DAOproductos');
 
 const app = express();
 
+// Agregar el middleware de cors a tu aplicación
+app.use(cors());
+
+// Definir la ruta para obtener productos
 app.get('/', (req, res) => {
     getProductos()
         .then(productos => {
-            // Cuando la promesa se resuelve con éxito, se ejecuta este bloque de código
-            res.send('Datos obtenidos desde la base de datos: ' + JSON.stringify(productos));
+            res.json(productos);
         })
         .catch(error => {
-            // Si hay algún error al obtener los productos, se ejecuta este bloque de código
             console.error('Error al obtener productos:', error);
             res.status(500).send('Error al obtener productos desde la base de datos');
         });
