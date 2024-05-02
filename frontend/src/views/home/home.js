@@ -33,14 +33,14 @@ const Home = () => {
                                 <input className="" type="search" placeholder="Buscar" aria-label="Search" />
                             </div>
                         </div>
-                        <Carousel imagen1={bob} imagen2={sucursales}/>
+                        <Carousel imagen1={bob} imagen2={sucursales} />
                         <div className="container text-center mt-5">
                             <div className="row">
                                 <div className="col">
                                     <Cards imagen={bob} />
                                 </div>
                                 <div className="col">
-                                    <Cards imagen={bob} />
+                                    <Cards imagen={bob}/>
                                 </div>
                                 <div className="col">
                                     <Cards imagen={bob} />

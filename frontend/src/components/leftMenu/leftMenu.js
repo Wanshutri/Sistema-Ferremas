@@ -1,10 +1,14 @@
 import './leftMenu.css';
 import ReactDOM from 'react-dom'
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
-import { faMagnifyingGlass } from '@fortawesome/free-solid-svg-icons';
+import { faMagnifyingGlass, faUsers } from '@fortawesome/free-solid-svg-icons';
 import { faMobile } from '@fortawesome/free-solid-svg-icons';
 import { faCartShopping } from '@fortawesome/free-solid-svg-icons';
 import { faHouse } from '@fortawesome/free-solid-svg-icons';
+import { faLocationDot } from '@fortawesome/free-solid-svg-icons/faLocationDot';
+import { faCircleQuestion } from '@fortawesome/free-solid-svg-icons';
+import { faWhatsapp } from '@fortawesome/free-brands-svg-icons/faWhatsapp';
+import { faReceipt } from '@fortawesome/free-solid-svg-icons/faReceipt';
 import logo from '../../img/logo.png';
 
 
@@ -24,20 +28,29 @@ const LeftMenu = () => {
           <div className="offcanvas-body">
             <ul className="navbar-nav justify-content-end flex-grow-1 pe-3">
               <li className="nav-item">
-                <a className="btn btn-primary nav-link b1" aria-current="page" href="#"><FontAwesomeIcon icon={faHouse} />Home</a>
+                <a className="btn btn-primary nav-link b1" aria-current="page" href="#"><FontAwesomeIcon icon={faHouse} className='iconleftmenu' />Home</a>
               </li>
               <li className="nav-item">
-                <a className="btn btn-primary nav-link b1" href="#"><FontAwesomeIcon icon={faCartShopping} />Carrito</a>
+                <a className="btn btn-primary nav-link b1" aria-current="page" href="#"><FontAwesomeIcon icon={faUsers} className='iconleftmenu' />Sobre nosotros</a>
+              </li>
+              <li className="nav-item">
+                <a className="btn btn-primary nav-link b1" aria-current="page" href="#"><FontAwesomeIcon icon={faLocationDot} className='iconleftmenu' />Ubicación</a>
+              </li>
+              <li className="nav-item">
+                <a className="btn btn-primary nav-link b1" aria-current="page" href="#"><FontAwesomeIcon icon={faCircleQuestion} className='iconleftmenu' />Ayuda</a>
+              </li>
+              <li className="nav-item">
+                <a className="btn btn-primary nav-link b1" href="#"><FontAwesomeIcon icon={faCartShopping} className='iconleftmenu' />Carrito</a>
               </li>
               <li className="nav-item dropdown">
-                <a className="btn btn-primary nav-link b1" data-bs-toggle="collapse" href="#multiCollapseExample1" role="button" aria-expanded="false" aria-controls="multiCollapseExample1"><FontAwesomeIcon icon={faMobile} />
+                <a className="btn btn-primary nav-link b1" data-bs-toggle="collapse" href="#multiCollapseExample1" role="button" aria-expanded="false" aria-controls="multiCollapseExample1"><FontAwesomeIcon icon={faMobile} className='iconleftmenu' />
                   Contacto
                 </a>
                 <ul className="collapse multi-collapse" id="multiCollapseExample1">
 
-                  <li><a>Formulario</a></li>
-                  <li><a>Escribenos al +56945020474</a></li>
-                  <li><a>Visitanos en ...</a></li>
+                  <li><a><FontAwesomeIcon icon={faReceipt} /> Formulario</a></li>
+                  <li><a><FontAwesomeIcon icon={faWhatsapp} /> Escribenos al +56945020474</a></li>
+                  <li><a>Visitanos en Villa Ferroviaria</a></li>
 
                 </ul>
               </li>

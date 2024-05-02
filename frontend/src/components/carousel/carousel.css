@@ -1,12 +1,10 @@
-.carousel {
-    height: 50%;
-}
-
-.carousel-item {
-    height: 50%;
-}
-
-.carousel-item * {
-    height: auto;
+.carimg {
+    height: 450px;
 
 }
+
+.cardimg {
+    height: 200px;
+    width: 200px;
+}
+
