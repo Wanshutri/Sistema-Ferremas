@@ -8,3 +8,6 @@
     width: 200px;
 }
 
+.carousel-item {
+    height: 70vh;
+}

@@ -14,13 +14,9 @@ return (
             </button>
             <div className="collapse navbar-collapse" id="navbarNavAltMarkup">
                 <div className="navbar-nav">
-
-                    <row>
                         <h4 className="nav-link nalink">Herramientas manuales</h4>
                         <h4 className="nav-link nalink">Materiales básicos</h4>
                         <h4 className="nav-link nalink">Equipo de seguridad</h4>
-                    </row>
-
                 </div>
             </div>
         </div>

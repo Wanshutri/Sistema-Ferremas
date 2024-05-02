@@ -30,12 +30,12 @@
     height: 80%;
 }
 
-.btnsearch {
+.btn.btnsearch {
     width: 10%;
     height: auto;
     transition: transform 0.3s ease;
 }
 
-.btnsearch:hover {
+.btn.btnsearch:hover {
     transform: scale(1.1);
 }

@@ -1,0 +1,13 @@
+#error404div {
+    display: flex;
+    text-align: center;
+    margin-top: 15%;
+}
+
+#error404div div {
+    margin: 0 auto;
+}
+
+#error404div button {
+    margin-top: 15%;
+}

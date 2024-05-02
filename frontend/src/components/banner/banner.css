@@ -8,6 +8,7 @@
 
 #bannerDiv .navbar-nav {
     margin: 0 auto;
+    align-items: center;
 }
 
 #bannerDiv .banner {
@@ -15,23 +16,22 @@
     height: 30rem;
 }
 
-.nalink {
-    margin: 3% 5%;
+.nav-link.nalink {
+    margin-right: 15%;
     width: fit-content;
     height: fit-content;
     padding: 0;
     transition: transform 0.3s ease;
     color: white;
-    text-wrap: nowrap;
+    text-align: center;
+}
 
+.banner {
+    width: 155%;
 }
 
 #bannerDiv .nav-link.nalink:hover {
     transform: scale(1.1);
     cursor: pointer;
     color: white;
-}
-
-.banner {
-    width: 155%;
 }
