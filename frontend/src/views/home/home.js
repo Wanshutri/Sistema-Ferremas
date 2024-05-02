@@ -17,12 +17,12 @@ const Home = () => {
         <div className="container-fluid"> {/* Wrap content in a container */}
             <LeftMenu />
             <div className="row"> {/* Use Bootstrap row */}
-                <div className="col"> {/* Adjust column width as needed */}
+                <div className="col p-0"> {/* Adjust column width as needed */}
                     <header>
                         <BannerCom />
                     </header>
                     <main>
-                        <div className="search-div d-flex">
+                        <div className="search-div d-flex mb-5">
                             <img className="logo-img" src={logo} alt="Logo"></img>
                             <div className="d-flex form-div">
                                 <button className="btn border-0 shadow-none btnsearch" type="submit">
@@ -33,16 +33,16 @@ const Home = () => {
                                 <input className="" type="search" placeholder="Buscar" aria-label="Search" />
                             </div>
                         </div>
-                        <Carousel imagen1={bob} imagen2={sucursales} />
-                        <div class="container text-center">
-                            <div class="row">
-                                <div class="col">
+                        <Carousel imagen1={bob} imagen2={sucursales}/>
+                        <div className="container text-center mt-5">
+                            <div className="row">
+                                <div className="col">
                                     <Cards imagen={bob} />
                                 </div>
-                                <div class="col">
+                                <div className="col">
                                     <Cards imagen={bob} />
                                 </div>
-                                <div class="col">
+                                <div className="col">
                                     <Cards imagen={bob} />
                                 </div>
                             </div>

@@ -18,7 +18,7 @@ const LeftMenu = () => {
         </button>
         <div className="offcanvas offcanvas-start text-bg-dark" tabIndex="-1" id="offcanvasDarkNavbar" aria-labelledby="offcanvasDarkNavbarLabel">
           <div className="offcanvas-header">
-            <h5 className="offcanvas-title" id="offcanvasDarkNavbarLabel"><img src={logo} class="logoFerremas"/></h5>
+            <h5 className="offcanvas-title" id="offcanvasDarkNavbarLabel"><img src={logo} className="logoFerremas"/></h5>
             <button type="button" className="btn-close btn-close-white b2" data-bs-dismiss="offcanvas" aria-label="Close"></button>
           </div>
           <div className="offcanvas-body">
