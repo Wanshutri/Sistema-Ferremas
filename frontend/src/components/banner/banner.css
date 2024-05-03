@@ -1,33 +1,37 @@
-.navibar {
-    width: 80%;
+#bannerDiv {
+    background-color: rgb(65, 131, 255);
 }
 
-.nalink {
+#bannerDiv .navbar {
+    height: 5rem;
+}
+
+#bannerDiv .navbar-nav {
+    margin: 0 auto;
+    align-items: center;
+}
+
+#bannerDiv .banner {
+    width: 100%;
+    height: 30rem;
+}
+
+.nav-link.nalink {
     margin-right: 15%;
     width: fit-content;
     height: fit-content;
     padding: 0;
     transition: transform 0.3s ease;
     color: white;
-}
-
-.nabar {
-    background-color: rgb(65, 131, 255);
-    margin-bottom: 10px;
+    text-align: center;
 }
 
 .banner {
-    width: 100%;
-    height: 30rem;
-    
+    width: 155%;
 }
 
-.nalink:hover {
+#bannerDiv .nav-link.nalink:hover {
     transform: scale(1.1);
     cursor: pointer;
     color: white;
-}
-
-.logo-img {
-    width: 30%;
 }
