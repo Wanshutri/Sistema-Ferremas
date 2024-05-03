@@ -9,6 +9,7 @@ import { faLocationDot } from '@fortawesome/free-solid-svg-icons/faLocationDot';
 import { faCircleQuestion } from '@fortawesome/free-solid-svg-icons';
 import { faWhatsapp } from '@fortawesome/free-brands-svg-icons/faWhatsapp';
 import { faReceipt } from '@fortawesome/free-solid-svg-icons/faReceipt';
+import { faHammer } from '@fortawesome/free-solid-svg-icons';
 import logo from '../../img/logo.png';
 
 
@@ -32,6 +33,9 @@ const LeftMenu = () => {
               </li>
               <li className="nav-item">
                 <a className="btn btn-primary nav-link b1" aria-current="page" href="#"><FontAwesomeIcon icon={faUsers} className='iconleftmenu' />Sobre nosotros</a>
+              </li>
+              <li className="nav-item">
+                <a className="btn btn-primary nav-link b1" aria-current="page" href="productos"><FontAwesomeIcon icon={faHammer} className='iconleftmenu' />Productos</a>
               </li>
               <li className="nav-item">
                 <a className="btn btn-primary nav-link b1" aria-current="page" href="#"><FontAwesomeIcon icon={faLocationDot} className='iconleftmenu' />Ubicación</a>
