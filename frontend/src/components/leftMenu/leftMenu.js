@@ -30,10 +30,10 @@ const LeftMenu = () => {
                 <a className="btn btn-primary nav-link b1" href="#"><FontAwesomeIcon icon={faCartShopping} />Carrito</a>
               </li>
               <li className="nav-item dropdown">
-                <a className="btn btn-primary nav-link b1" data-bs-toggle="collapse" href="#multiCollapseExample1" role="button" aria-expanded="false" aria-controls="multiCollapseExample1"><FontAwesomeIcon icon={faMobile} />
+                <a class="btn btn-primary nav-link b1" data-bs-toggle="collapse" href="#multiCollapseExample1" role="button" aria-expanded="false" aria-controls="multiCollapseExample1"><FontAwesomeIcon icon={faMobile} />
                   Contacto
                 </a>
-                <ul className="collapse multi-collapse" id="multiCollapseExample1">
+                <ul class="collapse multi-collapse" id="multiCollapseExample1">
 
                   <li><a>Formulario</a></li>
                   <li><a>Escribenos al +56945020474</a></li>
