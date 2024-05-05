@@ -19,6 +19,16 @@
     outline: none;
 }
 
+.btnsearch {
+    width: 10%;
+    height: auto;
+    transition: transform 0.3s ease;
+}
+
+.btnsearch:hover {
+    transform: scale(1.05);
+}
+
 .search-div {
     margin-left: 15%;
     align-items: center;
@@ -28,14 +38,4 @@
 .bi-search {
     width: 80%;
     height: 80%;
-}
-
-.btn.btnsearch {
-    width: 10%;
-    height: auto;
-    transition: transform 0.3s ease;
-}
-
-.btn.btnsearch:hover {
-    transform: scale(1.1);
 }
