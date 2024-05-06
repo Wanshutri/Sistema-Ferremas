@@ -1,7 +1,7 @@
 import React from "react";
 import LeftMenu from "../../components/leftMenu/leftMenu";
 import Footer from "../../components/footer/footer";
-import BannerCom2 from "../../components/banner/bannerCom2"
+import BannerCom from "../../components/banner/bannerCom";
 import logo from "./../../img/logo.png"
 import './productos.css';
 import CardsProductos from "../../components/cards/productoscards";
@@ -15,27 +15,23 @@ const Productos = () => {
             <div className="row"> {/* Use Bootstrap row */}
                 <div className="col"> {/* Adjust column width as needed */}
                     <header>
-                        <BannerCom2 />
+                        <BannerCom />
                     </header>
                     <main>
                         <div className="container-fluid">
                             <div class="container text-center">
                                 <div class="row">
                                     <div class="col">
-                                    < CardsProductos imagen={martillo} />
+                                        < CardsProductos imagen={martillo} />
                                     </div>
                                     <div class="col">
-                                    <CardsProductos imagen={martillo}/>
+                                        <CardsProductos imagen={martillo} />
                                     </div>
                                     <div class="col">
-                                    <CardsProductos imagen={martillo} />
+                                        <CardsProductos imagen={martillo} />
                                     </div>
+                                </div>
                             </div>
-                        </div>
-                                  
-                                
-                            
-
                         </div>
                     </main>
                     <footer>

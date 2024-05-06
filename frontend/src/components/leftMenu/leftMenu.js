@@ -10,6 +10,8 @@ import { faCircleQuestion } from '@fortawesome/free-solid-svg-icons';
 import { faWhatsapp } from '@fortawesome/free-brands-svg-icons/faWhatsapp';
 import { faReceipt } from '@fortawesome/free-solid-svg-icons/faReceipt';
 import { faHammer } from '@fortawesome/free-solid-svg-icons';
+import { faUser } from '@fortawesome/free-solid-svg-icons';
+import { faUserPlus } from '@fortawesome/free-solid-svg-icons';
 import logo from '../../img/logo.png';
 
 
@@ -23,7 +25,7 @@ const LeftMenu = () => {
         </button>
         <div className="offcanvas offcanvas-start text-bg-dark" tabIndex="-1" id="offcanvasDarkNavbar" aria-labelledby="offcanvasDarkNavbarLabel">
           <div className="offcanvas-header">
-            <h5 className="offcanvas-title" id="offcanvasDarkNavbarLabel"><img src={logo} class="logoFerremas"/></h5>
+            <h5 className="offcanvas-title" id="offcanvasDarkNavbarLabel"><img src={logo} class="logoFerremas" /></h5>
             <button type="button" className="btn-close btn-close-white b2" data-bs-dismiss="offcanvas" aria-label="Close"></button>
           </div>
           <div className="offcanvas-body">
@@ -63,6 +65,19 @@ const LeftMenu = () => {
               <input className="form-control me-2" type="search" placeholder="¿Qué deseas buscar?" aria-label="Search" />
               <button className="btn btn-primary b2" type="submit"> <FontAwesomeIcon icon={faMagnifyingGlass} />Buscar</button>
             </form>
+
+          </div>
+          <div className='footermenu'>
+            
+            <ul>
+              <li className="btnfootermenu">
+                <a className="btn btn-primary nav-link b1" href="#"><FontAwesomeIcon icon={faUser} className='iconleftmenu' />Iniciar Sesión</a>
+              </li>
+              <li className="btnfootermenu">
+                <a className="btn btn-primary nav-link b1" href="#"><FontAwesomeIcon icon={faUserPlus} className='iconleftmenu' />Registro</a>
+              </li>
+              
+            </ul>
           </div>
         </div>
       </div>

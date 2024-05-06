@@ -43,11 +43,23 @@
   width: 350px;
   height: 100px;
 }
+.nav-item{
+  list-style-type: none;
+}
 .iconleftmenu{
   margin-right: 5px;
 }
 
+.footermenu{
+  background: #f8bb34;
 
+}
+
+
+.btnfootermenu{
+  list-style-type: none;
+  margin-right: 50px;
+}
 
 
 
