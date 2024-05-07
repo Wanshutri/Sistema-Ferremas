@@ -3,6 +3,9 @@ const cors = require('cors');
 const fs = require('fs');
 const path = require('path');
 const { getProductos, crearProducto, actualizarProducto, eliminarProducto, getProducto } = require('./../resources/DAOproductos');
+const { getUsuarios, crearUsuario, actualizarUsuario, eliminarUsuario, getUsuario } = require('./../resources/DAOusuarios');
+const { getBoletas, crearBoleta, actualizarBoleta, eliminarBoleta, getBoleta } = require('./../resources/DAOboletas');
+
 
 const app = express();
 
@@ -25,6 +28,7 @@ app.get('/', (req, res) => {
     });
 });
 
+//PRODUCTOS
 
 // Ruta para obtener todos los productos
 app.get('/api/productos', (req, res) => {
@@ -100,6 +104,165 @@ app.delete('/api/productos/:id', (req, res) => {
         .catch(error => {
             console.error('Error al eliminar producto:', error);
             res.status(500).send('Error al eliminar producto en la base de datos');
+        });
+});
+
+//USUARIOS
+
+// Ruta para obtener todos los usuarios
+app.get('/api/usuarios', (req, res) => {
+    getUsuarios()
+        .then(usuarios => {
+            res.json(usuarios);
+        })
+        .catch(error => {
+            console.error('Error al obtener usuarios:', error);
+            res.status(500).send('Error al obtener usuarios desde la base de datos');
+        });
+});
+
+// Ruta para obtener un usuario por su ID
+app.get('/api/usuarios/:id', (req, res) => {
+    const id = req.params.id;
+    getUsuario(id)
+        .then(usuario => {
+            if (usuario) {
+                res.json(usuario);
+            } else {
+                res.status(404).send('Usuario no encontrado');
+            }
+        })
+        .catch(error => {
+            console.error('Error al obtener usuario:', error);
+            res.status(500).send('Error al obtener usuario desde la base de datos');
+        });
+});
+
+// Ruta para crear un nuevo usuario
+app.post('/api/usuarios', (req, res) => {
+    const nuevoUsuario = req.body;
+    crearUsuario(nuevoUsuario)
+        .then(insertId => {
+            res.status(201).json({ id: insertId, message: 'Usuario creado exitosamente' });
+        })
+        .catch(error => {
+            console.error('Error al crear usuario:', error);
+            res.status(500).send('Error al crear usuario en la base de datos');
+        });
+});
+
+// Ruta para actualizar un usuario existente
+app.put('/api/usuarios/:id', (req, res) => {
+    const id = req.params.id;
+    const nuevoUsuario = req.body;
+    actualizarUsuario(id, nuevoUsuario)
+        .then(success => {
+            if (success) {
+                res.json({ message: 'Usuario actualizado exitosamente' });
+            } else {
+                res.status(404).send('Usuario no encontrado');
+            }
+        })
+        .catch(error => {
+            console.error('Error al actualizar usuario:', error);
+            res.status(500).send('Error al actualizar usuario en la base de datos');
+        });
+});
+
+// Ruta para eliminar un usuario
+app.delete('/api/usuarios/:id', (req, res) => {
+    const id = req.params.id;
+    eliminarUsuario(id)
+        .then(success => {
+            if (success) {
+                res.json({ message: 'Usuario eliminado exitosamente' });
+            } else {
+                res.status(404).send('Usuario no encontrado');
+            }
+        })
+        .catch(error => {
+            console.error('Error al eliminar usuario:', error);
+            res.status(500).send('Error al eliminar usuario en la base de datos');
+        });
+});
+
+
+//BOLETAS
+
+// Ruta para obtener todas las boletas
+app.get('/api/boletas', (req, res) => {
+    getBoletas()
+        .then(boletas => {
+            res.json(boletas);
+        })
+        .catch(error => {
+            console.error('Error al obtener boletas:', error);
+            res.status(500).send('Error al obtener boletas desde la base de datos');
+        });
+});
+
+// Ruta para obtener una boleta por su ID
+app.get('/api/boletas/:id', (req, res) => {
+    const id = req.params.id;
+    getBoleta(id)
+        .then(boleta => {
+            if (boleta) {
+                res.json(boleta);
+            } else {
+                res.status(404).send('Boleta no encontrada');
+            }
+        })
+        .catch(error => {
+            console.error('Error al obtener boleta:', error);
+            res.status(500).send('Error al obtener boleta desde la base de datos');
+        });
+});
+
+// Ruta para crear una nueva boleta
+app.post('/api/boletas', (req, res) => {
+    const nuevaBoleta = req.body;
+    crearBoleta(nuevaBoleta)
+        .then(insertId => {
+            res.status(201).json({ id: insertId, message: 'Boleta creada exitosamente' });
+        })
+        .catch(error => {
+            console.error('Error al crear boleta:', error);
+            res.status(500).send('Error al crear boleta en la base de datos');
+        });
+});
+
+// Ruta para actualizar una boleta existente
+app.put('/api/boletas/:id', (req, res) => {
+    const id = req.params.id;
+    const nuevaBoleta = req.body;
+    actualizarBoleta(id, nuevaBoleta)
+        .then(success => {
+            if (success) {
+                res.json({ message: 'Boleta actualizada exitosamente' });
+            } else {
+                res.status(404).send('Boleta no encontrada');
+            }
+        })
+        .catch(error => {
+            console.error('Error al actualizar boleta:', error);
+            res.status(500).send('Error al actualizar boleta en la base de datos');
+        });
+});
+
+// Ruta para eliminar una boleta
+app.delete('/api/boletas/:id', (req, res) => {
+    const id = req.params.id;
+    eliminarBoleta(id)
+        .then(success => {
+            if (success) {
+                res.json({ message: 'Boleta eliminada exitosamente' });
+            } else {
+                res.status(404).send('Boleta no encontrada');
+            }
+        })
+        .catch(error => {
+            console.error('Error al eliminar boleta:', error);
+            res.status(500).send('Error al eliminar boleta en la base de datos');
         });
 });
 
