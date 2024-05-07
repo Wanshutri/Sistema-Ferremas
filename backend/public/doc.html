@@ -1,0 +1,129 @@
+<!DOCTYPE html>
+<html lang="es">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Documentación de la API</title>
+    <style>
+        header div {
+            display: flex;
+        }
+
+        img {
+            width: 30%;
+            margin: 0 auto;
+        }
+
+        header h1 {
+            margin: 0 auto;
+            margin-top: 2%;
+            font-size: 3vw;
+        }
+
+        header p {
+            font-size: 1vw;
+            margin-top: 1%;
+        }
+
+        main p {
+            font-size: 1.1vw
+        }
+
+        code {
+            background-color: black;
+            color: white;
+        }
+    </style>
+</head>
+
+<body>
+    <header>
+        <div>
+            <img src="./img/logo.png">
+        </div>
+        <div>
+            <h1>Documentación de la API de Ferremas</h1>
+        </div>
+        <div>
+            <p>¡Bienvenido a la API del sistema de Ferremas! Esta API está desarrollada en JavaScript, utilizando el
+                entorno de desarrollo de Node.js y el framework Express. Se ejecuta en el puerto 3001 y se conecta a una
+                base de
+                datos MySQL Community Server. Se centra exclusivamente en la gestión de la tabla de productos. Por lo
+                tanto, la funcionalidad principal
+                de esta API abarca el CRUD de productos (Crear, Leer, Actualizar y Eliminar). A continuación,
+                proporcionamos un
+                resumen de las rutas disponibles, su funcionamiento y una descripción general de su estructura.</p>
+        </div>
+    </header>
+    <main>
+        <div>
+            <h1>Método GET: Obtener Datos</h1>
+            <div>
+                <h2>Obtener todos los productos</h2>
+                <p>Realiza una consulta a la tabla de productos y devuelve todos los productos registrados en un formato
+                    JSON. Si no hay ninguno, devuelve un arreglo vacío.</p>
+                <h3>Ruta: http://localhost:3001/api/productos</h3>
+                <code>
+                    [{"idProducto":1,"nombreProducto":"Taladro Bauker","precioProducto":42000,"stock":7}, {"idProducto":2,"nombreProducto":"Destornillador Philips","precioProducto":8000,"stock":14}]
+                </code>
+            </div>
+            <div>
+                <h2>Obtener un producto</h2>
+                <p>Realiza una consulta a la tabla de productos y devuelve el producto que concuerde con el ID entregado
+                    como parámetro en :id en un formato JSON. Si no existe, devuelve un código de error 404.</p>
+                <h3>Ruta: http://localhost:3001/api/productos/:id</h3>
+                <h3>Ruta de ejemplo: http://localhost:3001/api/productos/2</h3>
+                <code>
+                    {"idProducto":2,"nombreProducto":"Destornillador Philips","precioProducto":8000,"stock":14}
+                </code>
+            </div>
+        </div>
+        <br>
+        <div>
+            <h1>Método POST: Enviar Datos</h1>
+            <div>
+                <h2>Insertar un producto</h2>
+                <p>Realiza una inserción a la tabla de productos con los datos entregados en el cuerpo del request,
+                    devuelve el código 201 si lo hace con éxito.</p>
+                <h3>Ruta: http://localhost:3001/api/productos</h3>
+                <h3>Ejemplo de formato del body (el ID se genera automáticamente)</h3>
+                <code>
+                    {
+                        "nombreProducto" : "ejemplonombre",
+                        "precioProducto" : 1,
+                        "stock" : 5
+                    }
+                </code>
+            </div>
+        </div>
+        <br>
+        <div>
+            <h1>Método PUT: Actualizar Datos</h1>
+            <div>
+                <h2>Actualizar un producto</h2>
+                <p>Realiza una actualización del contenido de un producto indicado a través y en el parámetro de :id.
+                    Devolverá 404 si no encontró el producto y éxito si lo actualizó correctamente.</p>
+                <h3>Ruta: htfrontend/src/assets/img/logo.png
+                    {
+                    "nombreProducto" : "ejemplonombre",
+                    "precioProducto" : 1,
+                    "stock" : 5
+                    }
+                    </code>
+            </div>
+        </div>
+        <br>
+        <div>
+            <h1>Método DELETE: Eliminar Datos</h1>
+            <div>
+                <h2>Eliminar un producto</h2>
+                <p>Elimina el producto indicado en y a través del parámetro :id, enviará código 404 si no lo encuentra
+                    y éxito si lo elimina correctamente.</p>
+                <h3>Ruta: http://localhost:3001/api/productos/:id</h3>
+            </div>
+        </div>
+    </main>
+</body>
+
+</html>

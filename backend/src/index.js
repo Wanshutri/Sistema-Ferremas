@@ -1,11 +1,30 @@
 const express = require('express');
 const cors = require('cors');
-const { getProductos, crearProducto, actualizarProducto, eliminarProducto, getProducto } = require('./resources/DAOproductos');
+const fs = require('fs');
+const path = require('path');
+const { getProductos, crearProducto, actualizarProducto, eliminarProducto, getProducto } = require('./../resources/DAOproductos');
 
 const app = express();
 
 app.use(cors());
 app.use(express.json()); // Middleware para analizar el cuerpo de las solicitudes JSON
+// Configuración para servir archivos estáticos desde el directorio 'public'
+app.use(express.static(path.join(__dirname, '..', 'public')));
+
+// Ruta para la página de documentación
+app.get('/', (req, res) => {
+    // Lee el contenido del archivo 'doc.html'
+    fs.readFile(path.join(__dirname, '..', 'public', 'doc.html'), 'utf8', (err, data) => {
+        if (err) {
+            console.error('Error al leer el archivo de documentación:', err);
+            res.status(500).send('Error al cargar la documentación');
+            return;
+        }
+        // Envía la respuesta con el contenido HTML del archivo de documentación
+        res.send(data);
+    });
+});
+
 
 // Ruta para obtener todos los productos
 app.get('/api/productos', (req, res) => {
