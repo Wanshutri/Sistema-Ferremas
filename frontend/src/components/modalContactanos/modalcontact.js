@@ -1,35 +1,55 @@
-import React from "react";
+import { useState } from 'react';
+import Button from 'react-bootstrap/Button';
+import Form from 'react-bootstrap/Form';
+import Modal from 'react-bootstrap/Modal';
+import './modalcontac.css';
 
-const ModalCont = () => {
-    return (
-        <div>
-            <button type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#exampleModal" data-bs-whatever="@mdo">Dejanos tus comentarios</button>
-            <div class="modal fade" id="exampleModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
-                <div class="modal-dialog">
-                    <div class="modal-content">
-                        <div class="modal-header">
-                            <h1 class="modal-title fs-5" id="exampleModalLabel">Dejar comentario</h1>
-                            <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
-                        </div>
-                        <div class="modal-body">
-                            <form>
+function ModalContactanos() {
+  const [show, setShow] = useState(false);
 
-                                <div class="mb-3">
-                                    <label for="message-text" class="col-form-label">Agradecemos tu preferencia:</label>
-                                    <textarea class="form-control" id="message-text"></textarea>
-                                </div>
+  const handleClose = () => setShow(false);
+  const handleShow = () => setShow(true);
 
-                            </form>
-                        </div>
-                        <div class="modal-footer">
-                            <button type="button" class="btn btn-danger" data-bs-dismiss="modal">Cerrar</button>
-                            <button type="submit" class="btn btn-primary">Enviar comentario</button>
-                        </div>
-                    </div>
-                </div>
-            </div>
-        </div>
+  return (
+    <>
+      <Button variant="primary" onClick={handleShow}>
+        Enviar comentarios
+      </Button>
 
-    )
+      <Modal show={show} onHide={handleClose}>
+        <Modal.Header closeButton>
+          <Modal.Title>Agradecemos tu preferencia!</Modal.Title>
+        </Modal.Header>
+        <Modal.Body>
+          <Form>
+            <Form.Group className="mb-3" controlId="exampleForm.ControlInput1">
+              <Form.Label>Ingrese su email</Form.Label>
+              <Form.Control
+                type="email"
+                placeholder="nombre@ejemplo.com"
+                autoFocus
+              />
+            </Form.Group>
+            <Form.Group
+              className="mb-3"
+              controlId="exampleForm.ControlTextarea1"
+            >
+              <Form.Label>Dejanos tus comentarios</Form.Label>
+              <Form.Control as="textarea" rows={3} />
+            </Form.Group>
+          </Form>
+        </Modal.Body>
+        <Modal.Footer>
+          <Button className='botoncerrar' variant="secondary" onClick={handleClose}>
+            Cerrar
+          </Button>
+          <Button className='botonenviar' variant="primary" onClick={handleClose}>
+            Enviar
+          </Button>
+        </Modal.Footer>
+      </Modal>
+    </>
+  );
 }
-export default ModalCont;
+
+export default ModalContactanos;

@@ -3,7 +3,8 @@ import LeftMenu from "../../components/leftMenu/leftMenu";
 import Footer from "../../components/footer/footer";
 import BannerCom2 from "../../components/banner/bannerCom2"
 import logo from "./../../img/logo.png"
-import ModalCont from "../../components/modalContactanos/modalcontact";
+import ModalContactanos from "../../components/modalContactanos/modalcontact";
+import { useState } from 'react';
 import './contactanos.css'
 
 const Contactanos = () => {
@@ -42,7 +43,7 @@ const Contactanos = () => {
                                         </div>
 
                                         <div className="modalcont">
-                                            <ModalCont></ModalCont>
+                                            <ModalContactanos />
                                         </div>
                                     </div>
                                 </div>
