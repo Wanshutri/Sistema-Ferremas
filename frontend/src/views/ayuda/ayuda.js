@@ -9,44 +9,52 @@ import {faBell} from '@fortawesome/free-solid-svg-icons'
 
 const Ayuda = () => {
     return (
-        <div>
-            
-            <main class="">
-                <ul>
-                    <div class="ayudaCompras">
-                        <h1>Compras</h1>
-                        <li>
-                            <div><h4>Administrar y cancelar compras</h4></div>
-                            <p>texto aqui</p>
-                        </li>
-                        <li>
-                            <div><h4>Devoluciones y reembolsos</h4></div>
-                            <p>texto aqui</p>
-                        </li>
-                        <li>
-                            <div><h4>Preguntas Frecuentes</h4></div>
-                            <p>texto aqui</p>
-                        </li>   
-                    </div>
-                    <div class="ayudaCuenta">
-                        <h1>Ayuda Sobre tu cuenta</h1>
-                        <li>
-                            <div><h4>Configuracion de mi cuenta</h4></div>
-                            <p>texto aqui</p>
-                        </li>
-                        <li>
-                            <div><h4>Seguridad</h4></div>
-                            <p>texto aqui</p>
-                        </li>  
-                    </div>
-                </ul>
+        <div className="container-fluid"> {/* Wrap content in a container */}
+            <leftMenu />
+            <div className="row"> {/* Use Bootstrap row */}
+                <div className="col"> {/* Adjust column width as needed */}
+                    <main>
+                        <div className="container-fluid">
+                            <div class="">
+                                <div class="">
+                                    <div class="card">
+                                        <div class="card-body">
+                                            <h1 class="card-title">Compras</h1>
+                                            <h4 class="card-text">Administrar y Cancelar Compras</h4>
+                                            <p>Agregar Texto Predeterminado Aqui</p>
+                                            <h4 class="card-text">Devoluciones Y Reembolsos</h4>
+                                            <p>Agregar Texto Predeterminado Aqui</p>
+                                            <h4 class="card-text">Preguntas Frecuentes</h4>
+                                            <p>Agregar Texto Predeterminado Aqui</p>
+                                            <hr></hr>
+                                        </div>
 
-            </main>
-            <footer>
-                <Footer logoSrc={logo}/> 
-            </footer>
+                                    </div>
+                                </div>
+                                {/* Separar estos cuadrados de aqui*/}
+                                <div class="">
+                                    <div class="card">
+                                        <div class="card-body">
+                                            <h1 class="card-title">Ayuda Sobre Tu Cuenta</h1>
+                                            <h4 class="card-text">Configuracion De Mi Cuenta</h4>
+                                            <p>Agregar Texto Predeterminado Aqui</p>
+                                            <h4 class="card-text">Seguridad</h4>
+                                            <p>Agregar Texto Predeterminado Aqui</p>
+                                            <hr></hr>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
 
+                        </div>
+                    </main>
+                    <footer>
+                        <Footer logoSrc={logo} />
+                    </footer>
+                </div>
+            </div>
         </div>
+
     )
 }
 
