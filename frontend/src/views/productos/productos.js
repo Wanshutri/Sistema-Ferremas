@@ -1,5 +1,4 @@
 import React from "react";
-import LeftMenu from "../../components/leftMenu/leftMenu";
 import Footer from "../../components/footer/footer";
 import BannerCom2 from "../../components/banner/bannerCom2"
 import logo from "./../../img/logo.png"
@@ -11,7 +10,6 @@ import martillo from "./../../assets/img/martillo.jpg"
 const Productos = () => {
     return (
         <div className="container-fluid"> {/* Wrap content in a container */}
-            <LeftMenu />
             <div className="row"> {/* Use Bootstrap row */}
                 <div className="col"> {/* Adjust column width as needed */}
                     <header>

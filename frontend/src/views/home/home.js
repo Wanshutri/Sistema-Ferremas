@@ -1,6 +1,5 @@
 import './home.css'
-import React from "react";
-import LeftMenu from "../../components/leftMenu/leftMenu";
+import React from 'react';
 import Footer from "../../components/footer/footer";
 import BannerCom from "../../components/banner/bannerCom"
 import logo from "./../../img/logo.png"
@@ -10,15 +9,16 @@ import sucursales from "./../../img/sucursales.jpg"
 import oferta from "./../../img/oferta.jpg"
 import Carousel from "../../components/carousel/carousel"
 import Cards from "../../components/cards/cards"
+import Sidebar1 from '../../components/sidebar/sidebar';
 
 
 const Home = () => {
     return (
         <div className="container-fluid"> {/* Wrap content in a container */}
-            <LeftMenu />
             <div className="row"> {/* Use Bootstrap row */}
                 <div className="col p-0"> {/* Adjust column width as needed */}
                     <header>
+                        <Sidebar1 />
                         <BannerCom />
                     </header>
                     <main>
@@ -40,7 +40,7 @@ const Home = () => {
                                     <Cards imagen={bob} />
                                 </div>
                                 <div className="col">
-                                    <Cards imagen={bob}/>
+                                    <Cards imagen={bob} />
                                 </div>
                                 <div className="col">
                                     <Cards imagen={bob} />
