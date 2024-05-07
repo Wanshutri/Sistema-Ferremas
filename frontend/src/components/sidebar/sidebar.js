@@ -1,6 +1,7 @@
 import './sidebar.css'
 import React, { useState, useEffect } from 'react';
 import Button from 'react-bootstrap/Button';
+import Nav from 'react-bootstrap/Nav';
 import Offcanvas from 'react-bootstrap/Offcanvas';
 import Collapse from 'react-bootstrap/Collapse';
 import Form from 'react-bootstrap/Form';
@@ -12,12 +13,16 @@ import logo from '../../img/logo.png';
 
 
 
-function Sidebar1() {
+function Sidebar1({ onTabChange }) {
     const [show, setShow] = useState(false);
     const [open, setOpen] = useState(false);
 
     const handleClose = () => setShow(false);
     const handleShow = () => setShow(true);
+
+    const handleProductosClick = () => {
+        onTabChange('Productos');
+    };
 
 
 
@@ -43,7 +48,7 @@ function Sidebar1() {
                     <Button className="btn btn-primary b1" aria-current="page" href="#"><FontAwesomeIcon icon={faUsers} className='iconleftmenu' />Sobre nosotros</Button>
 
 
-                    <Button className="btn btn-primary b1" aria-current="page" href="productos"><FontAwesomeIcon icon={faHammer} className='iconleftmenu' />Productos</Button>
+                    <Button className="btn btn-primary b1" aria-current="page" href="#" onClick={handleProductosClick}><FontAwesomeIcon icon={faHammer} className='iconleftmenu' /> Productos </Button>
 
 
                     <Button className="btn btn-primary b1" aria-current="page" href="#"><FontAwesomeIcon icon={faLocationDot} className='iconleftmenu' />Ubicación</Button>

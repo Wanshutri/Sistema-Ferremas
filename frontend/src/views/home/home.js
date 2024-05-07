@@ -10,6 +10,8 @@ import oferta from "./../../img/oferta.jpg"
 import Carousel from "../../components/carousel/carousel"
 import Cards from "../../components/cards/cards"
 import Sidebar1 from '../../components/sidebar/sidebar';
+import JustifiedTab from '../../components/tabs/tabs';
+import Productos from '../../components/productos/productos';
 
 
 const Home = () => {
@@ -22,7 +24,7 @@ const Home = () => {
                         <BannerCom />
                     </header>
                     <main>
-                        <div className="search-div d-flex mb-5">
+                        <JustifiedTab extra={<><div className="search-div d-flex mb-5">
                             <img className="logo-img" src={logo} alt="Logo"></img>
                             <div className="d-flex form-div">
                                 <button className="btn border-0 shadow-none btnsearch" type="submit">
@@ -32,29 +34,27 @@ const Home = () => {
                                 </button>
                                 <input className="" type="search" placeholder="Buscar" aria-label="Search" />
                             </div>
-                        </div>
-                        <Carousel imagen1={bob} imagen2={sucursales} />
-                        <div className="container text-center mt-5">
-                            <div className="row">
-                                <div className="col">
-                                    <Cards imagen={bob} />
+                        </div><Carousel imagen1={bob} imagen2={sucursales} /><div className="container text-center mt-5">
+                                <div className="row">
+                                    <div className="col">
+                                        <Cards imagen={bob} />
+                                    </div>
+                                    <div className="col">
+                                        <Cards imagen={bob} />
+                                    </div>
+                                    <div className="col">
+                                        <Cards imagen={bob} />
+                                    </div>
                                 </div>
-                                <div className="col">
-                                    <Cards imagen={bob} />
-                                </div>
-                                <div className="col">
-                                    <Cards imagen={bob} />
-                                </div>
-                            </div>
-                        </div>
-
+                            </div></>
+                        } extra2={<Productos />} />
                     </main>
                     <footer>
                         <Footer logoSrc={logo} />
                     </footer>
                 </div>
             </div>
-        </div>
+        </div >
 
     )
 }
