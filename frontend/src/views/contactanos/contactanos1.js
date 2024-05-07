@@ -1,9 +1,11 @@
 import React from "react";
 import Footer from "../../components/footer/footer";
-import BannerCom2 from "../../components/banner/bannerCom2"
+import BannerCom from "../../components/banner/bannerCom"
 import logo from "./../../img/logo.png"
 import ModalCont from "../../components/modalContactanos/modalcontact";
 import './contactanos.css'
+import Sidebar1 from "../../components/sidebar/sidebar";
+import JustifiedTab from "../../components/tabs/tabs";
 
 const Contactanos = () => {
     return (
@@ -11,9 +13,11 @@ const Contactanos = () => {
             <div className="row"> {/* Use Bootstrap row */}
                 <div className="col"> {/* Adjust column width as needed */}
                     <header>
-                        <BannerCom2 />
+                        <Sidebar1 />
+                        <BannerCom />
                     </header>
                     <main>
+                        
                         <div className="container-fluid">
                             <div class="row">
                                 <div class="col-sm-6 mb-3 mb-sm-0 mt-4">
