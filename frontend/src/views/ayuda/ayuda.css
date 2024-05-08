@@ -1,0 +1,25 @@
+.cuadro-informacion{
+    background-color: #ffff;
+    padding: 5rem;
+    display: grid;
+    text-align: inherit;
+    grid-auto-flow: inherit;
+    margin: 8rem;
+    border-radius: 5px;
+    border: 5px;
+    border-color: #2951a0;
+    border-style: groove;
+    gap: 1rem;
+    
+}
+.cuadro-informacion h1{
+    text-align: center;
+    font-weight: 100; 
+    text-decoration: underline;
+    
+}
+
+.icono{
+    height: 30px;
+    width: 30px;
+}
