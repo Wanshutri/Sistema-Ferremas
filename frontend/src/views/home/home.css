@@ -39,3 +39,18 @@
     width: 80%;
     height: 80%;
 }
+
+.parallax-bg {
+    background-image: url('../../assets/img/inicioferreteria.jpg');
+    background-position: top;
+}
+
+.divsearch {
+    background-color: white;
+}
+
+.searchinput {
+    border-top-right-radius: 15%;
+    border-bottom-right-radius: 15%;
+}
+

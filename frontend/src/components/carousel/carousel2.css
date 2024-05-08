@@ -1,0 +1,13 @@
+.scont {
+
+
+
+    .carimg2 {
+        width: 100%;
+        min-height: 200px !important;
+        
+        border-top-left-radius: 10%;
+        border-bottom-right-radius: 10%;
+    }
+}
+

@@ -1,0 +1,90 @@
+.bg-dark {
+    background: linear-gradient(180deg, rgba(0, 0, 0, 0.455) 22%, rgba(9,9,121,0) 100%) !important;
+  }
+  
+  .offcanvas {
+    transition: transform 0.3s ease; /* Add transition effect */
+    
+  }
+  
+  .offcanvas-header {
+    background: #ffffff;
+  }
+  
+  .offcanvas-body {
+    background: #f8ba35;
+  
+  }
+  
+  .show-offcanvas {
+    transform: translateX(0); /* Push content to the right */
+  }
+  
+  #multiCollapseExample1{
+    background: #0000007c;
+    border-style: groove;
+    border-color: #2951a0;
+    border-radius: 10px;
+  }
+  
+  .b1, .b2{
+    margin-top: 10px;
+    background: #2951a0;
+  }
+  
+  .b1 {
+    width: 100%;
+  }
+
+  .sb1 {
+    margin-top: 20px;
+
+    .sb2 {
+        margin-top: 20px;
+        max-height: 50px;
+        height: 50px;
+    }
+
+    .b2 {
+        margin-top: 20px;
+        margin-bottom: 20px;
+    }
+  }
+  
+
+  .sidebarbutton {
+    position: fixed;
+    top: 20px; /* Ajusta la posición vertical según tu diseño */
+    left: 20px; /* Ajusta la posición horizontal según tu diseño */
+    z-index: 1000; /* Asegura que esté encima del contenido */
+  }
+  
+  .b1:hover {
+    color: white;
+    -webkit-animation:shadow-pop-tl .3s cubic-bezier(.47,0.000,.745,.715) both;animation:shadow-pop-tl .3s cubic-bezier(.47,0.000,.745,.715) both
+  }
+  
+  .logoFerremas{
+    width: 300px;
+    max-width: 300px !important;
+    height: 70px;
+  }
+  .iconleftmenu{
+    margin-right: 5px;
+  }
+  
+  
+  
+  
+  
+  
+  /* Animation */
+  
+  
+  
+  
+  
+  .tracking-in-expand{-webkit-animation:tracking-in-expand .7s cubic-bezier(.215,.61,.355,1.000) both;animation:tracking-in-expand .7s cubic-bezier(.215,.61,.355,1.000) both}
+  @-webkit-keyframes tracking-in-expand{0%{letter-spacing:-.5em;opacity:0}40%{opacity:.6}100%{opacity:1}}@keyframes tracking-in-expand{0%{letter-spacing:-.5em;opacity:0}40%{opacity:.6}100%{opacity:1}}
+  
+  @-webkit-keyframes shadow-pop-tl{0%{-webkit-box-shadow:0 0 #3e3e3e,0 0 #3e3e3e,0 0 #3e3e3e,0 0 #3e3e3e,0 0 #3e3e3e,0 0 #3e3e3e,0 0 #3e3e3e,0 0 #3e3e3e;box-shadow:0 0 #3e3e3e,0 0 #3e3e3e,0 0 #3e3e3e,0 0 #3e3e3e,0 0 #3e3e3e,0 0 #3e3e3e,0 0 #3e3e3e,0 0 #3e3e3e;-webkit-transform:translateX(0) translateY(0);transform:translateX(0) translateY(0)}100%{-webkit-box-shadow:-1px -1px #3e3e3e,-2px -2px #3e3e3e,-3px -3px #3e3e3e,-4px -4px #3e3e3e,-5px -5px #3e3e3e,-6px -6px #3e3e3e,-7px -7px #3e3e3e,-8px -8px #3e3e3e;box-shadow:-1px -1px #3e3e3e,-2px -2px #3e3e3e,-3px -3px #3e3e3e,-4px -4px #3e3e3e,-5px -5px #3e3e3e,-6px -6px #3e3e3e,-7px -7px #3e3e3e,-8px -8px #3e3e3e;-webkit-transform:translateX(8px) translateY(8px);transform:translateX(8px) translateY(8px)}}@keyframes shadow-pop-tl{0%{-webkit-box-shadow:0 0 #3e3e3e,0 0 #3e3e3e,0 0 #3e3e3e,0 0 #3e3e3e,0 0 #3e3e3e,0 0 #3e3e3e,0 0 #3e3e3e,0 0 #3e3e3e;box-shadow:0 0 #3e3e3e,0 0 #3e3e3e,0 0 #3e3e3e,0 0 #3e3e3e,0 0 #3e3e3e,0 0 #3e3e3e,0 0 #3e3e3e,0 0 #3e3e3e;-webkit-transform:translateX(0) translateY(0);transform:translateX(0) translateY(0)}100%{-webkit-box-shadow:-1px -1px #3e3e3e,-2px -2px #3e3e3e,-3px -3px #3e3e3e,-4px -4px #3e3e3e,-5px -5px #3e3e3e,-6px -6px #3e3e3e,-7px -7px #3e3e3e,-8px -8px #3e3e3e;box-shadow:-1px -1px #3e3e3e,-2px -2px #3e3e3e,-3px -3px #3e3e3e,-4px -4px #3e3e3e,-5px -5px #3e3e3e,-6px -6px #3e3e3e,-7px -7px #3e3e3e,-8px -8px #3e3e3e;-webkit-transform:translateX(8px) translateY(8px);transform:translateX(8px) translateY(8px)}}
