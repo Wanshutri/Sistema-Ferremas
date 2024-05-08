@@ -1,0 +1,17 @@
+.cardbody {
+    background-color: #f8ba35;
+    background: linear-gradient( #2951a0 10%, #f8ba35 10%);
+
+    .cardtitle {
+        margin-top: 5px;
+        color: #2951a0;
+    }
+
+    .cardtext{
+        color: white !important;
+    }
+}
+
+.cardbutton {
+    --bs-btn-bg: #2951a0 !important;
+}

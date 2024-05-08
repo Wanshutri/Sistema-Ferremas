@@ -1,16 +1,17 @@
 import React from "react";
 import './../ayuda/ayuda.css'
 import Footer from "./../../components/footer/footer"
-import Leftmenu from "./../../components/leftMenu/leftMenu";
+
 import logo from "./../../img/logo.png";
 import BannerCom from "../../components/banner/bannerCom"
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import {faBell} from '@fortawesome/free-solid-svg-icons'
+import Sidebar1 from "../../components/sidebar/sidebar";
 
 const Ayuda = () => {
     return (
         <div className="container-fluid"> {/* Wrap content in a container */}
-            <leftMenu />
+            <Sidebar1 />
             <div className="row"> {/* Use Bootstrap row */}
                 <div className="col"> {/* Adjust column width as needed */}
                     <main>

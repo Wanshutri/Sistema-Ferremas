@@ -1,11 +1,11 @@
 import React from "react";
 import './../sobrenosotros/sobrenosotros.css'
 import Footer from "./../../components/footer/footer"
-import Leftmenu from "./../../components/leftMenu/leftMenu";
 import logo from "./../../img/logo.png";
 import BannerCom from "../../components/banner/bannerCom"
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import {faBell} from '@fortawesome/free-solid-svg-icons'
+import Sidebar1 from "../../components/sidebar/sidebar";
 
 
 
@@ -15,6 +15,7 @@ const Sobrenosotros = () => {
             <div className="row"> {/* Use Bootstrap row */}
                 <div className="col"> {/* Adjust column width as needed */}
                     <header>
+                        <Sidebar1 />
                         <BannerCom />
                     </header>
                     <main>

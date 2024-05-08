@@ -20,9 +20,7 @@ function Sidebar1({ onTabChange }) {
     const handleClose = () => setShow(false);
     const handleShow = () => setShow(true);
 
-    const handleProductosClick = () => {
-        onTabChange('Productos');
-    };
+
 
 
 
@@ -48,7 +46,7 @@ function Sidebar1({ onTabChange }) {
                     <Button className="btn btn-primary b1" aria-current="page" href="#"><FontAwesomeIcon icon={faUsers} className='iconleftmenu' />Sobre nosotros</Button>
 
 
-                    <Button className="btn btn-primary b1" aria-current="page" href="#" onClick={handleProductosClick}><FontAwesomeIcon icon={faHammer} className='iconleftmenu' /> Productos </Button>
+                    <Button className="btn btn-primary b1" aria-current="page" href="#"><FontAwesomeIcon icon={faHammer} className='iconleftmenu' /> Productos </Button>
 
 
                     <Button className="btn btn-primary b1" aria-current="page" href="#"><FontAwesomeIcon icon={faLocationDot} className='iconleftmenu' />Ubicación</Button>
