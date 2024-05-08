@@ -1,8 +1,5 @@
-/* html,
-body {
-  height: 100%;
-  width: 100%;
-  margin: 0;
-  padding: 0;
-  overflow-x: hidden;
-} */
+#root {
+    background-color: black;
+    background: linear-gradient(0deg, rgba(255,175,11,0.9131302179074755) 54%, #2951a0 80%);
+
+}
