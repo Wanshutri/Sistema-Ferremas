@@ -5,6 +5,7 @@ const path = require('path');
 const { getProductos, crearProducto, actualizarProducto, eliminarProducto, getProducto } = require('./../resources/DAOproductos');
 const { getUsuarios, crearUsuario, actualizarUsuario, eliminarUsuario, getUsuario } = require('./../resources/DAOusuarios');
 const { getBoletas, crearBoleta, actualizarBoleta, eliminarBoleta, getBoleta } = require('./../resources/DAOboletas');
+const { getCarritoPorUsuario, agregarProductoAlCarrito, eliminarProductoDelCarrito } = require('./../resources/DAOcarrito')
 
 
 const app = express();
@@ -265,6 +266,51 @@ app.delete('/api/boletas/:id', (req, res) => {
             res.status(500).send('Error al eliminar boleta en la base de datos');
         });
 });
+
+//CARRITO
+
+// Ruta para obtener el carrito de un usuario
+app.get('/api/carrito/:id', (req, res) => {
+    const id = req.params.id;
+    getCarritoPorUsuario(id)
+        .then(carrito => {
+            if (carrito) {
+                res.json(carrito);
+            } else {
+                res.status(404).send('El carrito esta vacio');
+            }
+        })
+        .catch(error => {
+            console.error('Error al obtener carrito:', error);
+            res.status(500).send('Error al obtener carrito desde la base de datos');
+        });
+});
+
+// Ruta para eliminar un producto de un carrito DELETE EJEMPLO: /api/carrito?carrito=456&producto=789
+app.delete('/api/carrito', (req, res) => {
+    const idCarrito = req.query.carrito;
+    const idProducto = req.query.producto;
+
+    // Verificar que se proporcionen los parámetros necesarios
+    if (!idCarrito || !idProducto) {
+        res.status(400).send('Faltan parámetros en la solicitud');
+        return;
+    }
+
+    eliminarProductoDelCarrito(idCarrito, idProducto)
+        .then(success => {
+            if (success) {
+                res.json({ message: 'Producto eliminado exitosamente' });
+            } else {
+                res.status(404).send('Producto no encontrado en el carrito');
+            }
+        })
+        .catch(error => {
+            console.error('Error al eliminar producto del carrito:', error);
+            res.status(500).send('Error al eliminar producto del carrito');
+        });
+});
+
 
 const PORT = process.env.PORT || 3001;
 const server = app.listen(PORT, () => {
