@@ -4,7 +4,6 @@ import Footer from "../../components/footer/footer";
 import BannerCom2 from "../../components/banner/bannerCom2"
 import logo from "./../../img/logo.png"
 import ModalContactanos from "../../components/modalContactanos/modalcontact";
-import { useState } from 'react';
 import './contactanos.css'
 
 const Contactanos = () => {

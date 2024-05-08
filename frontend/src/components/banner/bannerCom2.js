@@ -1,4 +1,4 @@
-import './banner.css';
+import './banner2.css';
 import banner from './../../img/banner.png';
 
 
