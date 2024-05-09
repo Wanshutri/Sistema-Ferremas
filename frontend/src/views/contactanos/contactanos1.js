@@ -51,7 +51,7 @@ const Contactanos = () => {
                                                 </div>
 
                                                 <div className="modalcont">
-                                                    <ModalCont></ModalCont>
+                                                    <ModalContactanos></ModalContactanos>
                                                 </div>
                                             </div>
                                         </div>

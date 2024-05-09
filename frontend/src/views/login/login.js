@@ -35,8 +35,8 @@ function Login() {
 
               <h5 className="fw-normal my-4 pb-3" style={{letterSpacing: '1px'}}>Ingresa a tu cuenta</h5>
 
-                <MDBInput wrapperClass='mb-4' label='Email address' id='formControlLg' type='email' size="lg"/>
-                <MDBInput wrapperClass='mb-4' label='Password' id='formControlLg' type='password' size="lg"/>
+                <MDBInput wrapperClass='mb-4' label='Correo electrónico' id='formControlLg' type='email' size="lg"/>
+                <MDBInput wrapperClass='mb-4' label='Contraseña' id='formControlLg' type='password' size="lg"/>
 
               <MDBBtn className="mb-4 px-5" color='primary' size='lg'>Login</MDBBtn>
               <a className="small text-muted text1" style={{textAlign: 'center'}} href="#!">¿Olvidaste tu contraseña?</a>
