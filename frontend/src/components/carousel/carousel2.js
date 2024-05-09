@@ -14,6 +14,7 @@ function Fade1({image, image2, image3, image4}) {
     slidesToScroll: 1,
     waitForAnimate: false,
     centerMode: true,
+    centerPadding: "5px",
     autoplay: true,
     speed: 2000,
     autoplaySpeed: 10000,

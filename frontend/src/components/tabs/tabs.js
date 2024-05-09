@@ -16,10 +16,10 @@ function JustifiedTab({extra , extra2, extra3, extra4}) {
             <Tab eventKey="Productos" title="Productos" className='tabnormal'>
                 {extra2}
             </Tab>
-            <Tab eventKey="Hmanuales" title="Herramientas manuales" className='tabnormal'>
+            <Tab eventKey="Hmanuales" title="Herramientas" className='tabnormal'>
                 {extra3}
             </Tab>
-            <Tab eventKey="Eseguridad" title="Equipo de seguridad" className='tabnormal'>
+            <Tab eventKey="Eseguridad" title="Equipo" className='tabnormal'>
                 {extra4}
             </Tab>
         </Tabs>

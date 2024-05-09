@@ -155,6 +155,10 @@
   @media (max-width: 767px) {
     .footer {
       font-size: 14px;
+
+        .about {
+          margin-top: 100px;
+        }
     }
     .footer .footer-left,
     .footer .footer-center,

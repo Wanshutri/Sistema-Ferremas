@@ -35,7 +35,7 @@ const Home = () => {
                         </header>
                         <main>
 
-                            <Parallax easing='easeInQuad' speed={-10} style={{ backgroundImage: `url(${fondo})`, backgroundBlendMode: 'darken', backgroundColor: 'rgba(0, 0, 0, 0.3)' }}>
+                            <Parallax easing='easeInQuad' speed={-10} style={{ backgroundImage: `url(${fondo})`,backgroundSize: 'cover', backgroundRepeat: 'no-repeat', backgroundBlendMode: 'darken', backgroundColor: 'rgba(0, 0, 0, 0.3)' }}>
                                 <JustifiedTab extra={<><div className="search-div d-flex mb-5">
                                     <img className="logo-img" src={logo} alt="Logo"></img>
                                     <div className="d-flex form-div divsearch">

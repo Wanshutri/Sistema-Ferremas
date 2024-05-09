@@ -9,13 +9,15 @@ function Responsiveproduct() {
     var settings = {
         dots: false,
         infinite: true,
-        speed: 500,
+        speed: 800,
         slidesToShow: 4,
         slidesToScroll: 4,
         initialSlide: 0,
         autoplay: true,
-        speed: 3000,
-        autoplaySpeed: 8000,
+        centerMode: true,
+        centerPadding: "200px",
+        speed: 2000,
+        autoplaySpeed: 500,
         cssEase: "linear",
         responsive: [
             {
@@ -39,16 +41,17 @@ function Responsiveproduct() {
                 breakpoint: 480,
                 settings: {
                     slidesToShow: 1,
-                    slidesToScroll: 1
+                    slidesToScroll: 1,
+                    centerPadding: "110px",
                 }
             }
         ]
     };
     return (
-        <div className="slider-container">
+        <div className="slider-container c1prod">
             <Slider {...settings}>
                 <div>
-                    <Card style={{ width: '18rem' }}>
+                    <Card style={{ width: '12rem' }}>
                         <Card.Img variant="top" src={hammer} />
                         <Card.Body className="cardbody">
                             <Card.Title className="cardtitle">Card Title</Card.Title>
@@ -61,7 +64,7 @@ function Responsiveproduct() {
                     </Card>
                 </div>
                 <div>
-                    <Card style={{ width: '18rem' }}>
+                    <Card style={{ width: '12rem' }}>
                         <Card.Img variant="top" src={hammer} />
                         <Card.Body className="cardbody">
                             <Card.Title className="cardtitle">Card Title</Card.Title>
@@ -74,7 +77,7 @@ function Responsiveproduct() {
                     </Card>
                 </div>
                 <div>
-                    <Card style={{ width: '18rem' }}>
+                    <Card style={{ width: '12rem' }}>
                         <Card.Img variant="top" src={hammer} />
                         <Card.Body className="cardbody">
                             <Card.Title className="cardtitle">Card Title</Card.Title>
@@ -87,7 +90,7 @@ function Responsiveproduct() {
                     </Card>
                 </div>
                 <div>
-                    <Card style={{ width: '18rem' }}>
+                    <Card style={{ width: '12rem' }}>
                         <Card.Img variant="top" src={hammer} />
                         <Card.Body className="cardbody">
                             <Card.Title className="cardtitle">Card Title</Card.Title>
@@ -100,7 +103,7 @@ function Responsiveproduct() {
                     </Card>
                 </div>
                 <div>
-                    <Card style={{ width: '18rem' }}>
+                    <Card style={{ width: '12rem' }}>
                         <Card.Img variant="top" src={hammer} />
                         <Card.Body className="cardbody">
                             <Card.Title className="cardtitle">Card Title</Card.Title>
@@ -113,7 +116,7 @@ function Responsiveproduct() {
                     </Card>
                 </div>
                 <div>
-                    <Card style={{ width: '18rem' }}>
+                    <Card style={{ width: '12rem' }}>
                         <Card.Img variant="top" src={hammer} />
                         <Card.Body className="cardbody">
                             <Card.Title className="cardtitle">Card Title</Card.Title>
@@ -126,7 +129,7 @@ function Responsiveproduct() {
                     </Card>
                 </div>
                 <div>
-                    <Card style={{ width: '18rem' }}>
+                    <Card style={{ width: '12rem' }}>
                         <Card.Img variant="top" src={hammer} />
                         <Card.Body className="cardbody">
                             <Card.Title className="cardtitle">Card Title</Card.Title>
@@ -139,7 +142,7 @@ function Responsiveproduct() {
                     </Card>
                 </div>
                 <div>
-                    <Card style={{ width: '18rem' }}>
+                    <Card style={{ width: '12rem' }}>
                         <Card.Img variant="top" src={hammer} />
                         <Card.Body className="cardbody">
                             <Card.Title className="cardtitle">Card Title</Card.Title>
