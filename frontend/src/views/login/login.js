@@ -1,43 +1,60 @@
-import React from "react";
+import React from 'react';
+import {
+  MDBBtn,
+  MDBContainer,
+  MDBCard,
+  MDBCardBody,
+  MDBCardImage,
+  MDBRow,
+  MDBCol,
+  MDBIcon,
+  MDBInput
+}
+from 'mdb-react-ui-kit';
+import logo from './../../assets/img/logo.png'
+import banner from './../../assets/img/Verticalbanner.jpg'
 
-const Login = () => {
+function Login() {
   return (
-    <div style={{ display: "flex", justifyContent: "center", alignItems: "center", height: "100vh" }}>
-      <div style={{ width: "400px" }}>
-        <div className="card">
-          <div className="card-body">
-            <div style={{ textAlign: "center", marginBottom: "20px" }}>
-              <img src="fotoaqui" alt="Profile" style={{ width: "100px", height: "100px", borderRadius: "50%" }} />
-            </div>
-            <form>
-              <div className="form-group">
-                <label htmlFor="exampleInputEmail1">Correo</label>
-                <input type="email" className="form-control" id="exampleInputEmail1" aria-describedby="emailHelp" placeholder="Ingrese su correo electrónico" />
-                <small id="emailHelp" className="form-text text-muted">Recuerda que tus contraseñas no serán expuestas.</small>
+    <MDBContainer className="my-5" >
+
+      <MDBCard >
+        <MDBRow className='g-0'>
+
+          <MDBCol md='4'>
+            <MDBCardImage src={banner} alt="login form" style={{ filter: 'brightness(80%) blur(0.5px)' , height: '100%'}} className='rounded-start w-100'/>
+          </MDBCol>
+
+          <MDBCol md='8'>
+            <MDBCardBody className='d-flex flex-column'>
+
+              <div className='d-flex flex-row mt-2'>
+                <MDBIcon fas icon="cubes fa-3x me-3" style={{ color: '#ff6219' }}/>
+                <span className="h1 fw-bold mb-0"><img src={logo} style={{ width: '200px'}} /></span>
               </div>
-              <div className="form-group">
-                <label htmlFor="exampleInputPassword1">Contraseña</label>
-                <input type="password" className="form-control" id="exampleInputPassword1" placeholder="Contraseña" />
+
+              <h5 className="fw-normal my-4 pb-3" style={{letterSpacing: '1px'}}>Ingresa a tu cuenta</h5>
+
+                <MDBInput wrapperClass='mb-4' label='Email address' id='formControlLg' type='email' size="lg"/>
+                <MDBInput wrapperClass='mb-4' label='Password' id='formControlLg' type='password' size="lg"/>
+
+              <MDBBtn className="mb-4 px-5" color='primary' size='lg'>Login</MDBBtn>
+              <a className="small text-muted text1" style={{textAlign: 'center'}} href="#!">¿Olvidaste tu contraseña?</a>
+              <p className="mb-8 pb-lg-2 text1" style={{color: '#393f81', textAlign:'center'}}>¿No tienes cuenta? <br></br>
+              <a href="#!" style={{color: '#393f81'}}>Registrate aqui</a></p>
+
+              <div className='d-flex flex-row justify-content-end'>
+                <a href="#!" className="small text-muted me-1">Terminos de uso.</a>
+                <a href="#!" className="small text-muted">Privacy policy</a>
               </div>
-              <div className="form-group form-check">
-                <input type="checkbox" className="form-check-input" id="exampleCheck1" />
-                <label className="form-check-label" htmlFor="exampleCheck1">¡Recuérdame!</label>
-              </div>
-              <div className="form-group">
-                <button type="submit" className="btn btn-primary mr-2" >Iniciar sesión</button>
-                <div class="">
-                  <a className="password" href="/forgot-password">Registro</a>
-                </div>
-                <div >
-                  <a className="register" href="/registro">¿Olvidaste tu contraseña?</a>
-                </div>
-                <hr></hr>
-              </div>
-            </form>
-          </div>
-        </div>
-      </div>
-    </div>
+
+            </MDBCardBody>
+          </MDBCol>
+
+        </MDBRow>
+      </MDBCard>
+
+    </MDBContainer>
   );
 }
 
