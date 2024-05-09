@@ -7,15 +7,9 @@ DROP TABLE IF EXISTS informe_venta;
 DROP TABLE IF EXISTS reporte_financiero;
 DROP TABLE IF EXISTS producto;
 DROP TABLE IF EXISTS usuario;
-DROP TABLE IF EXISTS sucursal;
 
 
 -- Creacion de la base de datos
-
-CREATE TABLE sucursal(
-    idSucursal INTEGER AUTO_INCREMENT NOT NULL PRIMARY KEY,
-    direccion VARCHAR(30) NOT NULL
-);
 
 CREATE TABLE usuario(
     idUsuario INTEGER AUTO_INCREMENT NOT NULL PRIMARY KEY,
@@ -77,23 +71,22 @@ CREATE TABLE boleta(
     fechaBoleta DATE NOT NULL,
     total INTEGER NOT NULL,
     idUsuario INTEGER NOT NULL,
-    idCarrito INTEGER NOT NULL,
-    idSucursal INTEGER NOT NULL,
-    FOREIGN KEY (idUsuario) REFERENCES usuario(idUsuario),
-    FOREIGN KEY (idCarrito) REFERENCES carrito(idCarrito),
-    FOREIGN KEY (idSucursal) REFERENCES sucursal(idSucursal)
+    direccionSucursal VARCHAR(100) NOT NULL,
+    FOREIGN KEY (idUsuario) REFERENCES usuario(idUsuario)
 );
 
 CREATE TABLE pago(
-    idPago INTEGER NOT NULL PRIMARY KEY,
+    idPago INTEGER AUTO_INCREMENT NOT NULL PRIMARY KEY,
     fechaPago DATE NOT NULL,
     monto INTEGER NOT NULL,
     idBoleta INTEGER NOT NULL,
-    FOREIGN KEY (idBoleta) REFERENCES boleta(idBoleta)
+    idCarrito INTEGER NOT NULL,
+    FOREIGN KEY (idBoleta) REFERENCES boleta(idBoleta),
+    FOREIGN KEY (idCarrito) REFERENCES carrito(idCarrito)
 );
 
 CREATE TABLE ordenPedido(
-    idOrdenPedido INTEGER NOT NULL PRIMARY KEY,
+    idOrdenPedido INTEGER AUTO_INCREMENT NOT NULL PRIMARY KEY,
     fechaOrden DATE NOT NULL,
     idUsuario INTEGER NOT NULL,
     idBoleta INTEGER NOT NULL,
