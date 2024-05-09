@@ -1,14 +1,20 @@
--- Creacion de la base de datos
+DROP TABLE IF EXISTS ordenPedido;
+DROP TABLE IF EXISTS pago;
+DROP TABLE IF EXISTS boleta;
+DROP TABLE IF EXISTS detalle_carrito;
+DROP TABLE IF EXISTS carrito;
+DROP TABLE IF EXISTS informe_venta;
+DROP TABLE IF EXISTS reporte_financiero;
+DROP TABLE IF EXISTS producto;
+DROP TABLE IF EXISTS usuario;
 
-CREATE TABLE sucursal(
-    idSucursal INTEGER AUTO_INCREMENT NOT NULL PRIMARY KEY,
-    direccion VARCHAR(30) NOT NULL
-);
+
+-- Creacion de la base de datos
 
 CREATE TABLE usuario(
     idUsuario INTEGER AUTO_INCREMENT NOT NULL PRIMARY KEY,
     correoUsuario VARCHAR(40) NOT NULL,
-    contrasenaUsuario VARCHAR(40) NOT NULL,
+    contrasenaUsuario VARCHAR(100) NOT NULL,
     rutUsuario VARCHAR(12) NOT NULL,
     pNombre VARCHAR(40) NOT NULL,
     sNombre VARCHAR(40),
@@ -17,7 +23,11 @@ CREATE TABLE usuario(
     fechaNac DATE NOT NULL,
     celular INTEGER NOT NULL,
     direccion VARCHAR(60) NOT NULL,
-    administrador BOOLEAN NOT NULL
+    administrador BOOLEAN NOT NULL,
+    contador BOOLEAN NOT NULL,
+    bodeguero BOOLEAN NOT NULL,
+    cliente BOOLEAN NOT NULL,
+    vendedor BOOLEAN NOT NULL
 );
 
 CREATE TABLE informe_venta(
@@ -34,41 +44,18 @@ CREATE TABLE producto(
     stock INTEGER NOT NULL
 );
 
-CREATE TABLE contador(
-    contadorId INTEGER AUTO_INCREMENT NOT NULL PRIMARY KEY,
-    idUsuario INTEGER NOT NULL,
-    FOREIGN KEY (idUsuario) REFERENCES usuario(idUsuario)
-);
-
 CREATE TABLE reporte_financiero(
     idReporteFinanciero INTEGER AUTO_INCREMENT NOT NULL PRIMARY KEY,
     fecha DATE NOT NULL,
-    contadorId INTEGER NOT NULL,
-    FOREIGN KEY (contadorId) REFERENCES contador(contadorId)
-);
-
-CREATE TABLE bodeguero(
-    bodegueroId INTEGER NOT NULL PRIMARY KEY,
     idUsuario INTEGER NOT NULL,
     FOREIGN KEY (idUsuario) REFERENCES usuario(idUsuario)
 );
 
-CREATE TABLE vendedor(
-    vendedorId INTEGER NOT NULL PRIMARY KEY,
-    idUsuario INTEGER NOT NULL,
-    FOREIGN KEY (idUsuario) REFERENCES usuario(idUsuario)
-);
-
-CREATE TABLE cliente(
-    clienteId INTEGER NOT NULL PRIMARY KEY,
-    idUsuario INTEGER NOT NULL,
-    FOREIGN KEY (idUsuario) REFERENCES usuario(idUsuario)
-);
 
 CREATE TABLE carrito(
-    idCarrito INTEGER NOT NULL PRIMARY KEY,
-    clienteId INTEGER NOT NULL,
-    FOREIGN KEY (clienteId) REFERENCES cliente(clienteId)
+    idCarrito INTEGER AUTO_INCREMENT NOT NULL PRIMARY KEY,
+    idUsuario INTEGER NOT NULL,
+    FOREIGN KEY (idUsuario) REFERENCES usuario(idUsuario)
 );
 
 CREATE TABLE detalle_carrito(
@@ -84,34 +71,25 @@ CREATE TABLE boleta(
     fechaBoleta DATE NOT NULL,
     total INTEGER NOT NULL,
     idUsuario INTEGER NOT NULL,
-    idCarrito INTEGER NOT NULL,
-    idSucursal INTEGER NOT NULL,
-    vendedorId INTEGER NOT NULL,
-    contadorId INTEGER NOT NULL,
-    FOREIGN KEY (idUsuario) REFERENCES usuario(idUsuario),
-    FOREIGN KEY (idCarrito) REFERENCES carrito(idCarrito),
-    FOREIGN KEY (idSucursal) REFERENCES sucursal(idSucursal),
-    FOREIGN KEY (vendedorId) REFERENCES vendedor(vendedorId),
-    FOREIGN KEY (contadorId) REFERENCES contador(contadorId)
+    direccionSucursal VARCHAR(100) NOT NULL,
+    FOREIGN KEY (idUsuario) REFERENCES usuario(idUsuario)
 );
 
 CREATE TABLE pago(
-    idPago INTEGER NOT NULL PRIMARY KEY,
+    idPago INTEGER AUTO_INCREMENT NOT NULL PRIMARY KEY,
     fechaPago DATE NOT NULL,
     monto INTEGER NOT NULL,
     idBoleta INTEGER NOT NULL,
-    FOREIGN KEY (idBoleta) REFERENCES boleta(idBoleta)
+    idCarrito INTEGER NOT NULL,
+    FOREIGN KEY (idBoleta) REFERENCES boleta(idBoleta),
+    FOREIGN KEY (idCarrito) REFERENCES carrito(idCarrito)
 );
 
 CREATE TABLE ordenPedido(
-    idOrdenPedido INTEGER NOT NULL PRIMARY KEY,
+    idOrdenPedido INTEGER AUTO_INCREMENT NOT NULL PRIMARY KEY,
     fechaOrden DATE NOT NULL,
     idUsuario INTEGER NOT NULL,
     idBoleta INTEGER NOT NULL,
-    bodegueroId INTEGER NOT NULL,
-    contadorId INTEGER NOT NULL,
     FOREIGN KEY (idUsuario) REFERENCES usuario(idUsuario),
-    FOREIGN KEY (idBoleta) REFERENCES boleta(idBoleta),
-    FOREIGN KEY (bodegueroId) REFERENCES bodeguero(bodegueroId),
-    FOREIGN KEY (contadorId) REFERENCES contador(contadorId)
+    FOREIGN KEY (idBoleta) REFERENCES boleta(idBoleta)
 );

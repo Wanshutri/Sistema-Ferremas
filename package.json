@@ -1,0 +1,31 @@
+{
+  "name": "sistema-ferremas",
+  "version": "1.0.0",
+  "description": "",
+  "main": "index.js",
+  "scripts": {
+    "start": "concurrently \"npm run start:backend\" \"npm run start:frontend\"",
+    "start:backend": "cd backend/src && node index.js",
+    "start:frontend": "cd frontend && npm start",
+    "preinstall": "cd backend && npm install",
+    "postinstall": "cd frontend && npm install"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "devDependencies": {
+    "concurrently": "^8.2.2"
+  },
+  "dependencies": {
+    "@egjs/flicking": "^4.11.2",
+    "@egjs/flicking-plugins": "^4.7.1",
+    "@egjs/react-flicking": "^4.11.2",
+    "@fortawesome/fontawesome-svg-core": "^6.5.2",
+    "@fortawesome/free-brands-svg-icons": "^6.5.2",
+    "@fortawesome/free-regular-svg-icons": "^6.5.2",
+    "@fortawesome/free-solid-svg-icons": "^6.5.2",
+    "@fortawesome/react-fontawesome": "^0.2.0",
+    "flowbite-react": "^0.9.0",
+    "swiper": "^11.1.1"
+  }
+}
