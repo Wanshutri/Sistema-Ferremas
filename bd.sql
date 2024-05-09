@@ -8,7 +8,8 @@ DROP TABLE IF EXISTS reporte_financiero;
 DROP TABLE IF EXISTS producto;
 DROP TABLE IF EXISTS usuario;
 
-
+ALTER USER 'ferremasUser'@'localhost' IDENTIFIED WITH mysql_native_password BY 'SistemaFerremas2024';
+FLUSH PRIVILEGES;
 -- Creacion de la base de datos
 
 CREATE TABLE usuario(
