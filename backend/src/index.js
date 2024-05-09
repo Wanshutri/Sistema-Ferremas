@@ -578,7 +578,6 @@ app.get('/api/recuperar/:id', async (req, res) => {
         // Enviar el código al correo electrónico del usuario
         enviarCorreo(usuario.correoUsuario, recoveryCode);
 
-        console.log(codigosRecuperacionList)
         res.status(200).json({ message: 'Código de recuperación enviado con éxito' });
     } catch (error) {
         console.error('Error al procesar la solicitud de recuperación de contraseña:', error);
@@ -592,11 +591,8 @@ app.post('/api/verificar-codigo', (req, res) => {
     const userId = req.body.id;
     const codigoIngresado = req.body.codigo;
 
-    console.log("userID: " + userId)
     // Buscar el código de recuperación correspondiente al usuario
     const codigoRecuperacion = codigosRecuperacionList.find(codigo => codigo.idUsuario === userId);
-
-    console.log(codigoRecuperacion)
 
     // Verificar si se encontró un código de recuperación para este usuario
     if (!codigoRecuperacion) {
@@ -613,7 +609,6 @@ app.post('/api/verificar-codigo', (req, res) => {
                 codigosRecuperacionList.splice(index, 1);
             }
             // Código válido y dentro del tiempo de expiración
-            console.log("El codigo concuerda")
             return res.status(200).json({ success: true });
         } else {
             // Código válido pero ha expirado
@@ -678,12 +673,8 @@ function enviarCorreo(destinatario, codigo) {
     };
 
     transporter.sendMail(mailOptions, (error, info) => {
-        console.log(process.env.EMAIL_NAME)
-        console.log(process.env.EMAIL_PASS)
         if (error) {
             console.log('Error al enviar el correo:', error);
-        } else {
-            console.log('Correo enviado:', info.response);
         }
     });
 }
