@@ -1,5 +1,6 @@
 const express = require('express');
 const cors = require('cors');
+const request = require('request')
 const fs = require('fs');
 const path = require('path');
 const { getProductos, crearProducto, actualizarProducto, eliminarProducto, getProducto } = require('./../resources/DAOproductos');
@@ -9,10 +10,14 @@ const { getCarritoPorUsuario, agregarProductoAlCarrito, eliminarProductoDelCarri
 const { eliminarOrdenPedido, actualizarOrdenPedido, crearOrdenPedido, getOrdenPedido, getOrdenesPedido } = require('../resources/DAOorden_pedido');
 const { crearPago, actualizarPago, eliminarPago, getPago, getPagos } = require('../resources/DAOpago');
 const { getReportesFinancieros, getReporteFinanciero, crearReporteFinanciero, actualizarReporteFinanciero, eliminarReporteFinanciero } = require('../resources/DAOreporte_financiero');
-
 const nodemailer = require('nodemailer');
 require('dotenv').config();
 const app = express();
+
+const CLIENT = process.env.CLIENT_ID;
+const SECRET = process.env.CLIENT_SECRET;
+const PAYPAL_API = 'https://api-m.sandbox.paypal.com';
+const auth = { user: CLIENT, pass: SECRET };
 
 // Función para generar un código aleatorio
 function generarCodigo() {
@@ -422,17 +427,94 @@ app.get('/api/pago/:id', (req, res) => {
 });
 
 // Ruta para crear un nuevo pago
-app.post('/api/pago', (req, res) => {
-    const nuevoPago = req.body;
-    crearPago(nuevoPago)
-        .then(({ pagoId, boletaId }) => {
-            res.status(201).json({ id: pagoId, message: 'Pago creado exitosamente' });
-        })
-        .catch(error => {
-            console.error('Error al crear el pago:', error);
-            res.status(500).send('Error al crear el pago en la base de datos');
-        });
-});
+/*
+{
+  "intent": "sale",
+  "payer": {
+    "payment_method": "paypal"
+  },
+  "redirect_urls": {
+    "return_url": "http://example.com/success",
+    "cancel_url": "http://example.com/cancel"
+  },
+  "transactions": [
+    {
+      "amount": {
+        "total": "10.00",
+        "currency": "USD"
+      },
+      "description": "Compra en línea",
+      "item_list": {
+        "items": [
+          {
+            "name": "Producto 1",
+            "quantity": 1,
+            "price": "10.00",
+            "currency": "USD"
+          }
+        ]
+      }
+    }
+  ]
+}
+
+const nuevoPago = {
+            fechaPago: new Date(), // Corrección: Agrega paréntesis para invocar Date()
+            total: pagoData.transactions[0].amount.total,
+            idUsuario: req.params.id, // Corrección: Obtén el ID de usuario de los parámetros de la URL
+            direccionSucursal: "test"
+        };
+        crearPago(nuevoPago)
+            .then(({ pagoId, boletaId }) => { })
+            .catch(error => {
+                console.error('Error al crear el pago:', error);
+            });
+
+*/
+
+const createPayment = (req, res) => {
+
+    const body = {
+        intent: 'CAPTURE',
+        purchase_units: [{
+            amount: {
+                currency_code: 'USD', //https://developer.paypal.com/docs/api/reference/currency-codes/
+                value: '115'
+            }
+        }],
+        application_context: {
+            brand_name: `Ferremas`,
+            landing_page: 'NO_PREFERENCE', // Default, para mas informacion https://developer.paypal.com/docs/api/orders/v2/#definition-order_application_context
+            user_action: 'PAY_NOW', // Accion para que en paypal muestre el monto del pago
+            return_url: `http://localhost:3001/api/ejecutar-pago`, // Url despues de realizar el pago
+            cancel_url: `http://localhost:3000/cancel-payment` // Url despues de realizar el pago
+        }
+    }
+    //https://api-m.sandbox.paypal.com/v2/checkout/orders [POST]
+
+    request.post(`${PAYPAL_API}/v2/checkout/orders`, {
+        auth,
+        body,
+        json: true
+    }, (err, response) => {
+        res.json({ data: response.body })
+    })
+}
+
+const executePayment = (req, res) => {
+    const token = req.query.token; //<-----------
+
+    request.post(`${PAYPAL_API}/v2/checkout/orders/${token}/capture`, {
+        auth,
+        body: {},
+        json: true
+    }, (err, response) => {
+        res.json({ data: response.body })
+    })
+}
+
+app.post('/api/crear-pago', createPayment);
+app.get('/api/ejecutar-pago', executePayment);
 
 // Ruta para actualizar un pago existente
 app.put('/api/pago/:id', (req, res) => {
@@ -678,6 +760,7 @@ function enviarCorreo(destinatario, codigo) {
         }
     });
 }
+
 
 const PORT = process.env.PORT || 3001;
 const server = app.listen(PORT, () => {
