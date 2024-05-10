@@ -426,60 +426,26 @@ app.get('/api/pago/:id', (req, res) => {
         });
 });
 
-// Ruta para crear un nuevo pago
-/*
-{
-  "intent": "sale",
-  "payer": {
-    "payment_method": "paypal"
-  },
-  "redirect_urls": {
-    "return_url": "http://example.com/success",
-    "cancel_url": "http://example.com/cancel"
-  },
-  "transactions": [
-    {
-      "amount": {
-        "total": "10.00",
-        "currency": "USD"
-      },
-      "description": "Compra en línea",
-      "item_list": {
-        "items": [
-          {
-            "name": "Producto 1",
-            "quantity": 1,
-            "price": "10.00",
-            "currency": "USD"
-          }
-        ]
-      }
+//ENTREGAR BODY CON ATRIBUTO "costo" : precio_clp
+const createPayment = async (req, res) => {
+    const costo_compra_clp = req.body.costo; // Suponiendo que costo es el monto en CLP
+    if (!req.body.costo || typeof req.body.costo !== 'number') {
+        return res.status(400).json({ error: 'Se requiere un costo válido en la solicitud.' });
     }
-  ]
-}
-
-const nuevoPago = {
-            fechaPago: new Date(), // Corrección: Agrega paréntesis para invocar Date()
-            total: pagoData.transactions[0].amount.total,
-            idUsuario: req.params.id, // Corrección: Obtén el ID de usuario de los parámetros de la URL
-            direccionSucursal: "test"
-        };
-        crearPago(nuevoPago)
-            .then(({ pagoId, boletaId }) => { })
-            .catch(error => {
-                console.error('Error al crear el pago:', error);
-            });
-
-*/
-
-const createPayment = (req, res) => {
-
+    const url_dolar = "https://dolarapi.com/v1/dolares";
+    
+    // Obtener el valor del dólar desde la API
+    const response = await fetch(url_dolar);
+    const data = await response.json();
+    const valor_dolar = data[0].compra; // Suponiendo que data contiene el valor del dólar
+    // Convertir el costo de la compra a USD
+    const costo_compra_usd = (costo_compra_clp / valor_dolar).toFixed(2);
     const body = {
         intent: 'CAPTURE',
         purchase_units: [{
             amount: {
                 currency_code: 'USD', //https://developer.paypal.com/docs/api/reference/currency-codes/
-                value: '115'
+                value: costo_compra_usd
             }
         }],
         application_context: {
