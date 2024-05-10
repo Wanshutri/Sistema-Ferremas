@@ -10,6 +10,9 @@ import { faMagnifyingGlass, faToggleOff, faUsers, faCartShopping, faHouse, faLoc
 import { faMobile } from '@fortawesome/free-solid-svg-icons';
 import { faWhatsapp } from '@fortawesome/free-brands-svg-icons/faWhatsapp';
 import logo from '../../img/logo.png';
+import { faUser } from '@fortawesome/free-solid-svg-icons';
+import { faRightFromBracket } from '@fortawesome/free-solid-svg-icons';
+import { faMessage } from '@fortawesome/free-solid-svg-icons';
 
 
 
@@ -46,7 +49,7 @@ function Sidebar1({ onTabChange }) {
                     <Button className="btn btn-primary b1" aria-current="page" href="#"><FontAwesomeIcon icon={faUsers} className='iconleftmenu' />Sobre nosotros</Button>
 
 
-                    <Button className="btn btn-primary b1" aria-current="page" href="#"><FontAwesomeIcon icon={faHammer} className='iconleftmenu' /> Productos </Button>
+                    <Button className="btn btn-primary b1" aria-current="page" href="#"><FontAwesomeIcon icon={faHammer} shake className='iconleftmenu' /> Productos </Button>
 
 
                     <Button className="btn btn-primary b1" aria-current="page" href="#"><FontAwesomeIcon icon={faLocationDot} className='iconleftmenu' />Ubicación</Button>
@@ -56,7 +59,7 @@ function Sidebar1({ onTabChange }) {
 
                     <Button className="btn btn-primary b1" href="#"><FontAwesomeIcon icon={faCartShopping} className='iconleftmenu' />Carrito</Button>
 
-                    <Button className="b1" onClick={() => setOpen(!open)} aria-controls="collapse-contacto" aria-expanded={open} > Contacto
+                    <Button className="b1" onClick={() => setOpen(!open)} aria-controls="collapse-contacto" aria-expanded={open} ><FontAwesomeIcon icon={faMessage} /> Contacto
                         <Collapse in={open}>
                             <div id="collapse-contacto">
                                 <li><a><FontAwesomeIcon icon={faReceipt} /> Formulario</a></li>
@@ -70,6 +73,9 @@ function Sidebar1({ onTabChange }) {
                         <button className="btn btn-primary b2" type="submit"> <FontAwesomeIcon icon={faMagnifyingGlass} />Buscar</button>
                     </Form>
                 </Offcanvas.Body>
+                
+                    <Button className="btn btn-primary b2" href="#"><FontAwesomeIcon icon={faUser} className='iconleftmenu' />Iniciar sesión</Button>
+                    <Button className="btn btn-primary b2" href="#"><FontAwesomeIcon icon={faRightFromBracket} beat className='iconleftmenu' />Cerrar sesión</Button>
             </Offcanvas>
         </>
     );
