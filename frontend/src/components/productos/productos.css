@@ -2,7 +2,7 @@
    display: grid; 
    gap: 2rem;
    text-align: center;
-   grid-template-columns: 1fr 1fr 1fr;
+   grid-template-columns: 1fr 1fr 1fr 1fr;
    justify-items: center;
    padding: 1rem;
 }
