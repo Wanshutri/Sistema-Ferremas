@@ -8,7 +8,6 @@ const { getUsuarios, crearUsuario, actualizarUsuario, eliminarUsuario, getUsuari
 const { getBoletas, actualizarBoleta, getBoleta } = require('./../resources/DAOboletas');
 const { getCarritoPorUsuario, agregarProductoAlCarrito, eliminarProductoDelCarrito } = require('./../resources/DAOcarrito');
 const { eliminarOrdenPedido, actualizarOrdenPedido, crearOrdenPedido, getOrdenPedido, getOrdenesPedido } = require('../resources/DAOorden_pedido');
-const { crearPago, actualizarPago, eliminarPago, getPago, getPagos } = require('../resources/DAOpago');
 const { getReportesFinancieros, getReporteFinanciero, crearReporteFinanciero, actualizarReporteFinanciero, eliminarReporteFinanciero } = require('../resources/DAOreporte_financiero');
 const nodemailer = require('nodemailer');
 require('dotenv').config();
@@ -397,35 +396,6 @@ app.delete('/api/ordenPedido/:id', (req, res) => {
 
 // Ruta para los pagos
 
-// Ruta para obtener todos los pagos
-app.get('/api/pago', (req, res) => {
-    getPagos()
-        .then(pagos => {
-            res.json(pagos);
-        })
-        .catch(error => {
-            console.error('Error al obtener los pagos:', error);
-            res.status(500).send('Error al obtener los pagos desde la base de datos');
-        });
-});
-
-// Ruta para obtener un pago por su ID
-app.get('/api/pago/:id', (req, res) => {
-    const id = req.params.id;
-    getPago(id)
-        .then(pago => {
-            if (pago) {
-                res.json(pago);
-            } else {
-                res.status(404).send('Pago no encontrado');
-            }
-        })
-        .catch(error => {
-            console.error('Error al obtener el pago:', error);
-            res.status(500).send('Error al obtener el pago desde la base de datos');
-        });
-});
-
 //ENTREGAR BODY CON ATRIBUTO "costo" : precio_clp
 const createPayment = async (req, res) => {
     const costo_compra_clp = req.body.costo; // Suponiendo que costo es el monto en CLP
@@ -433,7 +403,7 @@ const createPayment = async (req, res) => {
         return res.status(400).json({ error: 'Se requiere un costo válido en la solicitud.' });
     }
     const url_dolar = "https://dolarapi.com/v1/dolares";
-    
+
     // Obtener el valor del dólar desde la API
     const response = await fetch(url_dolar);
     const data = await response.json();
@@ -481,41 +451,6 @@ const executePayment = (req, res) => {
 
 app.post('/api/crear-pago', createPayment);
 app.get('/api/ejecutar-pago', executePayment);
-
-// Ruta para actualizar un pago existente
-app.put('/api/pago/:id', (req, res) => {
-    const id = req.params.id;
-    const nuevoPago = req.body;
-    actualizarPago(id, nuevoPago)
-        .then(success => {
-            if (success) {
-                res.json({ message: 'Pago actualizado exitosamente' });
-            } else {
-                res.status(404).send('Pago no encontrado');
-            }
-        })
-        .catch(error => {
-            console.error('Error al actualizar el pago:', error);
-            res.status(500).send('Error al actualizar el pago en la base de datos');
-        });
-});
-
-// Ruta para eliminar un pago
-app.delete('/api/pago/:id', (req, res) => {
-    const id = req.params.id;
-    eliminarPago(id)
-        .then(success => {
-            if (success) {
-                res.json({ message: 'Pago eliminado exitosamente' });
-            } else {
-                res.status(404).send('Pago no encontrado');
-            }
-        })
-        .catch(error => {
-            console.error('Error al eliminar el pago:', error);
-            res.status(500).send('Error al eliminar el pago en la base de datos');
-        });
-});
 
 // Rutas para el reporte financiero
 

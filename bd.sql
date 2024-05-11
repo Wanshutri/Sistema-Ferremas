@@ -76,16 +76,6 @@ CREATE TABLE boleta(
     FOREIGN KEY (idUsuario) REFERENCES usuario(idUsuario)
 );
 
-CREATE TABLE pago(
-    idPago INTEGER AUTO_INCREMENT NOT NULL PRIMARY KEY,
-    fechaPago DATE NOT NULL,
-    monto INTEGER NOT NULL,
-    idBoleta INTEGER NOT NULL,
-    idCarrito INTEGER NOT NULL,
-    FOREIGN KEY (idBoleta) REFERENCES boleta(idBoleta),
-    FOREIGN KEY (idCarrito) REFERENCES carrito(idCarrito)
-);
-
 CREATE TABLE ordenPedido(
     idOrdenPedido INTEGER AUTO_INCREMENT NOT NULL PRIMARY KEY,
     fechaOrden DATE NOT NULL,
