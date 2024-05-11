@@ -1,10 +1,10 @@
-const conectar = require('./connection'); // Importa la función de conexión
+const conectar = require('./connection');
 
-// Función para recuperar todos los productos de la base de datos
-function getProductos() {
+// Función para recuperar todas las órdenes de pedido de la base de datos
+function getOrdenesPedido() {
     return new Promise((resolve, reject) => {
         const connection = conectar();
-        const query = 'SELECT * FROM producto';
+        const query = 'SELECT * FROM ordenPedido';
         connection.query(query, (error, results, fields) => {
             if (error) {
                 console.error('Error al ejecutar la consulta:', error);
@@ -18,12 +18,12 @@ function getProductos() {
     });
 }
 
-// Función para crear un nuevo producto
-function crearProducto(producto) {
+// Función para crear una nueva orden de pedido
+function crearOrdenPedido(ordenPedido) {
     return new Promise((resolve, reject) => {
         const connection = conectar();
-        const query = 'INSERT INTO producto SET ?';
-        connection.query(query, producto, (error, results, fields) => {
+        const query = 'INSERT INTO ordenPedido SET ?';
+        connection.query(query, ordenPedido, (error, results, fields) => {
             if (error) {
                 console.error('Error al ejecutar la consulta:', error);
                 connection.end();
@@ -36,12 +36,12 @@ function crearProducto(producto) {
     });
 }
 
-// Función para actualizar un producto existente
-function actualizarProducto(id, nuevoProducto) {
+// Función para actualizar una orden de pedido existente
+function actualizarOrdenPedido(id, nuevaOrdenPedido) {
     return new Promise((resolve, reject) => {
         const connection = conectar();
-        const query = 'UPDATE producto SET ? WHERE idProducto = ?';
-        connection.query(query, [nuevoProducto, id], (error, results, fields) => {
+        const query = 'UPDATE ordenPedido SET ? WHERE idOrdenPedido = ?';
+        connection.query(query, [nuevaOrdenPedido, id], (error, results, fields) => {
             if (error) {
                 console.error('Error al ejecutar la consulta:', error);
                 connection.end();
@@ -54,11 +54,11 @@ function actualizarProducto(id, nuevoProducto) {
     });
 }
 
-// Función para eliminar un producto
-function eliminarProducto(id) {
+// Función para eliminar una orden de pedido
+function eliminarOrdenPedido(id) {
     return new Promise((resolve, reject) => {
         const connection = conectar();
-        const query = 'DELETE FROM producto WHERE idProducto = ?';
+        const query = 'DELETE FROM ordenPedido WHERE idOrdenPedido = ?';
         connection.query(query, id, (error, results, fields) => {
             if (error) {
                 console.error('Error al ejecutar la consulta:', error);
@@ -72,11 +72,11 @@ function eliminarProducto(id) {
     });
 }
 
-// Función para recuperar un producto por su ID
-function getProducto(id) {
+// Función para recuperar una orden de pedido por su ID
+function getOrdenPedido(id) {
     return new Promise((resolve, reject) => {
         const connection = conectar();
-        const query = 'SELECT * FROM producto WHERE idProducto = ?';
+        const query = 'SELECT * FROM ordenPedido WHERE idOrdenPedido = ?';
         connection.query(query, id, (error, results, fields) => {
             if (error) {
                 console.error('Error al ejecutar la consulta:', error);
@@ -86,7 +86,7 @@ function getProducto(id) {
             }
             connection.end();
             if (results.length === 0) {
-                resolve(null); // No se encontró ningún producto con ese ID
+                resolve(null); // No se encontró ninguna orden de pedido con ese ID
             } else {
                 resolve(results[0]); // Devuelve el primer resultado encontrado (debería ser único por el ID)
             }
@@ -94,4 +94,4 @@ function getProducto(id) {
     });
 }
 
-module.exports = { getProductos, getProducto, crearProducto, actualizarProducto, eliminarProducto };
+module.exports = { getOrdenesPedido, getOrdenPedido, crearOrdenPedido, actualizarOrdenPedido, eliminarOrdenPedido };

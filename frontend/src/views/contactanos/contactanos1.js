@@ -2,12 +2,13 @@ import React from "react";
 import Footer from "../../components/footer/footer";
 import BannerCom from "../../components/banner/bannerCom"
 import logo from "./../../img/logo.png"
-import ModalCont from "../../components/modalContactanos/modalcontact";
+import ModalContactanos from "../../components/modalContactanos/modalcontact";
 import './contactanos.css'
 import Sidebar1 from "../../components/sidebar/sidebar";
 import JustifiedTab from "../../components/tabs/tabs";
 import { Parallax, ParallaxProvider, ParallaxBannerLayer, ParallaxBanner } from "react-scroll-parallax";
 import fondo from '../../assets/img/ferreteriabricolaje.jpg'
+import Formulario from "../../components/formcontact/formContact";
 
 
 const Contactanos = () => {
@@ -51,7 +52,7 @@ const Contactanos = () => {
                                                 </div>
 
                                                 <div className="modalcont">
-                                                    <ModalCont></ModalCont>
+                                                    <ModalContactanos></ModalContactanos>
                                                 </div>
                                             </div>
                                         </div>
@@ -60,28 +61,7 @@ const Contactanos = () => {
                                             <div class="card">
                                                 <div class="card-body">
                                                     <h5 class="card-title">Ingresa los campos solicitados por favor, con gusto te ayudaremos!</h5>
-                                                    <form>
-                                                        <form>
-                                                            <div class="mb-3">
-                                                                <label for="exampleInputEmail1" class="form-label">Correo</label>
-                                                                <input type="email" class="form-control" id="exampleInputEmail1" aria-describedby="emailHelp" />
-                                                                <div id="emailHelp" class="form-text">We'll never share your email with anyone else.</div>
-                                                            </div>
-                                                            <div class="mb-3">
-                                                                <label for="exampleInputPassword1" class="form-label">Nombre Completo</label>
-                                                                <input type="password" class="form-control" id="exampleInputPassword1" />
-                                                            </div>
-                                                            <div class="mb-3">
-                                                                <label for="exampleInputPassword1" class="form-label">Telefono</label>
-                                                                <input type="password" class="form-control" id="exampleInputPassword1" />
-                                                            </div>
-                                                            <div class="form-floating">
-                                                                <textarea class="form-control" placeholder="Leave a comment here" id="floatingTextarea2"></textarea>
-                                                                <label for="floatingTextarea2">Describenos tu problema  </label>
-                                                            </div>
-                                                            <button type="submit" class="btn btn-secondary">Enviar</button>
-                                                        </form>
-                                                    </form>
+                                                    <Formulario />
                                                 </div>
                                             </div>
                                         </div>

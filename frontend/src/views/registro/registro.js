@@ -1,6 +1,46 @@
-import React from "react";
+import React, { useState } from 'react';
+import axios from 'axios';
 
 const Register = () => {
+
+  const [usuario, setUsuario] = useState({
+    correoUsuario: '',
+    contrasenaUsuario: '',
+    rutUsuario: '',
+    pNombre: '',
+    sNombre: '',
+    pApellido: '',
+    sApellido: '',
+    fechaNac: '',
+    celular: '',
+    direccion: '',
+    administrador: false,
+    contador: false,
+    bodeguero: false,
+    cliente: true,
+    vendedor: false
+  });
+
+  const handleChange = (e) => {
+    const { name, value } = e.target;
+    setUsuario({
+      ...usuario,
+      [name]: value
+    });
+  };
+
+  const handleSubmit = (e) => {
+    e.preventDefault();
+    axios.post('http://localhost:3001/api/usuarios', usuario)
+      .then((response) => {
+        console.log('Usuario creado:', response.data);
+        // Aquí podrías redirigir a otra página, mostrar un mensaje de éxito, etc.
+      })
+      .catch((error) => {
+        console.error('Error al crear usuario:', error);
+      });
+  };
+
   return (
     <div style={{ display: "flex", justifyContent: "center", alignItems: "center", height: "100vh" }}>
       <div style={{ width: "400px" }}>
@@ -9,88 +49,40 @@ const Register = () => {
             <div style={{ textAlign: "center", marginBottom: "20px" }}>
               <h2>Registro</h2>
             </div>
-            <form style={{ display: "flex", flexDirection: "column" }}>
-              <div style={{ display: "flex", flexDirection: "row", justifyContent: "space-between", marginBottom: "10px" }}>
-                <div style={{ flex: 1, marginRight: "20px" }}>
-                  <div className="form-group">
-                    <label htmlFor="firstName">Nombre</label>
-                    <input type="text" className="form-control" id="firstName" placeholder="Ingrese su nombre" />
-                  </div>
-                </div>
-                <div style={{ flex: 1, marginLeft: "20px" }}>
-                  <div className="form-group">
-                    <label htmlFor="lastName">Apellido</label>
-                    <input type="text" className="form-control" id="lastName" placeholder="Ingrese su apellido" />
-                  </div>
-                </div>
+            <form onSubmit={handleSubmit}>
+              <div className="mb-3">
+                <input type="email" name="correoUsuario" value={usuario.correoUsuario} onChange={handleChange} className="form-control" placeholder="Correo electrónico" required />
               </div>
-              <div style={{ display: "flex", flexDirection: "row", justifyContent: "space-between", marginBottom: "10px" }}>
-                <div style={{ flex: 1, marginRight: "20px" }}>
-                  <div className="form-group">
-                    <label htmlFor="email">Correo</label>
-                    <input type="email" className="form-control" id="email" placeholder="Ingrese su correo electrónico" />
-                  </div>
-                </div>
-                <div style={{ flex: 1, marginLeft: "20px" }}>
-                  <div className="form-group">
-                    <label htmlFor="password">Contraseña</label>
-                    <input type="password" className="form-control" id="password" placeholder="Contraseña" />
-                  </div>
-                </div>
+              <div className="mb-3">
+                <input type="password" name="contrasenaUsuario" value={usuario.contrasenaUsuario} onChange={handleChange} className="form-control" placeholder="Contraseña" required />
               </div>
-              <div style={{ display: "flex", flexDirection: "row", justifyContent: "space-between", marginBottom: "10px" }}>
-                <div style={{ flex: 1, marginRight: "20px" }}>
-                  <div className="form-group">
-                    <label htmlFor="confirmPassword">Confirmar Contraseña</label>
-                    <input type="password" className="form-control" id="confirmPassword" placeholder="Confirmar Contraseña" />
-                  </div>
-                </div>
-                <div style={{ flex: 1, marginLeft: "20px" }}>
-                  <div className="form-group">
-                    <label htmlFor="phone">Número de Teléfono</label>
-                    <input type="text" className="form-control" id="phone" placeholder="Ingrese su número de teléfono" />
-                  </div>
-                </div>
+              <div className="mb-3">
+                <input type="text" name="rutUsuario" value={usuario.rutUsuario} onChange={handleChange} className="form-control" placeholder="RUT" required />
               </div>
-              <div style={{ display: "flex", flexDirection: "row", justifyContent: "space-between", marginBottom: "10px" }}>
-                <div style={{ flex: 1, marginRight: "20px" }}>
-                  <div className="form-group">
-                    <label htmlFor="address">Dirección</label>
-                    <input type="text" className="form-control" id="address" placeholder="Ingrese su dirección" />
-                  </div>
-                </div>
-                <div style={{ flex: 1, marginLeft: "20px" }}>
-                  <div className="form-group">
-                    <label htmlFor="addressNumber">Número de Dirección</label>
-                    <input type="text" className="form-control" id="addressNumber" placeholder="Ingrese su número de dirección" />
-                  </div>
-                </div>
+              <div className="mb-3">
+                <input type="text" name="pNombre" value={usuario.pNombre} onChange={handleChange} className="form-control" placeholder="Primer nombre" required />
               </div>
-              <div style={{ display: "flex", flexDirection: "row", justifyContent: "space-between", marginBottom: "10px" }}>
-                <div style={{ flex: 1, marginRight: "20px" }}>
-                  <div className="form-group">
-                    <label htmlFor="commune">Comuna</label>
-                    <input type="text" className="form-control" id="commune" placeholder="Ingrese su comuna" />
-                  </div>
-                </div>
-                <div style={{ flex: 1, marginLeft: "20px" }}>
-                  <div className="form-group">
-                    <label htmlFor="postalCode">Código Postal</label>
-                    <input type="text" className="form-control" id="postalCode" placeholder="Ingrese su código postal" />
-                  </div>
-                </div>
+              <div className="mb-3">
+                <input type="text" name="sNombre" value={usuario.sNombre} onChange={handleChange} className="form-control" placeholder="Segundo nombre" />
               </div>
-              <div style={{ display: "flex", flexDirection: "row", justifyContent: "space-between", marginBottom: "10px" }}>
-                <div style={{ flex: 1, marginRight: "20px" }}>
-                  <div className="form-group">
-                    <label htmlFor="region">Provincia/Región</label>
-                    <input type="text" className="form-control" id="region" placeholder="Ingrese su provincia o región" />
-                  </div>
-                </div>
+              <div className="mb-3">
+                <input type="text" name="pApellido" value={usuario.pApellido} onChange={handleChange} className="form-control" placeholder="Primer apellido" required />
+              </div>
+              <div className="mb-3">
+                <input type="text" name="sApellido" value={usuario.sApellido} onChange={handleChange} className="form-control" placeholder="Segundo apellido" required />
+              </div>
+              <div className="mb-3">
+                <input type="date" name="fechaNac" value={usuario.fechaNac} onChange={handleChange} className="form-control" placeholder="Fecha de nacimiento" required />
+              </div>
+              <div className="mb-3">
+                <input type="tel" name="celular" value={usuario.celular} onChange={handleChange} className="form-control" placeholder="Celular" required />
+              </div>
+              <div className="mb-3">
+                <input type="text" name="direccion" value={usuario.direccion} onChange={handleChange} className="form-control" placeholder="Dirección" required />
               </div>
               <button type="submit" className="btn btn-primary">Registrarse</button>
-              <hr></hr>
             </form>
+
           </div>
         </div>
       </div>

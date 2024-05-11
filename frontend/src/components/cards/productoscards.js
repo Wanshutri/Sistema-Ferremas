@@ -16,6 +16,7 @@ const CardsProductos = ({imagen}) => {
                         <p class="card-text"><small class="text-body-secondary">Last updated 3 mins ago</small></p>
                         
                         <div>
+                            <h1>$11.000</h1>
                         <button type="button" class="btncomprar">Comprar</button>
                         </div>
 
