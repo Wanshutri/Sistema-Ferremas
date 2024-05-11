@@ -9,13 +9,14 @@ import {
   BiHelpCircle,
 } from "react-icons/bi";
 import styles from "./sidebaradmin.module.css";
+import logo from './../../assets/img/logo.png'
 
 const Sidebaradmin = () => {
   return (
     <div className={styles.menu}>
       <div className={styles.logo}>
         <BiBookAlt className={styles.logoicon} />
-        <h2>Ferremas</h2>
+        <img src={logo} alt="" />
       </div>
 
       <div className={styles.menulist}>

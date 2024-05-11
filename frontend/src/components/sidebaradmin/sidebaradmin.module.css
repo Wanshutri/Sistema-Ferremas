@@ -13,6 +13,11 @@
     align-items: center !important;
     display:flex !important;
     gap: 20px !important;
+
+    img {
+        width: 150px;
+        filter: invert();
+    }
 }
 
 .logoicon {
