@@ -13,6 +13,7 @@ import RecuperarContraseña from './views/recuperarContraseña/recuperarContrase
 import Sobrenosotros from './views/sobrenosotros/sobrenosotros';
 import Ayuda from './views/ayuda/ayuda'
 import Admindex from './views/administrador/admindex'
+import Ficha from './views/ficha/ficha';
 
 const root = ReactDOM.createRoot(document.getElementById('root'));
 root.render(
@@ -31,6 +32,7 @@ root.render(
         <Route path="recuperarContraseña" element={<RecuperarContraseña></RecuperarContraseña>} />
         <Route path="ayuda" element={<Ayuda></Ayuda>} />
         <Route path="admin" element={<Admindex></Admindex>} />
+        <Route path="ficha" element={<Ficha></Ficha>} />
       </Route>
     </Routes>
   </BrowserRouter>
