@@ -1,6 +1,6 @@
 .footer {
     background-color: #ffffff;
-    background: linear-gradient(#2951a0 15%, #ffffff 10%);
+    background: linear-gradient(#2951a0 15%, #aecce2 10%);
     width: 100%;
     text-align: left;
     font-family: sans-serif;
@@ -11,6 +11,7 @@
   }
   
   .logoimg{
+    margin-top: 5px;
     width: 100%;
 
     filter: invert();
@@ -40,6 +41,7 @@
   }
   
   .footer .about span {
+    margin-top: 35px;
     display: block;
     color: #000000;
     font-size: 14px;
@@ -99,6 +101,7 @@
   }
   
   .footer .footer-center p span {
+    margin-top: 30px;
     display: block;
     font-weight: normal;
     font-size: 14px;
@@ -125,6 +128,7 @@
   }
   
   .footer h2 span {
+    
     color: #2951a0;
   }
   
