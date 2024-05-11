@@ -1,5 +1,6 @@
 const express = require('express');
 const cors = require('cors');
+const request = require('request')
 const fs = require('fs');
 const path = require('path');
 const { getProductos, crearProducto, actualizarProducto, eliminarProducto, getProducto } = require('./../resources/DAOproductos');
@@ -9,10 +10,14 @@ const { getCarritoPorUsuario, agregarProductoAlCarrito, eliminarProductoDelCarri
 const { eliminarOrdenPedido, actualizarOrdenPedido, crearOrdenPedido, getOrdenPedido, getOrdenesPedido } = require('../resources/DAOorden_pedido');
 const { crearPago, actualizarPago, eliminarPago, getPago, getPagos } = require('../resources/DAOpago');
 const { getReportesFinancieros, getReporteFinanciero, crearReporteFinanciero, actualizarReporteFinanciero, eliminarReporteFinanciero } = require('../resources/DAOreporte_financiero');
-
 const nodemailer = require('nodemailer');
 require('dotenv').config();
 const app = express();
+
+const CLIENT = process.env.CLIENT_ID;
+const SECRET = process.env.CLIENT_SECRET;
+const PAYPAL_API = 'https://api-m.sandbox.paypal.com';
+const auth = { user: CLIENT, pass: SECRET };
 
 // Función para generar un código aleatorio
 function generarCodigo() {
@@ -421,18 +426,61 @@ app.get('/api/pago/:id', (req, res) => {
         });
 });
 
-// Ruta para crear un nuevo pago
-app.post('/api/pago', (req, res) => {
-    const nuevoPago = req.body;
-    crearPago(nuevoPago)
-        .then(({ pagoId, boletaId }) => {
-            res.status(201).json({ id: pagoId, message: 'Pago creado exitosamente' });
-        })
-        .catch(error => {
-            console.error('Error al crear el pago:', error);
-            res.status(500).send('Error al crear el pago en la base de datos');
-        });
-});
+//ENTREGAR BODY CON ATRIBUTO "costo" : precio_clp
+const createPayment = async (req, res) => {
+    const costo_compra_clp = req.body.costo; // Suponiendo que costo es el monto en CLP
+    if (!req.body.costo || typeof req.body.costo !== 'number') {
+        return res.status(400).json({ error: 'Se requiere un costo válido en la solicitud.' });
+    }
+    const url_dolar = "https://dolarapi.com/v1/dolares";
+    
+    // Obtener el valor del dólar desde la API
+    const response = await fetch(url_dolar);
+    const data = await response.json();
+    const valor_dolar = data[0].compra; // Suponiendo que data contiene el valor del dólar
+    // Convertir el costo de la compra a USD
+    const costo_compra_usd = (costo_compra_clp / valor_dolar).toFixed(2);
+    const body = {
+        intent: 'CAPTURE',
+        purchase_units: [{
+            amount: {
+                currency_code: 'USD', //https://developer.paypal.com/docs/api/reference/currency-codes/
+                value: costo_compra_usd
+            }
+        }],
+        application_context: {
+            brand_name: `Ferremas`,
+            landing_page: 'NO_PREFERENCE', // Default, para mas informacion https://developer.paypal.com/docs/api/orders/v2/#definition-order_application_context
+            user_action: 'PAY_NOW', // Accion para que en paypal muestre el monto del pago
+            return_url: `http://localhost:3001/api/ejecutar-pago`, // Url despues de realizar el pago
+            cancel_url: `http://localhost:3000/cancel-payment` // Url despues de realizar el pago
+        }
+    }
+    //https://api-m.sandbox.paypal.com/v2/checkout/orders [POST]
+
+    request.post(`${PAYPAL_API}/v2/checkout/orders`, {
+        auth,
+        body,
+        json: true
+    }, (err, response) => {
+        res.json({ data: response.body })
+    })
+}
+
+const executePayment = (req, res) => {
+    const token = req.query.token; //<-----------
+
+    request.post(`${PAYPAL_API}/v2/checkout/orders/${token}/capture`, {
+        auth,
+        body: {},
+        json: true
+    }, (err, response) => {
+        res.json({ data: response.body })
+    })
+}
+
+app.post('/api/crear-pago', createPayment);
+app.get('/api/ejecutar-pago', executePayment);
 
 // Ruta para actualizar un pago existente
 app.put('/api/pago/:id', (req, res) => {
@@ -678,6 +726,7 @@ function enviarCorreo(destinatario, codigo) {
         }
     });
 }
+
 
 const PORT = process.env.PORT || 3001;
 const server = app.listen(PORT, () => {
