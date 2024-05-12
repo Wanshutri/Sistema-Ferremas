@@ -26,8 +26,8 @@ const Productos = () => {
             </Typography>
           </CardContent>
           <CardActions>
-            <Button size="small">Share</Button>
-            <Button size="small">Learn More</Button>
+            <Button size="small">Agregar al carrito</Button>
+            <Button size="small">Ver detalles</Button>
           </CardActions>
         </Card>
         <Card sx={{ maxWidth: 345 }}>
@@ -42,8 +42,8 @@ const Productos = () => {
             </Typography>
           </CardContent>
           <CardActions>
-            <Button size="small">Share</Button>
-            <Button size="small">Learn More</Button>
+            <Button size="small">Agregar al carrito</Button>
+            <Button size="small">Ver detalles</Button>
           </CardActions>
         </Card>
         <Card sx={{ maxWidth: 345 }}>
@@ -58,8 +58,8 @@ const Productos = () => {
             </Typography>
           </CardContent>
           <CardActions>
-            <Button size="small">Share</Button>
-            <Button size="small">Learn More</Button>
+            <Button size="small">Agregar al carrito</Button>
+            <Button size="small">Ver detalles</Button>
           </CardActions>
         </Card>
         <Card sx={{ maxWidth: 345 }}>
@@ -74,8 +74,8 @@ const Productos = () => {
             </Typography>
           </CardContent>
           <CardActions>
-            <Button size="small">Share</Button>
-            <Button size="small">Learn More</Button>
+            <Button size="small">Agregar al carrito</Button>
+            <Button size="small">Ver detalles</Button>
           </CardActions>
         </Card>
         <Card sx={{ maxWidth: 345 }}>
@@ -90,8 +90,8 @@ const Productos = () => {
             </Typography>
           </CardContent>
           <CardActions>
-            <Button size="small">Share</Button>
-            <Button size="small">Learn More</Button>
+            <Button size="small">Agregar al carrito</Button>
+            <Button size="small">Ver detalles</Button>
           </CardActions>
         </Card>
         <Card sx={{ maxWidth: 345 }}>
@@ -106,8 +106,8 @@ const Productos = () => {
             </Typography>
           </CardContent>
           <CardActions>
-            <Button size="small">Share</Button>
-            <Button size="small">Learn More</Button>
+            <Button size="small">Agregar al carrito</Button>
+            <Button size="small">Ver detalles</Button>
           </CardActions>
         </Card>
         <Card sx={{ maxWidth: 345 }}>
@@ -122,8 +122,8 @@ const Productos = () => {
             </Typography>
           </CardContent>
           <CardActions>
-            <Button size="small">Share</Button>
-            <Button size="small">Learn More</Button>
+            <Button size="small">Agregar al carrito</Button>
+            <Button size="small">Ver detalles</Button>
           </CardActions>
         </Card>
         <Card sx={{ maxWidth: 345 }}>
@@ -138,8 +138,8 @@ const Productos = () => {
             </Typography>
           </CardContent>
           <CardActions>
-            <Button size="small">Share</Button>
-            <Button size="small">Learn More</Button>
+            <Button size="small">Agregar al carrito</Button>
+            <Button size="small">Ver detalles</Button>
           </CardActions>
         </Card>
       </div>

@@ -18,6 +18,9 @@ const MenuProps = {
 
 const names = [
   'Felipe andrade xupalo',
+  'Menor a Mayor',
+  'Mayor a menor',
+  'Recomendados',
  
 ];
 
@@ -64,7 +67,6 @@ export default function MultipleSelectPlaceholder() {
           inputProps={{ 'aria-label': 'Without label' }}
         >
           <MenuItem disabled value="">
-            <em>Recomendados</em>
           </MenuItem>
           {names.map((name) => (
             <MenuItem

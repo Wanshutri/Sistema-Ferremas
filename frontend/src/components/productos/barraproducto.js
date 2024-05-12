@@ -9,6 +9,7 @@ import InputBase from '@mui/material/InputBase';
 import MenuIcon from '@mui/icons-material/Menu';
 import SearchIcon from '@mui/icons-material/Search';
 import MultipleSelectPlaceholder from './selectproducto';
+import './barraproducto.css';
 
 const Search = styled('div')(({ theme }) => ({
   position: 'relative',
@@ -56,7 +57,7 @@ export default function SearchAppBar() {
   return (
     <Box sx={{ flexGrow: 1 }}>
       <AppBar position="static">
-        <Toolbar>
+        <Toolbar className='barratool'>
           <IconButton
             size="large"
             edge="start"
@@ -79,7 +80,7 @@ export default function SearchAppBar() {
               <SearchIcon />
             </SearchIconWrapper>
             <StyledInputBase
-              placeholder="Search…"
+              placeholder="Buscar"
               inputProps={{ 'aria-label': 'search' }}
             />
           </Search>
