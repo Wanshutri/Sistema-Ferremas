@@ -21,6 +21,7 @@ import ofertab from '../../assets/img/itembanner.png'
 import Responsiveproduct from '../../components/productos/productoscarrusel';
 
 
+
 const Home = () => {
     return (
         <ParallaxProvider>
