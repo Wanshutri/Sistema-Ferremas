@@ -1,31 +1,59 @@
 import React from "react";
+import {
+  MDBBtn,
+  MDBContainer,
+  MDBCard,
+  MDBCardBody,
+  MDBCardImage,
+  MDBRow,
+  MDBCol,
+  MDBIcon,
+  MDBInput
+}
+  from 'mdb-react-ui-kit';
+import logo from './../../assets/img/logo.png'
+import banner from './../../assets/img/Verticalbanner.jpg'
 
-const RecuperarContraseña = () => {
+function RestablecerContraseña() {
   return (
-    <div style={{ display: "flex", justifyContent: "center", alignItems: "center", height: "100vh" }}>
-      <div style={{ width: "400px" }}>
-        <div className="card">
-          <div className="card-body">
-            <div style={{ textAlign: "center", marginBottom: "20px" }}>
-              <img src="./../../img/forgot_password.png" alt="Forgot Password" style={{ width: "100px", height: "100px" }} />
-            </div>
-            <form>
-              <div className="form-group">
-                <label htmlFor="exampleInputEmail1">Correo electrónico</label>
-                <input type="email" className="form-control" id="exampleInputEmail1" aria-describedby="emailHelp" placeholder="Ingresa tu correo electrónico" />
-                <small id="emailHelp" className="form-text text-muted">Te enviaremos un enlace para restablecer tu contraseña.</small>
+    <MDBContainer className="my-5" >
+
+      <MDBCard >
+        <MDBRow className='g-0'>
+
+          <MDBCol md='4'>
+            <MDBCardImage src={banner} alt="login form" style={{ filter: 'brightness(80%) blur(0.5px)', height: '100%' }} className='rounded-start w-100' />
+          </MDBCol>
+
+          <MDBCol md='8'>
+            <MDBCardBody className='d-flex flex-column'>
+
+              <div className='d-flex flex-row mt-2'>
+                <MDBIcon fas icon="cubes fa-3x me-3" style={{ color: '#ff6219' }} />
+                <span className="h1 fw-bold mb-0"><img src={logo} style={{ width: '200px' }} /></span>
               </div>
-              <button type="submit" className="btn btn-primary btn-block">Enviar enlace de recuperación</button>
-            </form>
-            <hr />
-            <div style={{ textAlign: "center" }}>
-              <a href="/login">Volver al inicio de sesión</a>
-            </div>
-          </div>
-        </div>
-      </div>
-    </div>
+
+              <h5 className="fw-normal my-4 pb-3" style={{ letterSpacing: '1px' }}>Recuperar contraseña</h5>
+
+              <MDBInput wrapperClass='mb-4' label='Correo electrónico' id='formControlLg' type='email' size="lg" />
+
+              <MDBBtn className="mb-4 px-5" color='primary' size='lg'>Enviar</MDBBtn>
+              <p className="mb-8 pb-lg-2 text1" style={{ color: '#393f81', textAlign: 'center' }}>¿No tienes cuenta? <br></br>
+                <a href="#!" style={{ color: '#393f81' }}>Registrate aqui</a></p>
+
+              <div className='d-flex flex-row justify-content-end'>
+                <a href="#!" className="small text-muted me-1">Terminos de uso.</a>
+                <a href="#!" className="small text-muted">Privacy policy</a>
+              </div>
+
+            </MDBCardBody>
+          </MDBCol>
+
+        </MDBRow>
+      </MDBCard>
+
+    </MDBContainer>
   );
 }
 
-export default RecuperarContraseña;
+export default RestablecerContraseña;
