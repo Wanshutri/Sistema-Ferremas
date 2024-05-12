@@ -34,3 +34,11 @@ USE ferremasBD; <br>
 source C:\Users\DUOC\Desktop\Sistema-Ferremas\bd.sql <br>
 
 todos deberian darte la respuesta "OK", puedes cerrar la terminal ahora
+
+<h1>DATOS DE PRUEBA DE PAYPAL</h1>
+Como cliente:
+CORREO: sb-ce1sh30752015@personal.example.com
+CLAVE: htUBL1,>
+Como vendedor:
+CORREO: sb-oocce30744267@business.example.com
+CLAVE: 69Zqc3i_

@@ -5,7 +5,7 @@ const fs = require('fs');
 const path = require('path');
 const { getProductos, crearProducto, actualizarProducto, eliminarProducto, getProducto } = require('./../resources/DAOproductos');
 const { getUsuarios, crearUsuario, actualizarUsuario, eliminarUsuario, getUsuario } = require('./../resources/DAOusuarios');
-const { getBoletas, actualizarBoleta, getBoleta } = require('./../resources/DAOboletas');
+const { getBoletas, actualizarBoleta, getBoleta, crearBoleta } = require('./../resources/DAOboletas');
 const { getCarritoPorUsuario, agregarProductoAlCarrito, eliminarProductoDelCarrito } = require('./../resources/DAOcarrito');
 const { eliminarOrdenPedido, actualizarOrdenPedido, crearOrdenPedido, getOrdenPedido, getOrdenesPedido } = require('../resources/DAOorden_pedido');
 const { getReportesFinancieros, getReporteFinanciero, crearReporteFinanciero, actualizarReporteFinanciero, eliminarReporteFinanciero } = require('../resources/DAOreporte_financiero');
@@ -13,8 +13,8 @@ const nodemailer = require('nodemailer');
 require('dotenv').config();
 const app = express();
 
-const CLIENT = process.env.CLIENT_ID;
-const SECRET = process.env.CLIENT_SECRET;
+const CLIENT = 'AV7RbVPozcoaIgXrxjWQU5WWnGyMyZmMBfauJ16FdFEVU12RTDtFOxSNZzG2GdQUqx5wA6DMwkNR-UfZ';
+const SECRET = 'EOPG-J6D3rZmInvrRvQFuw1N9ZLhOGSEgvKToSaTKBdOltHeXdrsDPNDsui6uT9fyqAAKYpYLUX4p04o';
 const PAYPAL_API = 'https://api-m.sandbox.paypal.com';
 const auth = { user: CLIENT, pass: SECRET };
 
@@ -423,7 +423,7 @@ const createPayment = async (req, res) => {
             landing_page: 'NO_PREFERENCE', // Default, para mas informacion https://developer.paypal.com/docs/api/orders/v2/#definition-order_application_context
             user_action: 'PAY_NOW', // Accion para que en paypal muestre el monto del pago
             return_url: `http://localhost:3001/api/ejecutar-pago`, // Url despues de realizar el pago
-            cancel_url: `http://localhost:3000/cancel-payment` // Url despues de realizar el pago
+            cancel_url: `http://localhost:3000/cancelar-pago` // Url despues de realizar el pago
         }
     }
     //https://api-m.sandbox.paypal.com/v2/checkout/orders [POST]
@@ -445,7 +445,14 @@ const executePayment = (req, res) => {
         body: {},
         json: true
     }, (err, response) => {
-        res.json({ data: response.body })
+        boleta = {
+            //DATA
+        }
+        crearBoleta().catch( error => {
+            console.error("Error al crear boleta: " + error)
+        })
+
+        res.redirect('http://localhost:3000/pago-exitoso')
     })
 }
 
@@ -643,13 +650,13 @@ function enviarCorreo(destinatario, codigo) {
     const transporter = nodemailer.createTransport({
         service: 'gmail',
         auth: {
-            user: process.env.EMAIL_NAME, // Correo electrónico desde el cual se enviará el mensaje
-            pass: process.env.EMAIL_PASS // Contraseña del correo electrónico
+            user: 'valenzuelavivancofelipe@gmail.com', // Correo electrónico desde el cual se enviará el mensaje
+            pass: 'xplbrynyxyazzlsg' // Contraseña del correo electrónico
         }
     });
 
     const mailOptions = {
-        from: process.env.EMAIL_NAME, // Usar el correo electrónico configurado
+        from: 'valenzuelavivancofelipe@gmail.com', // Usar el correo electrónico configurado
         to: destinatario,
         subject: 'Recuperación de contraseña',
         text: `Tu código de recuperación es: ${codigo}. Este código es válido por 5 minutos.`
