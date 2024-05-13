@@ -1,0 +1,27 @@
+.cartareg {
+    animation: myAnim2 2s ease 0s 1 normal forwards;
+    background-color: rgba(255, 255, 255, 0) !important;
+    background: linear-gradient(#f8ba35 91%, #2951a0af 30%);
+}
+
+.contreg {
+    
+    background-image: url("./../../assets/img/ferreteriaproductos.jpg");
+    background-blend-mode: darken;
+    background-color: rgba(0, 0, 0, 0.293);
+}
+
+.titulo {
+    color: white;
+    font-weight: bold;
+}
+
+@keyframes myAnim2 {
+	0% {
+		box-shadow: 0 0 0 0 rgba(255, 174, 0, 0);
+	}
+
+	100% {
+		box-shadow: -22px -12px 20px -12px rgb(255, 174, 0);
+	}
+}
