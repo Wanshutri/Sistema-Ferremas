@@ -13,7 +13,7 @@ import logo from '../../img/logo.png';
 import { faUser } from '@fortawesome/free-solid-svg-icons';
 import { faRightFromBracket } from '@fortawesome/free-solid-svg-icons';
 import { faMessage } from '@fortawesome/free-solid-svg-icons';
-
+import { faBars } from '@fortawesome/free-solid-svg-icons';
 
 
 function Sidebar1({ onTabChange }) {
@@ -32,7 +32,7 @@ function Sidebar1({ onTabChange }) {
 
 
                 <Button variant="Primary" className='sidebarbutton' onClick={handleShow}>
-                    {show ? <FontAwesomeIcon icon={faToggleOn} beat size="xl" style={{color: "#2951a0",}} /> : <FontAwesomeIcon icon={faToggleOff} beat size="xl" style={{color: "#2951a0",}} />}
+                    {show ? <FontAwesomeIcon icon={faBars} beat size="xl" style={{color: "#2951a0",}} /> : <FontAwesomeIcon icon={faBars}  beat size="xl" style={{color: "#2951a0",}} />}
                 </Button>
 
 

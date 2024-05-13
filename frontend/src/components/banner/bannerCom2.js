@@ -2,9 +2,9 @@ import './banner2.css';
 import banner from './../../img/banner.png';
 
 
-const BannerCom2 = () => {
+const BannerCom2 = ({imagen}) => {
     return (
-        <><img className="banner" src={banner} alt="Banner"></img>
+        <><img className="bannercom" src={imagen} alt="Banner"></img>
           </>
     )
 }
