@@ -1,3 +1,17 @@
+.contlog {
+  background-image: url("./../../assets/img/ferreteriaproductos.jpg");
+  background-blend-mode: darken;
+  background-color: rgba(0, 0, 0, 0.293);
+  margin: 0;
+  padding: 0;
+  height: 100vh;
+  
+}
+
+.cartaslog {
+  
+}
+
 
 .gradient-custom-2 {
     
@@ -22,3 +36,18 @@
       border-bottom-right-radius: .3rem;
     }
   }
+
+  .cartaslog {
+    animation: myAnim2 2s ease 0s 1 normal forwards;
+    margin-top: 0 !important;
+}
+
+@keyframes myAnim2 {
+	0% {
+		box-shadow: 0 0 0 0 rgba(0, 0, 0, 0);
+	}
+
+	100% {
+		box-shadow: -22px -12px 20px -12px rgb(0, 0, 0);
+	}
+}
