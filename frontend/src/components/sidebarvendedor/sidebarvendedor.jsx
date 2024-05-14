@@ -8,10 +8,10 @@ import {
   BiTask,
   BiHelpCircle,
 } from "react-icons/bi";
-import styles from "./sidebaradmin.module.css";
+import styles from "./sidebarvendedor.module.css";
 import logo from "./../../assets/img/logo.png";
 
-const Sidebaradmin = ({ handleTabClick }) => {
+const Sidebarvendedor = ({ handleTabClick }) => {
 
   const handleClick = (tab, event) => {
     event.preventDefault();
@@ -30,13 +30,9 @@ const Sidebaradmin = ({ handleTabClick }) => {
           <BiHome className={styles.icon} />
           Dashboard
         </a>
-        <a href="" className={styles.item} onClick={(e) => handleClick("crudA", e)}>
+        <a href="" className={styles.item} onClick={(e) => handleClick("pedidosV", e)}>
           <BiTask className={styles.icon} />
-          Registro Empleados
-        </a>
-        <a href="" className={styles.item}>
-          <BiSolidReport className={styles.icon} />
-          Informe
+          Pedidos
         </a>
         <a href="" className={styles.item}>
           <BiMessage className={styles.icon} />
@@ -51,4 +47,4 @@ const Sidebaradmin = ({ handleTabClick }) => {
   );
 };
 
-export default Sidebaradmin;
+export default Sidebarvendedor;

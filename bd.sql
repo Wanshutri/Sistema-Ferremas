@@ -24,11 +24,7 @@ CREATE TABLE usuario(
     fechaNac DATE NOT NULL,
     celular INTEGER NOT NULL,
     direccion VARCHAR(60) NOT NULL,
-    administrador BOOLEAN NOT NULL,
-    contador BOOLEAN NOT NULL,
-    bodeguero BOOLEAN NOT NULL,
-    cliente BOOLEAN NOT NULL,
-    vendedor BOOLEAN NOT NULL
+    cargo VARCHAR(20) NOT NULL, 
 );
 
 CREATE TABLE informe_venta(
