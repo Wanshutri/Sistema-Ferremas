@@ -3,7 +3,7 @@ require('dotenv').config();
 
 // Configuración de la conexión a la base de datos
 const dbConfig = {
-    host: 'mysqldb_ferremas',
+    host: 'localhost' /* 'mysqldb_ferremas' */,
     port: 3306,
     user: 'root',
     password: 'SistemaFerremas2024',
