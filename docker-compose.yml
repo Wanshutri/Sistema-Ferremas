@@ -6,6 +6,8 @@ services:
       - MYSQL_DATABASE=ferremasBD
     ports:
       - 3306:3306
+    volumes:
+      - ./bd.sql:/docker-entrypoint-initdb.d/bd.sql
   node_ferremas:
     build: ./backend
     depends_on:

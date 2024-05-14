@@ -4,6 +4,7 @@ const request = require('request')
 const fs = require('fs');
 const path = require('path');
 const { getProductos, crearProducto, actualizarProducto, eliminarProducto, getProducto } = require('./../resources/DAOproductos');
+const { actualizarTipoProducto, crearTipoProducto, eliminarTipoProducto, getTipoProducto, getTiposProducto } = require('./../resources/DAOtipo_producto');
 const { getUsuarios, crearUsuario, actualizarUsuario, eliminarUsuario, getUsuario } = require('./../resources/DAOusuarios');
 const { getBoletas, actualizarBoleta, getBoleta, crearBoleta } = require('./../resources/DAOboletas');
 const { getCarritoPorUsuario, agregarProductoAlCarrito, eliminarProductoDelCarrito } = require('./../resources/DAOcarrito');
@@ -108,6 +109,85 @@ app.put('/api/productos/:id', (req, res) => {
 app.delete('/api/productos/:id', (req, res) => {
     const id = req.params.id;
     eliminarProducto(id)
+        .then(success => {
+            if (success) {
+                res.json({ message: 'Producto eliminado exitosamente' });
+            } else {
+                res.status(404).send('Producto no encontrado');
+            }
+        })
+        .catch(error => {
+            console.error('Error al eliminar producto:', error);
+            res.status(500).send('Error al eliminar producto en la base de datos');
+        });
+});
+
+//TIPO PRODUCTOS
+
+// Ruta para obtener todos los productos
+app.get('/api/tipo-productos', (req, res) => {
+    getTiposProducto()
+        .then(tipo_productos => {
+            res.json(tipo_productos);
+        })
+        .catch(error => {
+            console.error('Error al obtener productos:', error);
+            res.status(500).send('Error al obtener productos desde la base de datos');
+        });
+});
+
+// Ruta para obtener un producto por su ID
+app.get('/api/tipo-productos/:id', (req, res) => {
+    const id = req.params.id;
+    getTipoProducto(id)
+        .then(tipo_producto => {
+            if (producto) {
+                res.json(tipo_producto);
+            } else {
+                res.status(404).send('Producto no encontrado');
+            }
+        })
+        .catch(error => {
+            console.error('Error al obtener producto:', error);
+            res.status(500).send('Error al obtener producto desde la base de datos');
+        });
+});
+
+// Ruta para crear un nuevo producto
+app.post('/api/tipo-productos', (req, res) => {
+    const nuevoTipoProducto = req.body;
+    crearTipoProducto(nuevoTipoProducto)
+        .then(insertId => {
+            res.status(201).json({ id: insertId, message: 'Producto creado exitosamente' });
+        })
+        .catch(error => {
+            console.error('Error al crear producto:', error);
+            res.status(500).send('Error al crear producto en la base de datos');
+        });
+});
+
+// Ruta para actualizar un producto existente
+app.put('/api/tipo-productos/:id', (req, res) => {
+    const id = req.params.id;
+    const nuevoTipoProducto = req.body;
+    actualizarTipoProducto(id, nuevoTipoProducto)
+        .then(success => {
+            if (success) {
+                res.json({ message: 'Producto actualizado exitosamente' });
+            } else {
+                res.status(404).send('Producto no encontrado');
+            }
+        })
+        .catch(error => {
+            console.error('Error al actualizar producto:', error);
+            res.status(500).send('Error al actualizar producto en la base de datos');
+        });
+});
+
+// Ruta para eliminar un producto
+app.delete('/api/tipo-productos/:id', (req, res) => {
+    const id = req.params.id;
+    eliminarTipoProducto(id)
         .then(success => {
             if (success) {
                 res.json({ message: 'Producto eliminado exitosamente' });
