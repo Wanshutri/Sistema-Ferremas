@@ -37,4 +37,34 @@
   .table .text-muted {
     color: #6c757d;
   }
+  .counter {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    background-color: #20ad20;
+    border: 1px solid transparent;
+    border-radius: 0.25rem;
+    padding: 0.25rem 0.5rem;
+    cursor: pointer;
+  }
   
+  .counter button {
+    border: none;
+    background-color: transparent;
+    color: #fff;
+    font-size: 1rem;
+    padding: 0.25rem 0.5rem;
+    cursor: pointer;
+    transition: background-color 0.3s;
+  }
+  
+  .counter button:hover {
+    background-color: rgba(255, 255, 255, 0.1);
+  }
+  
+  .counter span {
+    color: #fff;
+    font-size: 1rem;
+    margin: 0 0.5rem;
+  }
+   
