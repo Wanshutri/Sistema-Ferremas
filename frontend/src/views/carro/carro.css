@@ -1,0 +1,40 @@
+.table {
+    width: 100%;
+    border-collapse: collapse;
+  }
+  
+  .table th,
+  .table td {
+    padding: 8px;
+    border-bottom: 1px solid #dee2e6;
+  }
+  
+  .table th {
+    text-align: left;
+  }
+  
+  .table tbody tr:hover {
+    background-color: rgba(0, 0, 0, 0.075);
+  }
+  
+  .table img {
+    width: 45px;
+    height: 45px;
+  }
+  
+  .table .badge {
+    font-size: 0.75rem;
+  }
+  
+  .table .fw-bold {
+    font-weight: 700;
+  }
+  
+  .table .fw-normal {
+    font-weight: 400;
+  }
+  
+  .table .text-muted {
+    color: #6c757d;
+  }
+  
