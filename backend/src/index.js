@@ -5,7 +5,7 @@ const fs = require('fs');
 const path = require('path');
 const { getProductos, crearProducto, actualizarProducto, eliminarProducto, getProducto } = require('./../resources/DAOproductos');
 const { actualizarTipoProducto, crearTipoProducto, eliminarTipoProducto, getTipoProducto, getTiposProducto } = require('./../resources/DAOtipo_producto');
-const { getUsuarios, crearUsuario, actualizarUsuario, eliminarUsuario, getUsuario } = require('./../resources/DAOusuarios');
+const { getUsuarios, crearUsuario, actualizarUsuario, eliminarUsuario, getUsuario, autenticarUsuario } = require('./../resources/DAOusuarios');
 const { getBoletas, actualizarBoleta, getBoleta, crearBoleta } = require('./../resources/DAOboletas');
 const { getCarritoPorUsuario, agregarProductoAlCarrito, eliminarProductoDelCarrito } = require('./../resources/DAOcarrito');
 const { eliminarOrdenPedido, actualizarOrdenPedido, crearOrdenPedido, getOrdenPedido, getOrdenesPedido } = require('../resources/DAOorden_pedido');
@@ -229,6 +229,24 @@ app.get('/api/usuarios/:id', (req, res) => {
         .catch(error => {
             console.error('Error al obtener usuario:', error);
             res.status(500).send('Error al obtener usuario desde la base de datos');
+        });
+});
+
+// Ruta para obtener un usuario por su ID
+app.post('/api/autenticar', (req, res) => {
+    const correo = req.body.correoUsuario;
+    const contrasenaUsuario = req.body.contrasenaUsuario;
+    autenticarUsuario(correo, contrasenaUsuario)
+        .then(usuario => {
+            if (usuario) {
+                res.json(usuario);
+            } else {
+                res.status(404).send('Usuario no encontrado');
+            }
+        })
+        .catch(error => {
+            console.error('Error al obtener usuario:', error);
+            res.status(500).send('Error al autenticar al usuario');
         });
 });
 
