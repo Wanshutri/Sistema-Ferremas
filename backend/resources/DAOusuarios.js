@@ -89,6 +89,12 @@ function validarUsuario(usuario) {
                     reject(new Error('El número de celular debe tener exactamente 9 dígitos'));
                     return;
                 }
+                
+                const usuarioExistenteTelefono = usuarios.find(u => u.celular === usuario.celular);
+                if (usuarioExistenteTelefono) {
+                    reject(new Error('El número de celular ya esta registrado'));
+                    return;
+                }
 
                 if (usuario.direccion.length < 10) {
                     reject(new Error('La dirección debe tener al menos 10 caracteres'));
