@@ -1,0 +1,70 @@
+.table {
+    width: 100%;
+    border-collapse: collapse;
+  }
+  
+  .table th,
+  .table td {
+    padding: 8px;
+    border-bottom: 1px solid #dee2e6;
+  }
+  
+  .table th {
+    text-align: left;
+  }
+  
+  .table tbody tr:hover {
+    background-color: rgba(0, 0, 0, 0.075);
+  }
+  
+  .table img {
+    width: 45px;
+    height: 45px;
+  }
+  
+  .table .badge {
+    font-size: 0.75rem;
+  }
+  
+  .table .fw-bold {
+    font-weight: 700;
+  }
+  
+  .table .fw-normal {
+    font-weight: 400;
+  }
+  
+  .table .text-muted {
+    color: #6c757d;
+  }
+  .counter {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    background-color: #20ad20;
+    border: 1px solid transparent;
+    border-radius: 0.25rem;
+    padding: 0.25rem 0.5rem;
+    cursor: pointer;
+  }
+  
+  .counter button {
+    border: none;
+    background-color: transparent;
+    color: #fff;
+    font-size: 1rem;
+    padding: 0.25rem 0.5rem;
+    cursor: pointer;
+    transition: background-color 0.3s;
+  }
+  
+  .counter button:hover {
+    background-color: rgba(255, 255, 255, 0.1);
+  }
+  
+  .counter span {
+    color: #fff;
+    font-size: 1rem;
+    margin: 0 0.5rem;
+  }
+   

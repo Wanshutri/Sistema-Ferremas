@@ -16,6 +16,7 @@ import Admindex from './views/administrador/admindex'
 import Ficha from './views/ficha/ficha';
 import Checkout from './views/checkout/Checkout';
 import Vendindex from './views/vendedor/vendindex';
+import Carro from './views/carro/carro';
 
 const root = ReactDOM.createRoot(document.getElementById('root'));
 root.render(
@@ -36,6 +37,7 @@ root.render(
         <Route path="recuperarContraseña" element={<RecuperarContraseña></RecuperarContraseña>} />
         <Route path="ayuda" element={<Ayuda></Ayuda>} />
         <Route path="admin" element={<Admindex></Admindex>} />
+        <Route path="carro" element={<Carro></Carro>} />
         <Route path="ficha" element={<Ficha></Ficha>} />
         <Route path="checkout" element={<Checkout></Checkout>} />
         <Route path="vendindex" element={<Vendindex></Vendindex>} />
