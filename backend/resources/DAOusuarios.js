@@ -51,64 +51,90 @@ function validarUsuario(usuario) {
     usuario.pApellido = usuario.pApellido.trim();
     usuario.sApellido = usuario.sApellido.trim();
     usuario.direccion = usuario.direccion.trim();
+
     return new Promise((resolve, reject) => {
-        // Verificar que el correo electrónico sea válido
-        if (!usuario.correoUsuario || !/\S+@\S+\.\S+/.test(usuario.correoUsuario)) {
-            reject(new Error('El correo electrónico no es válido'));
-            return;
-        }
+        getUsuarios()
+            .then(usuarios => {
+                const usuarioExistenteCorreo = usuarios.find(u => u.correoUsuario === usuario.correoUsuario);
+                if (usuarioExistenteCorreo) {
+                    reject(new Error('El correo electrónico ya está en uso'));
+                    return;
+                }
 
-        // Verificar que la contraseña tenga al menos 8 caracteres, incluyendo al menos un número, una letra minúscula y una letra mayúscula
-        if (!usuario.contrasenaUsuario || !/(?=.*\d)(?=.*[a-z])(?=.*[A-Z]).{8,}/.test(usuario.contrasenaUsuario)) {
-            reject(new Error('La contraseña no es segura'));
-            return;
-        }
+                const usuarioExistenteRut = usuarios.find(u => u.rutUsuario === usuario.rutUsuario);
+                if (usuarioExistenteRut) {
+                    reject(new Error('El RUT ya está en uso'));
+                    return;
+                }
 
-        if (!FnRut.validaRut(usuario.rutUsuario)) {
-            reject(new Error('El rut no es valido'));
-            return;
-        }
+                // Verificar que el correo electrónico sea válido
+                if (!usuario.correoUsuario || !/\S+@\S+\.\S+/.test(usuario.correoUsuario)) {
+                    reject(new Error('El correo electrónico no es válido'));
+                    return;
+                }
 
-        // Verificar que el número de celular tenga 9 caracteres
-        if (!usuario.celular || typeof usuario.celular !== 'number' || usuario.celular.toString().length !== 9) {
-            reject(new Error('El número de celular debe tener exactamente 9 dígitos'));
-            return;
-        }
+                // Verificar que la contraseña tenga al menos 8 caracteres, incluyendo al menos un número, una letra minúscula y una letra mayúscula
+                if (!usuario.contrasenaUsuario || !/(?=.*\d)(?=.*[a-z])(?=.*[A-Z]).{8,}/.test(usuario.contrasenaUsuario)) {
+                    reject(new Error('La contraseña no es segura'));
+                    return;
+                }
 
-        if (usuario.direccion.length < 10) {
-            reject(new Error('La dirección debe tener exactamente 10 caracteres'));
-            return;
-        }
+                if (!FnRut.validaRut(usuario.rutUsuario)) {
+                    reject(new Error('El RUT no es válido'));
+                    return;
+                }
 
-        // Verificar que el usuario tenga al menos 18 años
-        const fechaNacimiento = new Date(usuario.fechaNac);
-        const hoy = new Date();
-        var edad = hoy.getFullYear() - fechaNacimiento.getFullYear();
-        const mes = hoy.getMonth() - fechaNacimiento.getMonth();
-        if (mes < 0 || (mes === 0 && hoy.getDate() < fechaNacimiento.getDate())) {
-            edad--;
-        }
-        if (edad < 18) {
-            reject(new Error('El usuario debe tener al menos 18 años'));
-            return;
-        }
+                // Verificar que el número de celular tenga 9 caracteres
+                if (!usuario.celular.length == 9) {
+                    reject(new Error('El número de celular debe tener exactamente 9 dígitos'));
+                    return;
+                }
+                
+                const usuarioExistenteTelefono = usuarios.find(u => u.celular === usuario.celular);
+                if (usuarioExistenteTelefono) {
+                    reject(new Error('El número de celular ya esta registrado'));
+                    return;
+                }
 
-        // Verificar longitud de nombres y apellidos
-        if (usuario.pNombre.length < 2 || usuario.pApellido.length < 2 || usuario.sApellido.length < 2) {
-            reject(new Error('Los nombres y apellidos deben tener al menos 2 caracteres'));
-            return;
-        }
+                if (usuario.direccion.length < 10) {
+                    reject(new Error('La dirección debe tener al menos 10 caracteres'));
+                    return;
+                }
 
-        if (usuario.sNombre) { // Si hay segundo nombre
-            if (usuario.sNombre.length < 2) {
-                reject(new Error('El segundo nombre debe tener al menos 2 caracteres'));
-                return;
-            }
-        }
-        // Si todas las validaciones pasan, resuelve la promesa
-        resolve();
+                // Verificar que el usuario tenga al menos 18 años
+                const fechaNacimiento = new Date(usuario.fechaNac);
+                const hoy = new Date();
+                var edad = hoy.getFullYear() - fechaNacimiento.getFullYear();
+                const mes = hoy.getMonth() - fechaNacimiento.getMonth();
+                if (mes < 0 || (mes === 0 && hoy.getDate() < fechaNacimiento.getDate())) {
+                    edad--;
+                }
+                if (edad < 18) {
+                    reject(new Error('El usuario debe tener al menos 18 años'));
+                    return;
+                }
+
+                // Verificar longitud de nombres y apellidos
+                if (usuario.pNombre.length < 2 || usuario.pApellido.length < 2 || usuario.sApellido.length < 2) {
+                    reject(new Error('Los nombres y apellidos deben tener al menos 2 caracteres'));
+                    return;
+                }
+
+                if (usuario.sNombre) { // Si hay segundo nombre
+                    if (usuario.sNombre.length < 2) {
+                        reject(new Error('El segundo nombre debe tener al menos 2 caracteres'));
+                        return;
+                    }
+                }
+                // Si todas las validaciones pasan, resuelve la promesa
+                resolve();
+            })
+            .catch(error => {
+                reject(error);
+            });
     });
 }
+
 
 // Función para crear un nuevo Usuario
 function crearUsuario(usuario) {

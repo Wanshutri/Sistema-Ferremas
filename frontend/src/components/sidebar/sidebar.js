@@ -14,6 +14,7 @@ import { faUser } from '@fortawesome/free-solid-svg-icons';
 import { faRightFromBracket } from '@fortawesome/free-solid-svg-icons';
 import { faMessage } from '@fortawesome/free-solid-svg-icons';
 import { faBars } from '@fortawesome/free-solid-svg-icons';
+import {Link} from 'react-router-dom'
 
 
 function Sidebar1({ onTabChange }) {
@@ -73,9 +74,9 @@ function Sidebar1({ onTabChange }) {
                         <button className="btn btn-primary b2" type="submit"> <FontAwesomeIcon icon={faMagnifyingGlass} />Buscar</button>
                     </Form>
                 </Offcanvas.Body>
-                
-                    <Button className="btn btn-primary b2" href="#"><FontAwesomeIcon icon={faUser} className='iconleftmenu' />Iniciar sesión</Button>
-                    <Button className="btn btn-primary b2" href="#"><FontAwesomeIcon icon={faRightFromBracket} beat className='iconleftmenu' />Cerrar sesión</Button>
+                    <Link to={'/registro'}><Button className="btn btn-primary b2"><FontAwesomeIcon icon={faUser} className='iconleftmenu' />Registrar</Button></Link>
+                    <Link to={'/login'}><Button className="btn btn-primary b2"><FontAwesomeIcon icon={faUser} className='iconleftmenu' />Iniciar sesión</Button></Link>
+                    <Button className="btn btn-primary b2"><FontAwesomeIcon icon={faRightFromBracket} beat className='iconleftmenu' />Cerrar sesión</Button>
             </Offcanvas>
         </>
     );

@@ -18,32 +18,32 @@ import './registro.css'
 
 const Register = () => {
   const [usuario, setUsuario] = useState({
-    correoUsuario: "",
-    contrasenaUsuario: "",
-    rutUsuario: "",
-    pNombre: "",
-    sNombre: "",
-    pApellido: "",
-    sApellido: "",
-    fechaNac: "",
-    celular: "",
-    direccion: "",
-    administrador: false,
-    contador: false,
-    bodeguero: false,
-    cliente: true,
-    vendedor: false,
+    correoUsuario: '',
+    contrasenaUsuario: '',
+    rutUsuario: '',
+    pNombre: '',
+    sNombre: '',
+    pApellido: '',
+    sApellido: '',
+    fechaNac: '',
+    celular: null,
+    direccion: '',
+    cargo : 'Cliente'
   });
 
   const handleChange = (e) => {
     const { name, value } = e.target;
+    const newValue = name === 'celular' ? parseInt(value) : value; // Convertir a número si el campo es 'celular'
     setUsuario({
       ...usuario,
-      [name]: value,
+      [name]: newValue
     });
   };
+  
 
   const handleSubmit = (e) => {
+    console.log(usuario.celular)
+    console.log(typeof usuario.celular)
     e.preventDefault();
     axios
       .post("http://localhost:3001/api/usuarios", usuario)

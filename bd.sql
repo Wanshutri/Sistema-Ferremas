@@ -23,7 +23,7 @@ CREATE TABLE usuario(
     fechaNac DATE NOT NULL,
     celular INTEGER NOT NULL,
     direccion VARCHAR(60) NOT NULL,
-    cargo VARCHAR(20) NOT NULL 
+    cargo VARCHAR(20) NOT NULL
 );
 
 CREATE TABLE informe_venta(
