@@ -15,6 +15,7 @@ import Ayuda from './views/ayuda/ayuda'
 import Admindex from './views/administrador/admindex'
 import Ficha from './views/ficha/ficha';
 import Checkout from './views/checkout/Checkout';
+import DetalleProducto from './views/detalleProducto/detalleproducto';
 
 const root = ReactDOM.createRoot(document.getElementById('root'));
 root.render(
@@ -35,6 +36,8 @@ root.render(
         <Route path="admin" element={<Admindex></Admindex>} />
         <Route path="ficha" element={<Ficha></Ficha>} />
         <Route path="checkout" element={<Checkout></Checkout>} />
+        <Route path="detalleproducto" element={<DetalleProducto></DetalleProducto>} />
+
       </Route>
     </Routes>
   </BrowserRouter>
