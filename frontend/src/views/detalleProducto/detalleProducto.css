@@ -17,3 +17,48 @@
     padding-right: 10px;
     font-size: 40px;
 }
+
+
+
+.descripcion{
+    margin-left: 5px;
+    text-align: start;
+    justify-content: start;
+    display: flex;
+}
+
+
+.clasificacion{
+    display: inline-flex;
+    margin-left: 15px;
+}
+
+.calificaproducto{
+    text-decoration: underline;
+    margin-top: 2px;
+    margin-left: 10px;
+    font-size: medium;
+}
+
+.vendidopor{
+    margin-top: 10px;
+    margin-left: 20px;
+    text-align: start;
+    font-size: medium;
+}
+
+
+.precio{
+    margin-left: 20px;
+    text-align: start;
+}
+
+.botonagregarcarro{
+    align-items: center;
+    .btnagregar{
+        margin-left: 20px;
+        font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+        border-radius: 20px;
+    }
+}
+
