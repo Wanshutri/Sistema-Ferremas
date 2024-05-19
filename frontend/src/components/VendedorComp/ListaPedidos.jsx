@@ -35,9 +35,9 @@ const ListaPedidos = () => {
         <div className={s.listaHeader}>
             <h2>Pedidos</h2>
             <select>
-                <option value="gerente">Gerentes</option>
-                <option value="vendedor">Vendedores</option>
-                <option value="bodeguero">Bodegueros</option>
+                <option value="Recientes">Recientes</option>
+                <option value="Completos">Completos</option>
+                <option value="EnEspera">En Espera</option>
             </select>
         </div>
         <div className={s.listaContainer}>
