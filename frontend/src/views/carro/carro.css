@@ -67,4 +67,19 @@
     font-size: 1rem;
     margin: 0 0.5rem;
   }
-   
+
+  .contlog {
+    background-image: url("./../../assets/img/ferreteriaproductos.jpg");
+    background-blend-mode: darken;
+    background-color: rgba(0, 0, 0, 0.293);
+    margin: 0;
+    padding: 0;
+    height: 100vh;
+  }
+  
+  .button-container {
+    position: fixed;
+    bottom: 20px;
+    right: 20px;
+    z-index: 1000;
+  }
