@@ -10,6 +10,7 @@ import {
   MDBIcon,
   MDBInput,
 } from "mdb-react-ui-kit";
+import Button from "react-bootstrap/esm/Button";
 import logo from "./../../assets/img/logo.png";
 import banner from "./../../assets/img/Verticalbanner.jpg";
 import { Link } from "react-router-dom";
@@ -88,61 +89,11 @@ function Login() {
                     style={{ color: "#ff6219" }}
                   />
                   <span className="h1 fw-bold mb-0">
-                    <img src={logo} style={{ width: "200px" }} />
-                  </span>
-                </div>
-
-                <h5
-                  className="fw-normal my-4 pb-3"
-                  style={{ letterSpacing: "1px" }}
-                >
-                  Ingresa a tu cuenta
-                </h5>
-
-                <MDBInput
-                  wrapperClass="mb-4"
-                  label="Correo electrónico"
-                  id="formControlLg"
-                  type="email"
-                  size="lg"
-                />
-                <MDBInput
-                  wrapperClass="mb-4"
-                  label="Contraseña"
-                  id="formControlLg"
-                  type="password"
-                  size="lg"
-                />
-                <div className="d-flex flex-row mt-2">
-                  <MDBIcon
-                    fas
-                    icon="cubes fa-3x me-3"
-                    style={{ color: "#ff6219" }}
-                  />
-                  <span className="h1 fw-bold mb-0">
                     <img src={logo} style={{ width: "200px" }} alt="logo" />
                   </span>
                 </div>
 
-                <MDBBtn className="mb-4 px-5" color="primary" size="lg">
-                  Login
-                </MDBBtn>
-                <a
-                  className="small text-muted text1"
-                  style={{ textAlign: "center" }}
-                  href="#!"
-                >
-                  ¿Olvidaste tu contraseña?
-                </a>
-                <p
-                  className="mb-8 pb-lg-2 text1"
-                  style={{ color: "#393f81", textAlign: "center" }}
-                >
-                  ¿No tienes cuenta? <br></br>
-                  <a href="#!" style={{ color: "#393f81" }}>
-                    Registrate aqui
-                  </a>
-                </p>
+
 
                 <MDBInput
                   wrapperClass="mb-4"
@@ -163,14 +114,14 @@ function Login() {
 
                 {error && <p className="text-danger">{error}</p>}
 
-                <button
+                <Button
                   className="mb-4 px-5"
                   color="primary"
                   onClick={accederLogin}
                   size="lg"
                 >
                   Login
-                </button>
+                </Button>
                 <Link to={"recuperar"}>
                   <a
                     className="small text-muted text1"
