@@ -59,7 +59,7 @@ function Perfil() {
       </nav>
     </div>
     {/*NAVBAR*/}
-    <div className="container">
+    <div className="container containers">
       <div className="half-box">
         <Form noValidate validated={validated} onSubmit={handleSubmit}>
           <Row className="mb-3">
