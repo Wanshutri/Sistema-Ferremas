@@ -12,6 +12,7 @@ const { eliminarOrdenPedido, actualizarOrdenPedido, crearOrdenPedido, getOrdenPe
 const { getReportesFinancieros, getReporteFinanciero, crearReporteFinanciero, actualizarReporteFinanciero, eliminarReporteFinanciero } = require('../resources/DAOreporte_financiero');
 const nodemailer = require('nodemailer');
 const app = express();
+const uploader = require('../resources/uploads')
 
 const CLIENT = 'AV7RbVPozcoaIgXrxjWQU5WWnGyMyZmMBfauJ16FdFEVU12RTDtFOxSNZzG2GdQUqx5wA6DMwkNR-UfZ';
 const SECRET = 'EOPG-J6D3rZmInvrRvQFuw1N9ZLhOGSEgvKToSaTKBdOltHeXdrsDPNDsui6uT9fyqAAKYpYLUX4p04o';
@@ -27,6 +28,7 @@ app.use(cors());
 app.use(express.json()); // Middleware para analizar el cuerpo de las solicitudes JSON
 // Configuración para servir archivos estáticos desde el directorio 'public'
 app.use(express.static(path.join(__dirname, '..', 'public')));
+app.use(express.static(path.join(__dirname, '..', 'uploads')));
 
 // Ruta para la página de documentación
 app.get('/', (req, res) => {
@@ -40,6 +42,100 @@ app.get('/', (req, res) => {
         // Envía la respuesta con el contenido HTML del archivo de documentación
         res.send(data);
     });
+});
+
+// Ruta para subir un depósito
+app.post('/api/deposito/:idUsuario', (req, res) => {
+    // Validar que se haya enviado un ID de usuario
+    if (!req.params.idUsuario) {
+        return res.status(400).send({ message: 'Falta el ID del usuario' });
+    }
+
+   const idUsuario = req.params.idUsuario
+
+    uploader.upload(req, res, (err) => {
+        if (err) {
+            if (err.code === 'INVALID_FILE_TYPE') {
+                return res.status(400).send({ message: err.message });
+            }
+            return res.status(500).send({ message: 'Error al subir la imagen' });
+        }
+
+        if (!req.file) {
+            return res.status(400).send({ message: 'No se subió ninguna imagen' });
+        }
+
+        deposito = {
+            "idUsuario" : idUsuario,
+            "urlComprobante" : req.file.filename,
+            "estadoDeposito" : 'P'
+        }
+
+        uploader.crearDeposito(deposito).then(() => {
+            res.send("Comprobande subido y creado con exito")
+        }).catch((error) => {
+            res.send("Ocurrio un error al subir o crear comprobante: " + error)
+        })
+    });
+});
+
+// Ruta para eliminar un depósito
+app.delete('/api/deposito/:id', (req, res) => {
+    const id = req.params.id;
+    uploader.getDeposito(id).then(deposito => {
+        if (!deposito) {
+            return res.status(404).send({ message: 'Depósito no encontrado' });
+        }
+        const filePath = path.join(__dirname, '../uploads', deposito[0].urlComprobante);
+        uploader.eliminarDeposito(id).then( () => {
+            fs.unlink(filePath, (err) => {
+                if (err) {
+                    return res.status(500).send({ message: 'Error al eliminar el archivo del sistema de archivos' });
+                }
+                res.send({ message: 'Depósito eliminado correctamente' });
+            });
+        })
+    }).catch(err => {
+        return res.send("Error durante eliminar comprobante: " + err)
+    })
+});
+
+// Ruta para obtener todos los depósitos
+app.get('/api/depositos', (req, res) => {
+    const id = req.params.id;
+    uploader.getDepositos()
+        .then(depositos => {
+        if (depositos) 
+            res.json(depositos)
+        }).catch(error => {
+            res.status(500).send('Error al obtener depositos del usuario desde la base de datos');
+        })
+});
+
+
+
+// Ruta para obtener los depósitos de un usuario específico
+app.get('/api/deposito-usuario/:id', (req, res) => {
+    const id = req.params.id;
+    uploader.getDepositosUsuario(id)
+        .then(depositos => {
+        if (depositos) 
+            res.json(depositos)
+        }).catch(error => {
+            res.status(500).send('Error al obtener depositos del usuario desde la base de datos');
+        })
+});
+
+// Ruta para obtener un depósito específico
+app.get('/api/deposito/:id', (req, res) => {
+    const id = req.params.id;
+    uploader.getDeposito(id)
+        .then(deposito => {
+        if (deposito) 
+            res.json(deposito)
+        }).catch(error => {
+            res.status(500).send('Error al obtener deposito desde la base de datos');
+        })
 });
 
 //PRODUCTOS

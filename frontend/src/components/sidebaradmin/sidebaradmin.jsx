@@ -9,9 +9,15 @@ import {
   BiHelpCircle,
 } from "react-icons/bi";
 import styles from "./sidebaradmin.module.css";
-import logo from './../../assets/img/logo.png'
+import logo from "./../../assets/img/logo.png";
 
-const Sidebaradmin = () => {
+const Sidebaradmin = ({ handleTabClick }) => {
+
+  const handleClick = (tab, event) => {
+    event.preventDefault();
+    handleTabClick(tab);
+  };
+
   return (
     <div className={styles.menu}>
       <div className={styles.logo}>
@@ -20,29 +26,25 @@ const Sidebaradmin = () => {
       </div>
 
       <div className={styles.menulist}>
-        <a href="" className={`${styles.item} active`}>
+        <a href="" className={`${styles.item} active`} onClick={(e) => handleClick("dashboard", e)}>
           <BiHome className={styles.icon} />
           Dashboard
         </a>
-        <a href="" className={styles.item}>
+        <a href="" className={styles.item} onClick={(e) => handleClick("crudA", e)}>
           <BiTask className={styles.icon} />
-          Cosa 2
+          Registro Empleados
         </a>
-        <a href="" className={styles.item}>
+        <a href="" className={styles.item} onClick={(e) => handleClick("informe", e)}>
           <BiSolidReport className={styles.icon} />
-          Cosa 3
-        </a>
-        <a href="" className={styles.item}>
-          <BiStats className={styles.icon} />
-          Cosa 4
+          Informe
         </a>
         <a href="" className={styles.item}>
           <BiMessage className={styles.icon} />
-          Cosa 5
+          Mensajes
         </a>
         <a href="" className={styles.item}>
           <BiHelpCircle className={styles.icon} />
-          Cosa 6
+          Ayuda
         </a>
       </div>
     </div>

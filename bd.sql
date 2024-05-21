@@ -7,6 +7,7 @@ DROP TABLE IF EXISTS informe_venta;
 DROP TABLE IF EXISTS reporte_financiero;
 DROP TABLE IF EXISTS producto;
 DROP TABLE IF EXISTS tipo_producto;
+DROP TABLE IF EXISTS deposito;
 DROP TABLE IF EXISTS usuario;
 
 -- Creacion de la base de datos
@@ -89,4 +90,12 @@ CREATE TABLE ordenPedido(
     idBoleta INTEGER NOT NULL,
     FOREIGN KEY (idUsuario) REFERENCES usuario(idUsuario),
     FOREIGN KEY (idBoleta) REFERENCES boleta(idBoleta)
+);
+
+CREATE TABLE deposito(
+    idDeposito INTEGER AUTO_INCREMENT NOT NULL PRIMARY KEY,
+    idUsuario INTEGER NOT NULL,
+    urlComprobante VARCHAR(100) NOT NULL,
+    estadoDeposito VARCHAR(1) NOT NULL, #P (Pendiente), A (Aceptado), R (Rechazado)
+    FOREIGN KEY (idUsuario) REFERENCES usuario(idUsuario)
 );

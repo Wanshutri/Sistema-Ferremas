@@ -2,8 +2,8 @@ const mysql = require('mysql2');
 
 // Configuración de la conexión a la base de datos
 const dbConfig = {
-    host: 'mysqldb_ferremas',
-    //host: 'localhost',
+    //host: 'mysqldb_ferremas', DEJAR ESTE AL MOMENTO DE DEJAR EN PRODUCCION (OSEA PRESENTACION Y CON DOCKER)
+    host: 'localhost', // ESTE ES SOLO PARA DESARROLLO
     port: 3306,
     user: 'root',
     password: 'SistemaFerremas2024',
