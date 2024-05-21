@@ -19,6 +19,8 @@ import { faBox } from "@fortawesome/free-solid-svg-icons";
 import { faTruckMoving } from "@fortawesome/free-solid-svg-icons";
 import { faCubesStacked } from "@fortawesome/free-solid-svg-icons";
 import Button from "@mui/material/Button";
+import { faRotateLeft } from "@fortawesome/free-solid-svg-icons";
+import Carousel3 from "../../components/carousel/carousel3";
 
 function ButtonSizes() {
   return (
@@ -116,7 +118,9 @@ const DetalleProducto = () => {
                     <div class="col-sm-6 mb-3 mb-sm-0 mt-4">
                       <div class="card">
                         <div class="card-body">
-                          <Imagenesproductos />
+                          <div className="cardimagenes">
+                          <Carousel3 />
+                          </div>
 
                           <div class="form">
                             <label for="floatingTextarea2">
@@ -126,6 +130,17 @@ const DetalleProducto = () => {
                                 className="iconoayuda1"
                               />
                               ¿Necesitas ayuda? Llámanos al 6000880070
+                            </label>
+                          </div>
+                          <div className="label2">
+                            <label>
+                            <FontAwesomeIcon 
+                            icon={faRotateLeft}
+                            size="lg"
+                            className="iconoayuda2" />
+                              Devuelve gratis por Derecho a retracto o
+                              Satisfacción garantizada. Conoce los plazos y
+                              exclusiones
                             </label>
                           </div>
                         </div>
@@ -144,7 +159,7 @@ const DetalleProducto = () => {
                           </p>
                         </div>
                         <div className="clasificacion">
-                          <HalfRating /> 
+                          <HalfRating />
                           <div className="calificaproducto">
                             Califica este producto
                           </div>

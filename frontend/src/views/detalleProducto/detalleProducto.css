@@ -13,11 +13,18 @@
 }
 
 .iconoayuda1{
+    margin-top: 20px;
     margin-left: 20px;
     padding-right: 10px;
     font-size: 40px;
 }
 
+.iconoayuda2{
+    margin-top: 20px;
+    margin-left: 20px;
+    padding-right: 10px;
+    font-size: 40px;
+}
 
 
 .descripcion{
@@ -62,3 +69,15 @@
     }
 }
 
+
+
+.label2{
+    text-align: start;
+    justify-content: center;
+       
+
+}
+
+.cardimagenes{
+    width: ;
+}
