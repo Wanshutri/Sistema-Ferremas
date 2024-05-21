@@ -20,6 +20,7 @@ import Typography from "@mui/material/Typography";
 import IconButton from "@mui/material/IconButton";
 import MenuIcon from "@mui/icons-material/Menu";
 import { FaOpencart } from "react-icons/fa";
+import BasicBreadcrumbs from "../../components/productos/breadcrums";
 
 function Carro() {
   return (
@@ -47,6 +48,9 @@ function Carro() {
                   <FaOpencart />| Carro de compras
                 </Typography>
               </Toolbar>
+              <div className="basicdivbread">
+                <BasicBreadcrumbs />
+              </div>
             </AppBar>
             <table className="table align-middle mb-0 bg-white">
               <thead className="bg-light">

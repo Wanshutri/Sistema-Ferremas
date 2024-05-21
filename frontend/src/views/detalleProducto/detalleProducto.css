@@ -12,6 +12,8 @@
     background-color: white;
 }
 
+
+
 .iconoayuda1{
     margin-top: 20px;
     margin-left: 20px;
@@ -56,13 +58,17 @@
 
 
 .precio{
+    margin-top: 30px;
     margin-left: 20px;
     text-align: start;
 }
 
 .botonagregarcarro{
+    
+    margin-top: 20px;
     align-items: center;
     .btnagregar{
+        background-color: #2951a0;
         margin-left: 20px;
         font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
         border-radius: 20px;
@@ -78,6 +84,55 @@
 
 }
 
-.cardimagenes{
-    width: ;
+
+
+.detalleMain {
+    background-image: url("./../../assets/img/inicioferreteria.jpg");
+    background-blend-mode: darken;
+    background-repeat: no-repeat;
+    background-size: cover;
+    background-color: rgba(0, 0, 0, 0.293);
 }
+
+.cartasdet {
+    animation: myAnim4 2s ease 0s 1 normal forwards;
+}
+
+@keyframes myAnim4 {
+	0% {
+		box-shadow: 0 0 0 0 rgba(0, 0, 0, 0);
+	}
+
+	100% {
+		box-shadow: -12px -12px 10px -12px rgb(0, 0, 0);
+	}
+}
+
+.cartasdet2 {
+    animation: myAnim4 2s ease 0s 1 normal forwards;
+}
+.contadorbtn{
+    margin-top: 20px;
+    font-size: large;
+    margin-left: 40px;
+    text-align: start;
+}
+
+.botonresta{
+    background-color: #2951a0;
+    border-radius: 20px;
+    color: white;
+    margin-right: 10px;
+    width: 30px;
+    height: 40px;
+}
+
+.botonsuma{
+    border-radius: 20px;
+    background-color: #2951a0;
+    color: white;
+    margin-left: 10px;
+    width: 30px;
+    height: 40px;
+}
+

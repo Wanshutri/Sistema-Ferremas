@@ -6,6 +6,7 @@ import CrudC from "../../components/ContadorComp/CrudC";
 import Sidebarcontador from "../../components/sidebarcontador/sidebarcontador";
 import tablaPago from "../../components/tablaPago/tablaPago";
 import { DataGrid } from "@mui/x-data-grid";
+import Informe from "../../components/AdminComp/Informe";
 
 const columns = [
   { field: "id", headerName: "ID", width: 70 },
@@ -72,7 +73,7 @@ const Containdex = () => {
               </div>{" "}
             </tablaPago>
           )}
-          {activeTab === "informe" && <CrudC />}
+          {activeTab === "informe" && <Informe />}
           <Profile />
         </div>
       </div>
