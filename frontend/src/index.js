@@ -19,6 +19,7 @@ import Vendindex from './views/vendedor/vendindex';
 import Bodeindex from './views/bodeguero/bodeindex';
 import Containdex from './views/contador/containdex';
 import Carro from './views/carro/carro';
+import DetalleProducto from './views/detalleProducto/detalleproducto';
 
 const root = ReactDOM.createRoot(document.getElementById('root'));
 root.render(
@@ -45,6 +46,8 @@ root.render(
         <Route path="vendindex" element={<Vendindex></Vendindex>} />
         <Route path="bodeindex" element={<Bodeindex></Bodeindex>} />
         <Route path="contindex" element={<Containdex></Containdex>} />
+        <Route path="detalleproducto" element={<DetalleProducto></DetalleProducto>} />
+
       </Route>
     </Routes>
   </BrowserRouter>
