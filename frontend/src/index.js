@@ -14,6 +14,7 @@ import Sobrenosotros from './views/sobrenosotros/sobrenosotros';
 import Ayuda from './views/ayuda/ayuda';
 import Ficha from './views/ficha/ficha';
 import Carro from './views/carro/carro';
+import Perfil from './views/perfil/perfil'
 
 const root = ReactDOM.createRoot(document.getElementById('root'));
 root.render(
@@ -33,6 +34,7 @@ root.render(
         <Route path="ayuda" element={<Ayuda></Ayuda>} />
         <Route path="carro" element={<Carro></Carro>} />
         <Route path="ficha" element={<Ficha></Ficha>} />
+        <Route path="perfil" element={<Perfil></Perfil>} />
       </Route>
     </Routes>
   </BrowserRouter>
