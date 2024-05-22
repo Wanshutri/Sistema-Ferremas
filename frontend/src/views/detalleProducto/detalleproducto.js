@@ -106,13 +106,14 @@ const DetalleProducto = () => {
             <main>
               <Parallax
                 easing="easeInQuad"
-                speed={-2}
+                speed={-3}
                 style={{
-                  aspectRatio: "4 / 1",
+                  aspectRatio: "2 / 1",
                   backgroundSize: "cover",
                   backgroundRepeat: "no-repeat",
-                  backgroundBlendMode: "darken",
-                  backgroundColor: "rgba(0, 0, 0, 0.3)",
+                  backgroundBlendMode: "darken",  
+                  backgroundColor: "rgba(120, 120, 120, 0.9)",
+                  background: "linear-gradient( rgba(255, 255, 255, 0.5) , rgba(70, 70, 70, 1))",
                 }}
               >
                 <div className="container-fluid">
@@ -184,6 +185,7 @@ const DetalleProducto = () => {
                     </div>
                   </div>
                 </div>
+                <br></br>
               </Parallax>
             </main>
             <footer>
