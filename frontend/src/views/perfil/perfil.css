@@ -1,96 +1,14 @@
-.container {
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  height: 100vh;
-  gap: 3rem;
-  background-color: #ffff;
-}
-
-.half-box {
-  border: 2px solid #ccc;
-  padding: 20px;
-  width: 50%;
-
-}
 .boletin{
-  border: 2px solid #ccc;
-  padding: 20px;
-  width: 50%;
-  height: 36.9%;
+  display: flex;
+  gap: 10rem;
 }
-.navbar{
-  
 
-  .navbar {
-    background-color: #f8f9fa;
-  }
-  
-  .navbar-brand {
-    font-weight: bold; 
-  }
-  
-  .navbar-toggler {
-    border: none;
-  }
-  
-  
-  .collapse.navbar-collapse {
-    justify-content: space-between; 
-  }
-  
-  .navbar-nav .nav-link {
-    color: rgba(0, 0, 0, 0.5);
-  }
-  
-  .navbar-nav .nav-link.active {
-    color: #000;
-  }
-  
-  .navbar-nav .nav-link.disabled {
-    color: rgba(0, 0, 0, 0.3);
-  }
-  
-  .dropdown-menu {
-    border: 1px solid rgba(0, 0, 0, 0.15);
-  }
-  
-  .dropdown-item {
-    color: #000; 
-  }
-  
-  .dropdown-item:hover,
-  .dropdown-item:focus {
-    color: #fff;
-    background-color: #007bff;
-  }
-  
-  .dropdown-divider {
-    height: 1px;
-    margin: 0.5rem 0;
-    overflow: hidden;
-    background-color: #e9ecef;
-  }
-  
-  .form-control {
-    width: auto;
-    margin-right: 0.5rem;
-  }
-  
-  .btn-outline-success {
-    color: #28a745;
-    border-color: #28a745;
-  }
-  
-  .btn-outline-success:hover {
-    color: #fff;
-    background-color: #28a745;
-    border-color: #28a745;
-  }
-  
+.list-group-item {
+  transition: background-color 0.5s ease; 
 }
-.todo{
-  background-color: #ffff;
-  background: #ffff;
+
+.list-group-item:hover {
+  background-color: rgb(51, 219, 0); 
+  color: #ffff;
 }
 
