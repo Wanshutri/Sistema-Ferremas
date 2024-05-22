@@ -13,6 +13,7 @@ const { getReportesFinancieros, getReporteFinanciero, crearReporteFinanciero, ac
 const nodemailer = require('nodemailer');
 const app = express();
 const uploader = require('../resources/uploads')
+const jwt = require('jsonwebtoken');
 
 const CLIENT = 'AV7RbVPozcoaIgXrxjWQU5WWnGyMyZmMBfauJ16FdFEVU12RTDtFOxSNZzG2GdQUqx5wA6DMwkNR-UfZ';
 const SECRET = 'EOPG-J6D3rZmInvrRvQFuw1N9ZLhOGSEgvKToSaTKBdOltHeXdrsDPNDsui6uT9fyqAAKYpYLUX4p04o';
@@ -327,20 +328,30 @@ app.get('/api/usuarios/:id', (req, res) => {
         });
 });
 
-// Ruta para obtener un usuario por su ID
+// Ruta para autenticar al usuario
 app.post('/api/autenticar', (req, res) => {
     const correo = req.body.correoUsuario;
     const contrasenaUsuario = req.body.contrasenaUsuario;
+
     autenticarUsuario(correo, contrasenaUsuario)
         .then(usuario => {
             if (usuario) {
-                res.json(usuario);
+                // Generar token JWT
+                const token = jwt.sign({ id: usuario.idUsuario }, 'SistemaFerremasTokensDeMierdaAhoraEsPersonal2', {
+                    expiresIn: '100y' // El token expira en 100 años jajaj lol
+                });
+                // Crear un objeto que contenga tanto el token como los datos del usuario
+                const responseData = {
+                    token: token,
+                    usuario: usuario
+                };
+                // Enviar la respuesta con el objeto que contiene el token y los datos del usuario
+                res.json(responseData);
             } else {
                 res.status(404).send('Usuario no encontrado');
             }
         })
         .catch(error => {
-            console.error('Error al obtener usuario:', error);
             res.status(500).send('Error al autenticar al usuario');
         });
 });

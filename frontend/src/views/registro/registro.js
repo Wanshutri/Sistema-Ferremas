@@ -1,6 +1,6 @@
-import React, { useState } from "react";
+import React, { useState, useContext } from "react";
 import axios from "axios";
-import logo from './../../assets/img/logo.png'
+import logo from './../../assets/img/logo.png';
 import {
   MDBBtn,
   MDBContainer,
@@ -13,10 +13,11 @@ import {
   MDBRadio,
   MDBSelect,
 } from "mdb-react-ui-kit";
-import './registro.css'
-
+import './registro.css';
+import { AuthContext } from './../../js/AuthContext';
 
 const Register = () => {
+  const { login, authState } = useContext(AuthContext); // Usa el contexto de autenticación
   const [usuario, setUsuario] = useState({
     correoUsuario: '',
     contrasenaUsuario: '',
@@ -30,7 +31,7 @@ const Register = () => {
     direccion: '',
     cargo : 'Cliente'
   });
-
+  
   const handleChange = (e) => {
     const { name, value } = e.target;
     const newValue = name === 'celular' ? parseInt(value) : value; // Convertir a número si el campo es 'celular'
@@ -41,20 +42,20 @@ const Register = () => {
   };
   
 
-  const handleSubmit = (e) => {
-    console.log(usuario.celular)
-    console.log(typeof usuario.celular)
+  const handleSubmit = async (e) => {
     e.preventDefault();
-    axios
-      .post("http://localhost:3001/api/usuarios", usuario)
-      .then((response) => {
-        console.log("Usuario creado:", response.data);
-        // Aquí podrías redirigir a otra página, mostrar un mensaje de éxito, etc.
-      })
-      .catch((error) => {
-        console.error("Error al crear usuario:", error);
-      });
+    try {
+      await axios.post("http://node_ferremas:3001/api/usuarios", usuario);
+      await login(usuario.correoUsuario, usuario.contrasenaUsuario); // Si el usuario se crea, lo loguea
+    } catch (error) {
+      console.error("Error al crear usuario:", error);
+    }
   };
+
+  // Redirigir al usuario si está autenticado
+  if (authState.isAuthenticated) {
+    window.location.href = "http://localhost:3000/";
+  }
 
   return (
     <div
@@ -70,7 +71,7 @@ const Register = () => {
         <div className="card cartareg">
           <div className="card-body">
             <div>
-              <img src={logo} style={{ width: "30vh" }}></img>
+              <img src={logo} style={{ width: "30vh" }} alt="Logo" />
             </div>
             <div className="titulo" style={{ textAlign: "center", marginBottom: "20px" }}>
               <h2>Registro</h2>

@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useState, useContext } from "react";
 import {
   MDBBtn,
   MDBContainer,
@@ -14,17 +14,18 @@ import Button from "react-bootstrap/esm/Button";
 import logo from "./../../assets/img/logo.png";
 import banner from "./../../assets/img/Verticalbanner.jpg";
 import { Link } from "react-router-dom";
+import { AuthContext } from './../../js/AuthContext'; // Importa el contexto de autenticación
 import "./login.css";
 
 function Login() {
-  // Definir el estado para el correo y la contraseña
   const [correo, setCorreo] = useState("");
   const [contrasena, setContrasena] = useState("");
   const [error, setError] = useState("");
-  const [loggedIn, setLoggedIn] = useState(false);
+  const { login, authState } = useContext(AuthContext); // Usa el contexto de autenticación
 
-  function accederLogin() {
+  const accederLogin = async () => {
     if (correo.trim() === "" || contrasena.trim() === "") {
+      console.log(authState.usuario)
       setError("Por favor, completa todos los campos.");
       return;
     }
@@ -34,37 +35,20 @@ function Login() {
       contrasenaUsuario: contrasena,
     };
 
-    fetch("http://localhost:3001/api/autenticar", {
-      method: "POST",
-      headers: {
-        "Content-Type": "application/json",
-      },
-      body: JSON.stringify(datos),
-    })
-      .then((response) => {
-        if (!response.ok) {
-          throw new Error("Credenciales incorrectas");
-        }
-        return response.json();
-      })
-      .then((usuario) => {
-        // Si la autenticación es exitosa, establecer loggedIn en true
-        setLoggedIn(true);
-      })
-      .catch((error) => {
-        setError(
-          "Hubo un problema con la autenticación. Por favor, inténtalo de nuevo más tarde."
-        );
-      });
-  }
+    try {
+      await login(datos);
+    } catch (error) {
+      setError("Hubo un problema con la autenticación. Por favor, inténtalo de nuevo más tarde.");
+    }
+  };
 
   // Redirigir al usuario si está autenticado
-  if (loggedIn) {
+  if (authState.isAuthenticated) {
     window.location.href = "http://localhost:3000/";
   }
 
   return (
-    <div class="contlog">
+    <div className="contlog">
       <MDBContainer className="">
         <MDBCard className="cartaslog">
           <MDBRow className="g-0">
@@ -92,8 +76,6 @@ function Login() {
                     <img src={logo} style={{ width: "200px" }} alt="logo" />
                   </span>
                 </div>
-
-
 
                 <MDBInput
                   wrapperClass="mb-4"
