@@ -45,12 +45,27 @@ const Register = () => {
   const handleSubmit = async (e) => {
     e.preventDefault();
     try {
-      await axios.post("http://node_ferremas:3001/api/usuarios", usuario);
-      await login(usuario.correoUsuario, usuario.contrasenaUsuario); // Si el usuario se crea, lo loguea
+      const response = await fetch("http://localhost:3001/api/usuarios", {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json'
+        },
+        body: JSON.stringify(usuario)
+      });
+  
+      if (response.ok) {
+        // Si la solicitud fue exitosa (código de respuesta 200-299), continuar
+        const responseData = await response.json();
+        await login(usuario.correoUsuario, usuario.contrasenaUsuario);
+      } else {
+        // Si la solicitud falló, lanzar un error
+        throw new Error(`Error al crear usuario: ${response.status} ${response.statusText}`);
+      }
     } catch (error) {
       console.error("Error al crear usuario:", error);
     }
   };
+  
 
   // Redirigir al usuario si está autenticado
   if (authState.isAuthenticated) {
