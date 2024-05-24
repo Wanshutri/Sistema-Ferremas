@@ -1,0 +1,59 @@
+
+.sidebar__nav {
+    height: 100%;
+    width: 160px;
+    position: fixed;
+    z-index: 1;
+    top: 0;
+    left: 0;
+    background-color: rgb(194, 192, 192);
+    overflow-x: hidden;
+    padding: 20px;
+}
+
+.sidebar__nav a {
+    padding: 16px;
+    text-decoration: none;
+    font-size: 17px;
+    color: #fff;
+    display: block;
+    text-align: justify;
+}
+
+.sidebar__nav a:hover {
+    color: black;
+    font-weight: 700;
+    background-color: rgb(255, 0, 149);
+    transition: background-color 0.5s ease; 
+    border-radius: 10px;
+}
+
+.sidebar__nav i {
+    margin-right: 5px;
+}
+
+.producto {
+    display: grid;
+    grid-template-columns: repeat(4, 1fr); 
+    gap: 20px;
+    padding: 20px;
+    margin-left: 200px; 
+}
+
+.cuadro-vacio {
+    border: 1px solid #ddd; 
+    height: 100%; 
+}
+
+.producto .card {
+    width: 100%; 
+}
+
+.boton {
+    width: 100%;
+
+}
+
+
+
+
