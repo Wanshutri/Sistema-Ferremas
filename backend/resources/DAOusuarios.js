@@ -158,7 +158,6 @@ function crearUsuario(usuario) {
                 });
             })
             .catch(error => {
-                console.log(error.message)
                 reject(error); // Si la validación falla, rechaza la promesa con el error correspondiente
             });
     });
