@@ -52,6 +52,7 @@ CREATE TABLE producto(
 CREATE TABLE reporte_financiero(
     idReporteFinanciero INTEGER AUTO_INCREMENT NOT NULL PRIMARY KEY,
     fecha DATE NOT NULL,
+    monto INTEGER NOT NULL,
     idUsuario INTEGER NOT NULL,
     FOREIGN KEY (idUsuario) REFERENCES usuario(idUsuario)
 );
