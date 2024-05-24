@@ -7,7 +7,6 @@ function getOrdenesPedido() {
         const query = 'SELECT * FROM ordenPedido';
         connection.query(query, (error, results, fields) => {
             if (error) {
-                console.error('Error al ejecutar la consulta:', error);
                 connection.end();
                 reject(error);
                 return;
@@ -25,7 +24,6 @@ function crearOrdenPedido(ordenPedido) {
         const query = 'INSERT INTO ordenPedido SET ?';
         connection.query(query, ordenPedido, (error, results, fields) => {
             if (error) {
-                console.error('Error al ejecutar la consulta:', error);
                 connection.end();
                 reject(error);
                 return;
@@ -43,7 +41,6 @@ function actualizarOrdenPedido(id, nuevaOrdenPedido) {
         const query = 'UPDATE ordenPedido SET ? WHERE idOrdenPedido = ?';
         connection.query(query, [nuevaOrdenPedido, id], (error, results, fields) => {
             if (error) {
-                console.error('Error al ejecutar la consulta:', error);
                 connection.end();
                 reject(error);
                 return;
@@ -61,7 +58,6 @@ function eliminarOrdenPedido(id) {
         const query = 'DELETE FROM ordenPedido WHERE idOrdenPedido = ?';
         connection.query(query, id, (error, results, fields) => {
             if (error) {
-                console.error('Error al ejecutar la consulta:', error);
                 connection.end();
                 reject(error);
                 return;
@@ -79,7 +75,6 @@ function getOrdenPedido(id) {
         const query = 'SELECT * FROM ordenPedido WHERE idOrdenPedido = ?';
         connection.query(query, id, (error, results, fields) => {
             if (error) {
-                console.error('Error al ejecutar la consulta:', error);
                 connection.end();
                 reject(error);
                 return;

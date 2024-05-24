@@ -6,7 +6,6 @@ function crearCarrito(carrito) {
         const query = 'INSERT INTO carrito SET ?';
         connection.query(query, carrito, (error, results, fields) => {
             if (error) {
-                console.error('Error al ejecutar la consulta:', error);
                 connection.end();
                 reject(error);
                 return;
@@ -23,7 +22,6 @@ function getCarritoPorUsuario(idUsuario) {
         const query = 'SELECT * FROM detalle_carrito WHERE (SELECT idCarrito FROM carrito WHERE idUsuario = ?) = idCarrito';
         connection.query(query, idUsuario, (error, results, fields) => {
             if (error) {
-                console.error('Error al ejecutar la consulta:', error);
                 connection.end();
                 reject(error);
                 return;
@@ -40,7 +38,6 @@ function agregarProductoAlCarrito(idCarrito, idProducto, cantidadProducto) {
         const query = 'INSERT INTO detalle_carrito (idCarrito, idProducto, cantidadProducto) VALUES (?, ?, ?)';
         connection.query(query, [idCarrito, idProducto, cantidadProducto], (error, results, fields) => {
             if (error) {
-                console.error('Error al ejecutar la consulta:', error);
                 connection.end();
                 reject(error);
                 return;
@@ -57,7 +54,6 @@ function eliminarProductoDelCarrito(idCarrito, idProducto) {
         const query = 'DELETE FROM detalle_carrito WHERE idCarrito = ? AND idProducto = ?';
         connection.query(query, [idCarrito, idProducto], (error, results, fields) => {
             if (error) {
-                console.error('Error al ejecutar la consulta:', error);
                 connection.end();
                 reject(error);
                 return;

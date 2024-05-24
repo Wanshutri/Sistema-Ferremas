@@ -19,15 +19,15 @@ services:
     ports:
       - "3001:3001"
 
-  react_ferremas:
-    build: ./frontend
-    depends_on:
-      - node_ferremas
-    networks:
-      - ferremas_network
-    ports:
-      - "3000:3000"
-    command: sh -c "npm start > /dev/null 2>&1" # Redirigir salida de la consola a /dev/null
+  #react_ferremas:
+  #  build: ./frontend
+  #  depends_on:
+  #    - node_ferremas
+  #  networks:
+  #    - ferremas_network
+  #  ports:
+  #    - "3000:3000"
+  #  command: sh -c "npm start > /dev/null 2>&1" # Redirigir salida de la consola a /dev/null
 
 networks:
   ferremas_network:

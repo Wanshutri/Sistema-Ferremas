@@ -12,7 +12,7 @@ export const AuthProvider = ({ children }) => {
 
   const login = async (correo, contrasena) => {
     try {
-      const response = await fetch('http://localhost:3001/api/autenticar', {
+        const response = await fetch('http://localhost:3001/api/autenticar', {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',

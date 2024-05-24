@@ -7,7 +7,6 @@ function crearReporteFinanciero(reporte) {
         const query = 'INSERT INTO reporte_financiero SET ?';
         connection.query(query, reporte, (error, results, fields) => {
             if (error) {
-                console.error('Error al ejecutar la consulta:', error);
                 connection.end();
                 reject(error);
                 return;
@@ -25,7 +24,6 @@ function getReporteFinanciero(id) {
         const query = 'SELECT * FROM reporte_financiero WHERE idReporteFinanciero = ?';
         connection.query(query, id, (error, results, fields) => {
             if (error) {
-                console.error('Error al ejecutar la consulta:', error);
                 connection.end();
                 reject(error);
                 return;
@@ -47,7 +45,6 @@ function getReportesFinancieros() {
         const query = 'SELECT * FROM reporte_financiero';
         connection.query(query, (error, results, fields) => {
             if (error) {
-                console.error('Error al ejecutar la consulta:', error);
                 connection.end();
                 reject(error);
                 return;
@@ -65,7 +62,6 @@ function eliminarReporteFinanciero(id) {
         const query = 'DELETE FROM reporte_financiero WHERE idReporteFinanciero = ?';
         connection.query(query, id, (error, results, fields) => {
             if (error) {
-                console.error('Error al ejecutar la consulta:', error);
                 connection.end();
                 reject(error);
                 return;
@@ -83,7 +79,6 @@ function actualizarReporteFinanciero(id, nuevoReporte) {
         const query = 'UPDATE reporte_financiero SET ? WHERE idReporteFinanciero = ?';
         connection.query(query, [nuevoReporte, id], (error, results, fields) => {
             if (error) {
-                console.error('Error al ejecutar la consulta:', error);
                 connection.end();
                 reject(error);
                 return;

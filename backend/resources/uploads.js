@@ -34,7 +34,6 @@ function crearDeposito(deposito) {
         const query = 'INSERT INTO deposito SET ?';
         connection.query(query, deposito, (error, results, fields) => {
             if (error) {
-                console.error('Error al ejecutar la consulta:', error);
                 connection.end();
                 reject(error);
                 return;
@@ -52,7 +51,6 @@ function eliminarDeposito(id) {
         const query = 'DELETE FROM deposito WHERE idDeposito = ?';
         connection.query(query, id, (error, results, fields) => {
             if (error) {
-                console.error('Error al ejecutar la consulta:', error);
                 connection.end();
                 reject(error);
                 return;
@@ -70,7 +68,6 @@ function getDepositos() {
         const query = 'SELECT * FROM deposito';
         connection.query(query, (error, results, fields) => {
             if (error) {
-                console.error('Error al ejecutar la consulta:', error);
                 connection.end();
                 reject(error);
                 return;
@@ -88,7 +85,6 @@ function getDepositosUsuario(id) {
         const query = 'SELECT * FROM deposito WHERE idUsuario = ?';
         connection.query(query, id ,(error, results, fields) => {
             if (error) {
-                console.error('Error al ejecutar la consulta:', error);
                 connection.end();
                 reject(error);
                 return;
@@ -106,7 +102,6 @@ function getDeposito(id) {
         const query = 'SELECT * FROM deposito WHERE idDeposito = ?';
         connection.query(query, id ,(error, results, fields) => {
             if (error) {
-                console.error('Error al ejecutar la consulta:', error);
                 connection.end();
                 reject(error);
                 return;

@@ -7,7 +7,6 @@ function getProductos() {
         const query = 'SELECT * FROM producto';
         connection.query(query, (error, results, fields) => {
             if (error) {
-                console.error('Error al ejecutar la consulta:', error);
                 connection.end();
                 reject(error);
                 return;
@@ -25,7 +24,6 @@ function crearProducto(producto) {
         const query = 'INSERT INTO producto SET ?';
         connection.query(query, producto, (error, results, fields) => {
             if (error) {
-                console.error('Error al ejecutar la consulta:', error);
                 connection.end();
                 reject(error);
                 return;
@@ -43,7 +41,6 @@ function actualizarProducto(id, nuevoProducto) {
         const query = 'UPDATE producto SET ? WHERE idProducto = ?';
         connection.query(query, [nuevoProducto, id], (error, results, fields) => {
             if (error) {
-                console.error('Error al ejecutar la consulta:', error);
                 connection.end();
                 reject(error);
                 return;
@@ -61,7 +58,6 @@ function eliminarProducto(id) {
         const query = 'DELETE FROM producto WHERE idProducto = ?';
         connection.query(query, id, (error, results, fields) => {
             if (error) {
-                console.error('Error al ejecutar la consulta:', error);
                 connection.end();
                 reject(error);
                 return;
@@ -79,7 +75,6 @@ function getProducto(id) {
         const query = 'SELECT * FROM producto WHERE idProducto = ?';
         connection.query(query, id, (error, results, fields) => {
             if (error) {
-                console.error('Error al ejecutar la consulta:', error);
                 connection.end();
                 reject(error);
                 return;
