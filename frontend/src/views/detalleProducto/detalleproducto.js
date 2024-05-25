@@ -1,5 +1,4 @@
 import React from "react";
-import "./../ayuda/ayuda.css";
 import SearchAppBar from "./../../components/productos/barraproducto";
 import Footer from "./../../components/footer/footer";
 import logo from "./../../img/logo.png";
