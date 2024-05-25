@@ -1,5 +1,5 @@
 import './home.css'
-import React from 'react';
+import React, { useContext } from 'react';
 import Footer from "../../components/footer/footer";
 import BannerCom from "../../components/banner/bannerCom"
 import logo from "./../../img/logo.png"
@@ -19,10 +19,11 @@ import Fade1 from '../../components/carousel/carousel2';
 import herramientasb from '../../assets/img/bannerherramientas.jpg'
 import ofertab from '../../assets/img/itembanner.png'
 import Responsiveproduct from '../../components/productos/productoscarrusel';
-
+import { AuthContext } from '../../js/AuthContext';
 
 
 const Home = () => {
+    const { login, authState } = useContext(AuthContext); // Usa el contexto de autenticación
     return (
         <ParallaxProvider>
 
@@ -32,7 +33,6 @@ const Home = () => {
                         <header>
                             <Sidebar1 />
                             <BannerCom />
-
                         </header>
                         <main>
 
@@ -45,6 +45,7 @@ const Home = () => {
                                                 <path d="M11.742 10.344a6.5 6.5 0 1 0-1.397 1.398h-.001q.044.06.098.115l3.85 3.85a1 1 0 0 0 1.415-1.414l-3.85-3.85a1 1 0 0 0-.115-.1zM12 6.5a5.5 5.5 0 1 1-11 0 5.5 5.5 0 0 1 11 0" />
                                             </svg>
                                         </button>
+                                        {authState.usuario}
                                         <input className="searchinput" type="search" placeholder="Buscar" aria-label="Search" />
                                     </div>
                                 </div><Fade1 image={sucursales} image2={herramientasb} image3={ofertab} image4={banner}/>

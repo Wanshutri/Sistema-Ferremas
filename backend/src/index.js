@@ -4,17 +4,19 @@ const request = require('request')
 const fs = require('fs');
 const path = require('path');
 const { getProductos, crearProducto, actualizarProducto, eliminarProducto, getProducto } = require('./../resources/DAOproductos');
-const { getUsuarios, crearUsuario, actualizarUsuario, eliminarUsuario, getUsuario } = require('./../resources/DAOusuarios');
-const { getBoletas, actualizarBoleta, getBoleta } = require('./../resources/DAOboletas');
+const { actualizarTipoProducto, crearTipoProducto, eliminarTipoProducto, getTipoProducto, getTiposProducto } = require('./../resources/DAOtipo_producto');
+const { getUsuarios, crearUsuario, actualizarUsuario, eliminarUsuario, getUsuario, autenticarUsuario } = require('./../resources/DAOusuarios');
+const { getBoletas, actualizarBoleta, getBoleta, crearBoleta } = require('./../resources/DAOboletas');
 const { getCarritoPorUsuario, agregarProductoAlCarrito, eliminarProductoDelCarrito } = require('./../resources/DAOcarrito');
 const { eliminarOrdenPedido, actualizarOrdenPedido, crearOrdenPedido, getOrdenPedido, getOrdenesPedido } = require('../resources/DAOorden_pedido');
 const { getReportesFinancieros, getReporteFinanciero, crearReporteFinanciero, actualizarReporteFinanciero, eliminarReporteFinanciero } = require('../resources/DAOreporte_financiero');
 const nodemailer = require('nodemailer');
-require('dotenv').config();
 const app = express();
+const uploader = require('../resources/uploads')
+const jwt = require('jsonwebtoken');
 
-const CLIENT = process.env.CLIENT_ID;
-const SECRET = process.env.CLIENT_SECRET;
+const CLIENT = 'AV7RbVPozcoaIgXrxjWQU5WWnGyMyZmMBfauJ16FdFEVU12RTDtFOxSNZzG2GdQUqx5wA6DMwkNR-UfZ';
+const SECRET = 'EOPG-J6D3rZmInvrRvQFuw1N9ZLhOGSEgvKToSaTKBdOltHeXdrsDPNDsui6uT9fyqAAKYpYLUX4p04o';
 const PAYPAL_API = 'https://api-m.sandbox.paypal.com';
 const auth = { user: CLIENT, pass: SECRET };
 
@@ -27,6 +29,7 @@ app.use(cors());
 app.use(express.json()); // Middleware para analizar el cuerpo de las solicitudes JSON
 // Configuración para servir archivos estáticos desde el directorio 'public'
 app.use(express.static(path.join(__dirname, '..', 'public')));
+app.use(express.static(path.join(__dirname, '..', 'uploads')));
 
 // Ruta para la página de documentación
 app.get('/', (req, res) => {
@@ -40,6 +43,100 @@ app.get('/', (req, res) => {
         // Envía la respuesta con el contenido HTML del archivo de documentación
         res.send(data);
     });
+});
+
+// Ruta para subir un depósito
+app.post('/api/deposito/:idUsuario', (req, res) => {
+    // Validar que se haya enviado un ID de usuario
+    if (!req.params.idUsuario) {
+        return res.status(400).send({ message: 'Falta el ID del usuario' });
+    }
+
+   const idUsuario = req.params.idUsuario
+
+    uploader.upload(req, res, (err) => {
+        if (err) {
+            if (err.code === 'INVALID_FILE_TYPE') {
+                return res.status(400).send({ message: err.message });
+            }
+            return res.status(500).send({ message: 'Error al subir la imagen' });
+        }
+
+        if (!req.file) {
+            return res.status(400).send({ message: 'No se subió ninguna imagen' });
+        }
+
+        deposito = {
+            "idUsuario" : idUsuario,
+            "urlComprobante" : req.file.filename,
+            "estadoDeposito" : 'P'
+        }
+
+        uploader.crearDeposito(deposito).then(() => {
+            res.send("Comprobande subido y creado con exito")
+        }).catch((error) => {
+            res.send("Ocurrio un error al subir o crear comprobante: " + error)
+        })
+    });
+});
+
+// Ruta para eliminar un depósito
+app.delete('/api/deposito/:id', (req, res) => {
+    const id = req.params.id;
+    uploader.getDeposito(id).then(deposito => {
+        if (!deposito) {
+            return res.status(404).send({ message: 'Depósito no encontrado' });
+        }
+        const filePath = path.join(__dirname, '../uploads', deposito[0].urlComprobante);
+        uploader.eliminarDeposito(id).then( () => {
+            fs.unlink(filePath, (err) => {
+                if (err) {
+                    return res.status(500).send({ message: 'Error al eliminar el archivo del sistema de archivos' });
+                }
+                res.send({ message: 'Depósito eliminado correctamente' });
+            });
+        })
+    }).catch(err => {
+        return res.send("Error durante eliminar comprobante: " + err)
+    })
+});
+
+// Ruta para obtener todos los depósitos
+app.get('/api/depositos', (req, res) => {
+    const id = req.params.id;
+    uploader.getDepositos()
+        .then(depositos => {
+        if (depositos) 
+            res.json(depositos)
+        }).catch(error => {
+            res.status(500).send('Error al obtener depositos del usuario desde la base de datos');
+        })
+});
+
+
+
+// Ruta para obtener los depósitos de un usuario específico
+app.get('/api/deposito-usuario/:id', (req, res) => {
+    const id = req.params.id;
+    uploader.getDepositosUsuario(id)
+        .then(depositos => {
+        if (depositos) 
+            res.json(depositos)
+        }).catch(error => {
+            res.status(500).send('Error al obtener depositos del usuario desde la base de datos');
+        })
+});
+
+// Ruta para obtener un depósito específico
+app.get('/api/deposito/:id', (req, res) => {
+    const id = req.params.id;
+    uploader.getDeposito(id)
+        .then(deposito => {
+        if (deposito) 
+            res.json(deposito)
+        }).catch(error => {
+            res.status(500).send('Error al obtener deposito desde la base de datos');
+        })
 });
 
 //PRODUCTOS
@@ -121,6 +218,85 @@ app.delete('/api/productos/:id', (req, res) => {
         });
 });
 
+//TIPO PRODUCTOS
+
+// Ruta para obtener todos los productos
+app.get('/api/tipo-productos', (req, res) => {
+    getTiposProducto()
+        .then(tipo_productos => {
+            res.json(tipo_productos);
+        })
+        .catch(error => {
+            console.error('Error al obtener productos:', error);
+            res.status(500).send('Error al obtener productos desde la base de datos');
+        });
+});
+
+// Ruta para obtener un producto por su ID
+app.get('/api/tipo-productos/:id', (req, res) => {
+    const id = req.params.id;
+    getTipoProducto(id)
+        .then(tipo_producto => {
+            if (producto) {
+                res.json(tipo_producto);
+            } else {
+                res.status(404).send('Producto no encontrado');
+            }
+        })
+        .catch(error => {
+            console.error('Error al obtener producto:', error);
+            res.status(500).send('Error al obtener producto desde la base de datos');
+        });
+});
+
+// Ruta para crear un nuevo producto
+app.post('/api/tipo-productos', (req, res) => {
+    const nuevoTipoProducto = req.body;
+    crearTipoProducto(nuevoTipoProducto)
+        .then(insertId => {
+            res.status(201).json({ id: insertId, message: 'Producto creado exitosamente' });
+        })
+        .catch(error => {
+            console.error('Error al crear producto:', error);
+            res.status(500).send('Error al crear producto en la base de datos');
+        });
+});
+
+// Ruta para actualizar un producto existente
+app.put('/api/tipo-productos/:id', (req, res) => {
+    const id = req.params.id;
+    const nuevoTipoProducto = req.body;
+    actualizarTipoProducto(id, nuevoTipoProducto)
+        .then(success => {
+            if (success) {
+                res.json({ message: 'Producto actualizado exitosamente' });
+            } else {
+                res.status(404).send('Producto no encontrado');
+            }
+        })
+        .catch(error => {
+            console.error('Error al actualizar producto:', error);
+            res.status(500).send('Error al actualizar producto en la base de datos');
+        });
+});
+
+// Ruta para eliminar un producto
+app.delete('/api/tipo-productos/:id', (req, res) => {
+    const id = req.params.id;
+    eliminarTipoProducto(id)
+        .then(success => {
+            if (success) {
+                res.json({ message: 'Producto eliminado exitosamente' });
+            } else {
+                res.status(404).send('Producto no encontrado');
+            }
+        })
+        .catch(error => {
+            console.error('Error al eliminar producto:', error);
+            res.status(500).send('Error al eliminar producto en la base de datos');
+        });
+});
+
 //USUARIOS
 
 // Ruta para obtener todos los usuarios
@@ -149,6 +325,34 @@ app.get('/api/usuarios/:id', (req, res) => {
         .catch(error => {
             console.error('Error al obtener usuario:', error);
             res.status(500).send('Error al obtener usuario desde la base de datos');
+        });
+});
+
+// Ruta para autenticar al usuario
+app.post('/api/autenticar', (req, res) => {
+    const correo = req.body.correoUsuario;
+    const contrasenaUsuario = req.body.contrasenaUsuario;
+
+    autenticarUsuario(correo, contrasenaUsuario)
+        .then(usuario => {
+            if (usuario) {
+                // Generar token JWT
+                const token = jwt.sign({ id: usuario.idUsuario }, 'SistemaFerremasTokensDeMierdaAhoraEsPersonal2', {
+                    expiresIn: '100y' // El token expira en 100 años jajaj lol
+                });
+                // Crear un objeto que contenga tanto el token como los datos del usuario
+                const responseData = {
+                    token: token,
+                    usuario: usuario
+                };
+                // Enviar la respuesta con el objeto que contiene el token y los datos del usuario
+                res.json(responseData);
+            } else {
+                res.status(404).send('Usuario no encontrado');
+            }
+        })
+        .catch(error => {
+            res.status(500).send('Error al autenticar al usuario');
         });
 });
 
@@ -423,7 +627,7 @@ const createPayment = async (req, res) => {
             landing_page: 'NO_PREFERENCE', // Default, para mas informacion https://developer.paypal.com/docs/api/orders/v2/#definition-order_application_context
             user_action: 'PAY_NOW', // Accion para que en paypal muestre el monto del pago
             return_url: `http://localhost:3001/api/ejecutar-pago`, // Url despues de realizar el pago
-            cancel_url: `http://localhost:3000/cancel-payment` // Url despues de realizar el pago
+            cancel_url: `http://localhost:3000/cancelar-pago` // Url despues de realizar el pago
         }
     }
     //https://api-m.sandbox.paypal.com/v2/checkout/orders [POST]
@@ -445,7 +649,14 @@ const executePayment = (req, res) => {
         body: {},
         json: true
     }, (err, response) => {
-        res.json({ data: response.body })
+        boleta = {
+            //DATA
+        }
+        crearBoleta().catch( error => {
+            console.error("Error al crear boleta: " + error)
+        })
+
+        res.redirect('http://localhost:3000/pago-exitoso')
     })
 }
 
@@ -643,13 +854,13 @@ function enviarCorreo(destinatario, codigo) {
     const transporter = nodemailer.createTransport({
         service: 'gmail',
         auth: {
-            user: process.env.EMAIL_NAME, // Correo electrónico desde el cual se enviará el mensaje
-            pass: process.env.EMAIL_PASS // Contraseña del correo electrónico
+            user: 'valenzuelavivancofelipe@gmail.com', // Correo electrónico desde el cual se enviará el mensaje
+            pass: 'xplbrynyxyazzlsg' // Contraseña del correo electrónico
         }
     });
 
     const mailOptions = {
-        from: process.env.EMAIL_NAME, // Usar el correo electrónico configurado
+        from: 'valenzuelavivancofelipe@gmail.com', // Usar el correo electrónico configurado
         to: destinatario,
         subject: 'Recuperación de contraseña',
         text: `Tu código de recuperación es: ${codigo}. Este código es válido por 5 minutos.`
@@ -663,7 +874,7 @@ function enviarCorreo(destinatario, codigo) {
 }
 
 
-const PORT = process.env.PORT || 3001;
+const PORT = 3001;
 const server = app.listen(PORT, () => {
     console.log(`Servidor Express escuchando en el puerto ${PORT}`);
 });

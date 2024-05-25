@@ -1,0 +1,81 @@
+.containers {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  height: 100vh;
+  gap: 3rem;
+  background-color: #ffff;
+}
+
+.half-box {
+  border: 2px solid #ccc;
+  padding: 20px;
+  width: 50%;
+}
+.boletin {
+  display: flex;
+  gap: 10rem;
+}
+
+.list-group-item {
+  transition: background-color 0.5s ease;
+}
+
+.list-group-item:hover {
+  background-color: rgb(51, 219, 0);
+  color: #ffff;
+}
+
+.todoperfil {
+  background-color: rgb(231, 231, 231);
+  background: linear-gradient(
+    rgba(218, 218, 218, 0.866),
+    rgba(255, 255, 255, 0.19)
+  );
+  border: 5px solid #f8ba35;
+  border-style: ridge;
+}
+
+.cartasperfil {
+  top: 5%;
+  animation: myAnim2 2s ease 0s 1 normal forwards;
+  margin-top: 0 !important;
+}
+
+.backperf {
+  background-image: url("./../../assets/img/ferreteriaproductos.jpg");
+  background-blend-mode: darken;
+  background-color: rgba(0, 0, 0, 0.293);
+  margin: 0;
+  padding: 0;
+  background-size: cover;
+}
+
+.headerpedido {
+  background: #2951a0 !important;
+  color: white !important;
+  font-weight: bold;
+}
+
+.botonBoleta {
+  background-color: #f8ba35 !important;
+  color: #2951a0 !important;
+  font-weight: bold !important;
+  border-color: #2951a0 !important;
+}
+
+.botonBoleta:hover {
+  background-color: #f6c14e !important;
+  color: white !important;
+  font-weight: bold;
+}
+
+.iconperfil {
+  font-size: x-large;
+}
+
+.chipperfil {
+  background-color: #f8ba35 !important;
+  color: #2951a0 !important;
+  font-weight: bold;
+}

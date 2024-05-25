@@ -1,9 +1,9 @@
 import React from "react";
+import "./detalleProducto.css";
 import SearchAppBar from "./../../components/productos/barraproducto";
 import Footer from "./../../components/footer/footer";
 import logo from "./../../img/logo.png";
 import Imagenesproductos from "../../components/imagenesProductos/imagenesproductos";
-import "./detalleProducto.css";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import Sidebar1 from "../../components/sidebar/sidebar";
 import { ParallaxProvider, Parallax } from "react-scroll-parallax";
@@ -86,14 +86,17 @@ function FloatingActionButtonSize() {
 const DetalleProducto = () => {
   return (
     <ParallaxProvider>
-      <div className="container-fluid contayuda">
+      <div className="container-fluid detalleMain">
         {" "}
         {/* Wrap content in a container */}
-        <Sidebar1 />
-        <SearchAppBar />
-        <div className="basicdivbread">
-          <BasicBreadcrumbs />
+        <div>
+          <Sidebar1 />
+          <SearchAppBar />
+          <div className="basicdivbread">
+            <BasicBreadcrumbs />
+          </div>
         </div>
+        <br></br>
         <div className="row">
           {" "}
           {/* Use Bootstrap row */}
@@ -103,22 +106,23 @@ const DetalleProducto = () => {
             <main>
               <Parallax
                 easing="easeInQuad"
-                speed={0}
+                speed={-3}
                 style={{
                   aspectRatio: "2 / 1",
                   backgroundSize: "cover",
                   backgroundRepeat: "no-repeat",
-                  backgroundBlendMode: "darken",
-                  backgroundColor: "rgba(0, 0, 0, 0.3)",
+                  backgroundBlendMode: "darken",  
+                  backgroundColor: "rgba(120, 120, 120, 0.9)",
+                  background: "linear-gradient( rgba(255, 255, 255, 0.5) , rgba(70, 70, 70, 1))",
                 }}
               >
                 <div className="container-fluid">
                   <div class="row">
                     <div class="col-sm-6 mb-3 mb-sm-0 mt-4">
-                      <div class="card">
+                      <div class="card cartasdet">
                         <div class="card-body">
                           <div className="cardimagenes">
-                          <Carousel3 />
+                            <Carousel3 />
                           </div>
 
                           <div class="form">
@@ -133,10 +137,11 @@ const DetalleProducto = () => {
                           </div>
                           <div className="label2">
                             <label>
-                            <FontAwesomeIcon 
-                            icon={faRotateLeft}
-                            size="lg"
-                            className="iconoayuda2" />
+                              <FontAwesomeIcon
+                                icon={faRotateLeft}
+                                size="lg"
+                                className="iconoayuda2"
+                              />
                               Devuelve gratis por Derecho a retracto o
                               Satisfacción garantizada. Conoce los plazos y
                               exclusiones
@@ -147,10 +152,9 @@ const DetalleProducto = () => {
                         <div className="modalcont"></div>
                       </div>
                     </div>
-
                     <div class="col-sm-6 mt-4">
-                      <div class="card">
-                        <div class="card-body">
+                      <div class="card cartasdet2">
+                        <div class="card-body ">
                           <h1>Marca-RescatarBD</h1>
                           <p class="descripcion">
                             Taladro inalámbrico percutor 10 mm 12V + 2 baterías
@@ -168,13 +172,20 @@ const DetalleProducto = () => {
                           <div>
                             <FloatingActionButtonSize />
                           </div>
+                          <div className="contadorbtn">
+                            <button className="botonresta">-</button>
+                            <span>1</span>
+                            <button className="botonsuma">+</button>
+                          </div>
                           <h1 className="precio">$Precio</h1>
                         </div>
                         <ButtonSizes />
                       </div>
+
                     </div>
                   </div>
                 </div>
+                <br></br>
               </Parallax>
             </main>
             <footer>
