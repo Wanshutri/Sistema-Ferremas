@@ -354,7 +354,7 @@ export default function Checkout() {
                       width: { xs: "100%", sm: "fit-content" },
                     }}
                   >
-                    {activeStep === steps.length - 1 ? "Finalizar Pedido" : "Siguiente"}
+                    {activeStep === steps.length - 1 ? "Finalizar Pedido" : "Confirmar"}
                   </Button>
                 </Box>
               </React.Fragment>
