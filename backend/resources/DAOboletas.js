@@ -89,4 +89,21 @@ function getBoleta(id) {
     });
 }
 
+// Función para recuperar productos de una boleta
+function getProductosBoleta(id) {
+    return new Promise((resolve, reject) => {
+        const connection = conectar();
+        const query = 'SELECT * FROM detalle_boleta WHERE idBoleta = ?';
+        connection.query(query, id, (error, results, fields) => {
+            if (error) {
+                connection.end();
+                reject(error);
+                return;
+            }
+            connection.end();
+            resolve(results);
+        });
+    });
+}
+
 module.exports = { getBoletas, getBoleta, crearBoleta, actualizarBoleta, eliminarBoleta };

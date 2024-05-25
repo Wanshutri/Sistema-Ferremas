@@ -575,9 +575,19 @@ app.delete('/api/ordenPedido/:id', (req, res) => {
 //ENTREGAR BODY CON ATRIBUTO "costo" : precio_clp
 const createPayment = async (req, res) => {
     const costo_compra_clp = req.body.costo; // Suponiendo que costo es el monto en CLP
+    const idUser = req.body.idUser;
     if (!req.body.costo || typeof req.body.costo !== 'number') {
         return res.json({ error: 'Se requiere un costo válido en la solicitud.' });
     }
+    if (!req.body.idUser) {
+        return res.json({ error: 'Se requiere un usuario en la solicitud.' });
+    }
+
+    const usuario = await getUsuario(idUser)
+    if (!usuario) {
+        return res.json({ error: 'Usuario no existe' });
+    }
+
     const url_dolar = "https://dolarapi.com/v1/dolares";
 
     // Obtener el valor del dólar desde la API
@@ -586,6 +596,7 @@ const createPayment = async (req, res) => {
     const valor_dolar = data[0].compra; // Suponiendo que data contiene el valor del dólar
     // Convertir el costo de la compra a USD
     const costo_compra_usd = (costo_compra_clp / valor_dolar).toFixed(2);
+    const return_url = `http://localhost:3001/api/ejecutar-pago?monto=${costo_compra_clp}&idUser=${idUser}`;
     const body = {
         intent: 'CAPTURE',
         purchase_units: [{
@@ -598,7 +609,7 @@ const createPayment = async (req, res) => {
             brand_name: `Ferremas`,
             landing_page: 'NO_PREFERENCE', // Default, para mas informacion https://developer.paypal.com/docs/api/orders/v2/#definition-order_application_context
             user_action: 'PAY_NOW', // Accion para que en paypal muestre el monto del pago
-            return_url: `http://localhost:3001/api/ejecutar-pago`, // Url despues de realizar el pago
+            return_url: return_url, // Url despues de realizar el pago
             cancel_url: `http://localhost:3000/cancelar-pago` // Url despues de realizar el pago
         }
     }
@@ -614,20 +625,23 @@ const createPayment = async (req, res) => {
 }
 
 const executePayment = (req, res) => {
-    const token = req.query.token; //<-----------
-
+    const token = req.query.token;
     request.post(`${PAYPAL_API}/v2/checkout/orders/${token}/capture`, {
         auth,
         body: {},
         json: true
     }, (error, response) => {
-        boleta = {
-            //DATA
-        }
-        crearBoleta().catch( error => {
-            console.error("Error al crear boleta: " + error)
+            const total = req.query.monto;
+            const idUser = req.query.idUser;
+            const fechaBoleta = new Date().toISOString().split('T')[0];
+            const boleta = {
+                fechaBoleta: fechaBoleta,
+                total: total,
+                idUsuario: idUser
+                };
+        crearBoleta(boleta).catch( error => {
+            console.error("Error al crear boleta: " + error.message)
         })
-
         res.redirect('http://localhost:3000/pago-exitoso')
     })
 }

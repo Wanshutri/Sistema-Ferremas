@@ -125,8 +125,7 @@ async function validarUsuario(usuario) {
 function crearUsuario(usuario) {
     return new Promise((resolve, reject) => {
         // Validar el usuario antes de crearlo
-        validarUsuario(usuario)
-            .then(() => {
+        validarUsuario(usuario).then(() => {
                 const connection = conectar();
                 // Generar hash de la contraseña
                 bcrypt.hash(usuario.contrasenaUsuario, 10, (error, hash) => {
@@ -185,8 +184,7 @@ function crearCarritoParaUsuario(idUsuario) {
 function actualizarUsuario(id, nuevoUsuario) {
     return new Promise((resolve, reject) => {
         // Validar el nuevo usuario antes de actualizarlo
-        validarUsuario(nuevoUsuario)
-            .then(() => {
+        validarUsuario(nuevoUsuario).then(() => {
                 const connection = conectar();
                 // Si se está actualizando la contraseña, hacer hash del nuevo valor
                 if (nuevoUsuario.contrasenaUsuario) {
@@ -254,7 +252,7 @@ function getUsuario(id) {
                 connection.end();
                 reject(error);
                 return;
-            }
+            }   
             connection.end();
             if (results.length === 0) {
                 resolve(null); // No se encontró ningún Usuario con ese ID

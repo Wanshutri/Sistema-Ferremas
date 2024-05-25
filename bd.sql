@@ -65,6 +65,7 @@ CREATE TABLE carrito(
 );
 
 CREATE TABLE detalle_carrito(
+    idDetalleCarrito INTEGER AUTO_INCREMENT NOT NULL PRIMARY KEY,
     idProducto INTEGER NOT NULL,
     idCarrito INTEGER NOT NULL,
     cantidadProducto INTEGER NOT NULL,
@@ -75,12 +76,8 @@ CREATE TABLE detalle_carrito(
 CREATE TABLE boleta(
     idBoleta INTEGER AUTO_INCREMENT NOT NULL PRIMARY KEY,
     fechaBoleta DATE NOT NULL,
-    comentario VARCHAR(200),
-    numeroCuenta INTEGER NOT NULL,
-    bancoNombre VARCHAR(50),
     total INTEGER NOT NULL,
     idUsuario INTEGER NOT NULL,
-    direccionSucursal VARCHAR(100) NOT NULL,
     FOREIGN KEY (idUsuario) REFERENCES usuario(idUsuario)
 );
 
@@ -98,6 +95,8 @@ CREATE TABLE deposito(
     idUsuario INTEGER NOT NULL,
     urlComprobante VARCHAR(100) NOT NULL,
     estadoDeposito VARCHAR(1) NOT NULL, #P (Pendiente), A (Aceptado), R (Rechazado)
+    fechaDeposito DATE NOT NULL,
+    monto INTEGER NOT NULL,
     FOREIGN KEY (idUsuario) REFERENCES usuario(idUsuario)
 );
 
