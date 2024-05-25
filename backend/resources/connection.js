@@ -3,7 +3,7 @@ const mysql = require('mysql2');
 // Configuración de la conexión a la base de datos
 const dbConfig = {
     //host: obtenerDireccionIP(), // Obtiene la dirección IP dinámicamente
-    host: 'mysqldb_ferremas',
+    host: 'localhost',
     port: 3306,
     user: 'root',
     password: 'SistemaFerremas2024',

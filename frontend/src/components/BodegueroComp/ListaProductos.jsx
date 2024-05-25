@@ -1,60 +1,49 @@
-import React from 'react'
+import React, { useState, useEffect } from 'react';
 import s from './ListaProductos.module.css'
 import Imagen1 from "./../../assets/img/martillo.jpg";
-
-const Productos = [
-    {
-        imagen: Imagen1,
-        nombre: "Martillo",
-        apellido: "#1231",
-        cargo: "20-05-25",
-        correo: "negrito_sabroso@gmail.com",
-      },
-      {
-        imagen: Imagen1,
-        nombre: "Martillo",
-        apellido: "#1234",
-        cargo: "26-05-25",
-        correo: "negrito_sabroso@gmail.com",
-      },
-      {
-        imagen: Imagen1,
-        nombre: "Martillo",
-        apellido: "#1244",
-        cargo: "23-05-25",
-        correo: "negrito_sabroso@gmail.com",
-      },
-
-]
-
+import { obtenerProductosDesdeAPI } from './ListaProductosCrud';
 
 
 const ListaProductos = () => {
+  const [productos, setProductos] = useState([]);
+
+  useEffect(() => {
+    obtenerProductosDesdeAPI()
+      .then(productos => {
+        setProductos(productos);
+      })
+      .catch(error => {
+        console.error("Error al obtener productos:", error);
+        // Maneja el error de acuerdo a tus necesidades
+      });
+  }, []);
+
   return (
     <div className={s.empLista}>
-        <div className={s.listaHeader}>
-            <h2>Productos</h2>
-            <select>
-                <option value="Recientes">Recientes</option>
-                <option value="Oferta">Oferta</option>
-                <option value="EnEspera">En Espera</option>
-            </select>
-        </div>
-        <div className={s.listaContainer}>
-            {Productos.map((Productos) => (
-                <div className={s.lista2}>
-                    <div className={s.empDetalle}>
-                        <img src={Productos.imagen} alt={Productos.nombre} />
-                        <h2>{Productos.nombre} {Productos.apellido}</h2>
-                    </div>
-                    <span>{Productos.cargo}</span>
-                    <span>{Productos.correo}</span>
-                    <span className='empTodo'>:</span>
-                </div>
-            ))}
-        </div>
+      <div className={s.listaHeader}>
+        <h2>Productos</h2>
+        <select>
+          <option value="Recientes">Recientes</option>
+          <option value="Oferta">Oferta</option>
+          <option value="EnEspera">En Espera</option>
+        </select>
+      </div>
+      <div className={s.listaContainer}>
+        {productos.map((producto) => (
+          <div className={s.lista2} key={producto.idProducto}> {/* Asegúrate de usar una clave única para cada producto */}
+            <div className={s.empDetalle}>
+              <img src={Imagen1} alt={producto.nombreProducto} className={s.imgprod} />
+              <h2>{producto.nombreProducto} {producto.apellido}</h2>
+            </div>
+            <span>{producto.descripcion}</span>
+            <span>{producto.precioProducto}</span>
+            <span>{producto.stock}</span>
+            {/* Agrega aquí cualquier otro detalle que desees mostrar */}
+          </div>
+        ))}
+      </div>
     </div>
-  )
-}
+  );
+};
 
 export default ListaProductos

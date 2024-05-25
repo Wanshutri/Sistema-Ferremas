@@ -20,6 +20,7 @@ import herramientasb from '../../assets/img/bannerherramientas.jpg'
 import ofertab from '../../assets/img/itembanner.png'
 import Responsiveproduct from '../../components/productos/productoscarrusel';
 import { AuthContext } from '../../js/AuthContext';
+import FloatCarrito from '../../components/FloatCarrito/FloatCarrito';
 
 
 const Home = () => {
@@ -31,11 +32,12 @@ const Home = () => {
                 <div className="row"> {/* Use Bootstrap row */}
                     <div className="col p-0"> {/* Adjust column width as needed */}
                         <header>
+                            <FloatCarrito />
                             <Sidebar1 />
                             <BannerCom />
                         </header>
                         <main>
-
+                        
                             <Parallax easing='easeInQuad' speed={-10} style={{ backgroundImage: `url(${fondo})`,backgroundSize: 'cover', backgroundRepeat: 'no-repeat', backgroundBlendMode: 'darken', backgroundColor: 'rgba(0, 0, 0, 0.3)' }}>
                                 <JustifiedTab extra={<><div className="search-div d-flex mb-5">
                                     <img className="logo-img" src={logo} alt="Logo"></img>

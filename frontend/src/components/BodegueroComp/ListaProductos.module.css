@@ -34,7 +34,7 @@
         gap: 20px;
         color: #526d82;
 
-      img {
+      .imgprod {
         height: 50px;
         width: 70px;
         background: #dde6ed;
@@ -49,4 +49,11 @@
     border-radius: 10px;
   }
 
+}
+
+.imgprod {
+  height: 50px;
+  width: 70px;
+  background: #dde6ed;
+  border-radius: 50%;
 }

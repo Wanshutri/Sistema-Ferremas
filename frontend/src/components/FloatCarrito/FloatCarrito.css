@@ -1,0 +1,21 @@
+.float-cart-container {
+  position: fixed;
+  top: 20px; /* ajusta según sea necesario */
+  right: 30px; /* ajusta según sea necesario */
+  z-index: 1000; /* asegura que esté por encima del contenido */
+}
+
+.float-cart-icon {
+  font-size: 2rem; /* ajusta el tamaño del icono según sea necesario */
+  color: #000; /* ajusta el color del icono según sea necesario */
+  background-color: #f8ba35;
+  border-radius: 50%; /* para hacer el icono redondo */
+  padding: 4px; /* ajusta según sea necesario */
+  box-shadow: 0 2px 5px rgba(0, 0, 0, 0.2); /* sombra para efecto flotante */
+  cursor: pointer;
+}
+
+.float-cart-icon:hover {
+  background-color: #0056b3;
+  color: white;
+}

@@ -12,8 +12,11 @@ const { eliminarOrdenPedido, actualizarOrdenPedido, crearOrdenPedido, getOrdenPe
 const { getReportesFinancieros, getReporteFinanciero, crearReporteFinanciero, actualizarReporteFinanciero, eliminarReporteFinanciero } = require('../resources/DAOreporte_financiero');
 const nodemailer = require('nodemailer');
 const app = express();
+const port = 3001;
 const uploader = require('../resources/uploads')
 const jwt = require('jsonwebtoken');
+const multer = require("multer");
+const upload = multer({ dest: 'uploads/' });
 
 const CLIENT = 'AV7RbVPozcoaIgXrxjWQU5WWnGyMyZmMBfauJ16FdFEVU12RTDtFOxSNZzG2GdQUqx5wA6DMwkNR-UfZ';
 const SECRET = 'EOPG-J6D3rZmInvrRvQFuw1N9ZLhOGSEgvKToSaTKBdOltHeXdrsDPNDsui6uT9fyqAAKYpYLUX4p04o';
@@ -26,6 +29,7 @@ function generarCodigo() {
 }
 
 app.use(cors());
+app.use(bodyParser.json());
 app.use(express.json()); // Middleware para analizar el cuerpo de las solicitudes JSON
 // Configuración para servir archivos estáticos desde el directorio 'public'
 app.use(express.static(path.join(__dirname, '..', 'public')));
@@ -44,6 +48,15 @@ app.get('/', (req, res) => {
         res.send(data);
     });
 });
+
+
+app.post('/api/upload', upload.single('imagenProducto'), (req, res) => {
+    // Aquí puedes procesar la imagen cargada
+    const file = req.file;
+    // Guarda la imagen en tu servidor o realiza cualquier otra operación necesaria
+    res.send({ message: 'Imagen cargada exitosamente' });
+  });
+  
 
 // Ruta para subir un depósito
 app.post('/api/deposito/:idUsuario', (req, res) => {
@@ -248,6 +261,8 @@ app.get('/api/tipo-productos/:id', (req, res) => {
             res.status(500).send('Error al obtener producto desde la base de datos');
         });
 });
+
+
 
 // Ruta para crear un nuevo producto
 app.post('/api/tipo-productos', (req, res) => {
