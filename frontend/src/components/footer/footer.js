@@ -5,6 +5,8 @@ import { faWhatsapp } from '@fortawesome/free-brands-svg-icons/faWhatsapp';
 import { faFacebookF } from '@fortawesome/free-brands-svg-icons';
 import { faXTwitter } from '@fortawesome/free-brands-svg-icons';
 import { faInstagram } from '@fortawesome/free-brands-svg-icons';
+import {Link} from 'react-router-dom';
+import Divider from '@mui/material/Divider';
 
 const Footer = () => {
     return (
@@ -15,10 +17,10 @@ const Footer = () => {
                     ultricies feugiat leo. Suspendisse tellus elit, pharetra in hendrerit ut, aliquam quis augue. Nam ut nibh mollis, tristique ante sed, viverra massa.
                 </p>
                 <div class="icons">
-                    <a href="#"><FontAwesomeIcon icon={faFacebookF} style={{ color: "#2951a0", }} /></a>
-                    <a href="#"><FontAwesomeIcon icon={faXTwitter} style={{ color: "#2951a0", }} /></a>
-                    <a href="#"><FontAwesomeIcon icon={faWhatsapp} style={{ color: "#2951a0", }} /></a>
-                    <a href="#"><FontAwesomeIcon icon={faInstagram} style={{ color: "#2951a0", }} /></a>
+                    <a href='https://www.facebook.com/felipe.andradevargas'><FontAwesomeIcon icon={faFacebookF} style={{ color: "#2951a0", }} /></a>
+                    <a href=''><FontAwesomeIcon icon={faXTwitter} style={{ color: "#2951a0", }} /></a>
+                    <a href='https://wa.me/56945020474' ><FontAwesomeIcon icon={faWhatsapp} style={{ color: "#2951a0", }} /></a>
+                    <a href='https://www.instagram.com/pipee.an/'><FontAwesomeIcon icon={faInstagram} style={{ color: "#2951a0", }} /></a>
                 </div>
             </div>
             <div class="footer-center col-md-4 col-sm-6">
@@ -38,12 +40,29 @@ const Footer = () => {
             <div class="footer-right col-md-4 col-sm-6">
                 <img src={logo} className='logoimg' />
                 <p class="menu">
-                    <a href="#"> Home</a> |
-                    <a href="#"> Acerca de</a> |
-                    <a href="#"> Productos</a> |
-                    <a href="#"> Carrito</a> |
-                    <a href="#"> Ayuda</a> |
-                    <a href="#"> Contacto</a>
+                    <Link to="/">
+                    <a> Home</a> 
+                    </Link>
+                    <Divider orientation="vertical" flexItem className="dividercarrusel"/>
+                    <Link to="/sobrenosotros">
+                    <a > Acerca de</a> 
+                    </Link>
+                    <Divider orientation="vertical" flexItem className="dividercarrusel"/>
+                    <Link to="">
+                    <a > Productos</a> 
+                    </Link>
+                    <Divider orientation="vertical" flexItem className="dividercarrusel"/>
+                    <Link to="/carro">     
+                    <a > Carrito</a> 
+                    </Link>
+                    <Divider orientation="vertical" flexItem className="dividercarrusel"/>
+                    <Link to="/ayuda">
+                    <a > Ayuda</a>
+                    </Link>
+                    <Divider orientation="vertical" flexItem className="dividercarrusel"/>
+                    <Link to="/contactanos">
+                    <a > Contacto</a>
+                    </Link>
                 </p>
                 <p class="name"> FERREMAS &copy; 2024</p>
             </div>

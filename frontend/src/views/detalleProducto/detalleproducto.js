@@ -20,6 +20,9 @@ import { faCubesStacked } from "@fortawesome/free-solid-svg-icons";
 import Button from "@mui/material/Button";
 import { faRotateLeft } from "@fortawesome/free-solid-svg-icons";
 import Carousel3 from "../../components/carousel/carousel3";
+import Divider from "@mui/material/Divider";
+import Chip from "@mui/material/Chip";
+import FloatCarrito from "../../components/FloatCarrito/FloatCarrito";
 
 function ButtonSizes() {
   return (
@@ -54,11 +57,12 @@ function FloatingActionButtonSize() {
         flexDirection: "row",
         "& > :not(style)": { m: 2 },
       }}
+      className="boxdetalles"
     >
       <Box
         sx={{ display: "flex", flexDirection: "column", alignItems: "center" }}
       >
-        <Fab color="secondary" aria-label="add">
+        <Fab className="botonesiconos" aria-label="add">
           <FontAwesomeIcon icon={faTruckMoving} />
         </Fab>
         <Typography variant="caption">Despacho a domicilio</Typography>
@@ -66,7 +70,7 @@ function FloatingActionButtonSize() {
       <Box
         sx={{ display: "flex", flexDirection: "column", alignItems: "center" }}
       >
-        <Fab color="secondary" aria-label="add">
+        <Fab className="botonesiconos" aria-label="add">
           <FontAwesomeIcon icon={faBox} />
         </Fab>
         <Typography variant="caption">Retiro en tienda</Typography>
@@ -74,7 +78,7 @@ function FloatingActionButtonSize() {
       <Box
         sx={{ display: "flex", flexDirection: "column", alignItems: "center" }}
       >
-        <Fab color="secondary" aria-label="add">
+        <Fab className="botonesiconos" aria-label="add">
           <FontAwesomeIcon icon={faCubesStacked} />
         </Fab>
         <Typography variant="caption">Revisar stock</Typography>
@@ -90,6 +94,7 @@ const DetalleProducto = () => {
         {" "}
         {/* Wrap content in a container */}
         <div>
+          <FloatCarrito />
           <Sidebar1 />
           <SearchAppBar />
           <div className="basicdivbread">
@@ -111,9 +116,11 @@ const DetalleProducto = () => {
                   aspectRatio: "2 / 1",
                   backgroundSize: "cover",
                   backgroundRepeat: "no-repeat",
-                  backgroundBlendMode: "darken",  
+                  backgroundBlendMode: "darken",
                   backgroundColor: "rgba(120, 120, 120, 0.9)",
-                  background: "linear-gradient( rgba(255, 255, 255, 0.5) , rgba(70, 70, 70, 1))",
+                  background:
+                    "linear-gradient( rgba(255, 255, 255, 0.9) , rgba(70, 70, 70, 0.9))",
+                  borderRadius: "5px",
                 }}
               >
                 <div className="container-fluid">
@@ -152,11 +159,26 @@ const DetalleProducto = () => {
                         <div className="modalcont"></div>
                       </div>
                     </div>
-                    <div class="col-sm-6 mt-4">
+                    <div class="col-sm-6 mt-4 card2detalle">
                       <div class="card cartasdet2">
                         <div class="card-body ">
+                          <Divider>
+                            <Chip
+                              label="Producto"
+                              size="small"
+                              className="chipdetalle"
+                            />
+                          </Divider>
                           <h1>Marca-RescatarBD</h1>
-                          <p class="descripcion">
+                          <Divider>
+                            <Chip
+                              label="Descripción"
+                              size="small"
+                              className="chipdetalle"
+                            />
+                          </Divider>
+                          <br></br>
+                          <p class="descripciondet">
                             Taladro inalámbrico percutor 10 mm 12V + 2 baterías
                             + 101 accesorios
                           </p>
@@ -167,21 +189,36 @@ const DetalleProducto = () => {
                             Califica este producto
                           </div>
                         </div>
+                        <br></br>
+                        <Divider>
+                          <Chip
+                            label="Distribuidor"
+                            size="small"
+                            className="chipdetalle"
+                          />
+                        </Divider>
                         <h5 className="vendidopor">Vendido por Ferremas</h5>
                         <div>
                           <div>
                             <FloatingActionButtonSize />
                           </div>
-                          <div className="contadorbtn">
-                            <button className="botonresta">-</button>
-                            <span>1</span>
-                            <button className="botonsuma">+</button>
-                          </div>
-                          <h1 className="precio">$Precio</h1>
+                          <Divider>
+                            <Chip
+                              label="Precio"
+                              size="small"
+                              className="chipdetalle"
+                            />
+                          </Divider>
+                          <h1 className="preciodet">$15.000</h1>
+                          <br></br>
+                        </div>
+                        <div className="contadorbtn">
+                          <button className="botonresta">-</button>
+                          <span>1</span>
+                          <button className="botonsuma">+</button>
                         </div>
                         <ButtonSizes />
                       </div>
-
                     </div>
                   </div>
                 </div>

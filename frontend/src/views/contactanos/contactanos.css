@@ -17,3 +17,16 @@
     margin-bottom: 5px;
 }
 
+.contactanostodo{
+    background-image: url("./../../assets/img/inicioferreteria.jpg");
+    background-blend-mode: darken;
+    background-repeat: no-repeat;
+    background-size: cover;
+    background-color: rgba(0, 0, 0, 0.293);
+}
+
+.comentarioscontact{
+    text-align: center;
+    font-size: 20px;
+    font-weight: bold;
+}

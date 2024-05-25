@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useEffect, useState } from "react";
 import s from "./ListaEmpleados.module.css";
 import Table from "@mui/material/Table";
 import TableBody from "@mui/material/TableBody";
@@ -18,30 +18,20 @@ function ccyFormat(num) {
   return `${num.toFixed(2)}`;
 }
 
-function valorRow(qty, unit) {
-  return qty * unit;
-}
-
-function createRow(desc, qty, unit) {
-  const valor = valorRow(qty, unit);
-  return { desc, qty, unit, valor };
-}
-
-function subtotal(items) {
-  return items.map(({ valor }) => valor).reduce((sum, i) => sum + i, 0);
-}
-
-const rows = [
-  createRow("Reporte 1", 122, 1.15),
-  createRow("Reporte 2", 10, 45.99),
-  createRow("Reporte 3", 2, 17.99),
-];
-
-const invoiceSubtotal = subtotal(rows);
-const invoiceTaxes = TAX_RATE * invoiceSubtotal;
-const invoiceTotal = invoiceTaxes + invoiceSubtotal;
-
 function Informe() {
+  const [rows, setRows] = useState([]);
+
+  useEffect(() => {
+    fetch('/api/reportesFinancieros')
+      .then(response => response.json())
+      .then(data => setRows(data))
+      .catch(error => console.error('Error fetching data:', error));
+  }, []);
+
+  const invoiceSubtotal = rows.reduce((sum, row) => sum + row.monto, 0);
+  const invoiceTaxes = TAX_RATE * invoiceSubtotal;
+  const invoiceTotal = invoiceTaxes + invoiceSubtotal;
+
   return (
     <div className={s.empLista}>
       <div className={s.listaHeader}>
@@ -52,42 +42,33 @@ function Informe() {
           <Table sx={{ minWidth: 700 }} aria-label="spanning table">
             <TableHead>
               <TableRow>
-                <TableCell align="left" colSpan={3}>
-                  Detalles
-                </TableCell>
-                <TableCell></TableCell>
+                <TableCell align="left" colSpan={3}>Detalles</TableCell>
                 <TableCell align="right">Valor</TableCell>
               </TableRow>
               <TableRow>
-                <TableCell>Desc</TableCell>
-                <TableCell align="right">Fecha</TableCell>
-                <TableCell align="right">Cant.</TableCell>
-                <TableCell align="right">Unidad</TableCell>
+                <TableCell>Fecha</TableCell>
+                <TableCell align="right">Monto</TableCell>
+                <TableCell align="right">Usuario</TableCell>
                 <TableCell align="right">Sum</TableCell>
               </TableRow>
             </TableHead>
             <TableBody>
-              {rows.map((row) => (
-                <TableRow key={row.desc}>
-                  <TableCell>{row.desc}</TableCell>
-                  <TableCell align="right">12/2024</TableCell>
-                  <TableCell align="right">{row.qty}</TableCell>
-                  <TableCell align="right">{row.unit}</TableCell>
-                  <TableCell align="right">{ccyFormat(row.valor)}</TableCell>
+              {rows.map((row, index) => (
+                <TableRow key={index}>
+                  <TableCell>{row.fecha}</TableCell>
+                  <TableCell align="right">{ccyFormat(row.monto)}</TableCell>
+                  <TableCell align="right">{row.idUsuario}</TableCell>
+                  <TableCell align="right">{ccyFormat(row.monto)}</TableCell>
                 </TableRow>
               ))}
               <TableRow>
                 <TableCell rowSpan={3} />
                 <TableCell colSpan={2}>Subtotal</TableCell>
-                <TableCell align="right">
-                  {ccyFormat(invoiceSubtotal)}
-                </TableCell>
+                <TableCell align="right">{ccyFormat(invoiceSubtotal)}</TableCell>
               </TableRow>
               <TableRow>
                 <TableCell>Tax</TableCell>
-                <TableCell align="right">{`${(TAX_RATE * 100).toFixed(
-                  0
-                )} %`}</TableCell>
+                <TableCell align="right">{`${(TAX_RATE * 100).toFixed(0)} %`}</TableCell>
                 <TableCell align="right">{ccyFormat(invoiceTaxes)}</TableCell>
               </TableRow>
               <TableRow>

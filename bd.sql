@@ -46,6 +46,7 @@ CREATE TABLE producto(
     precioProducto INTEGER NOT NULL,
     idTipoProducto INTEGER NOT NULL,
     stock INTEGER NOT NULL,
+    urlProducto VARCHAR(100) NOT NULL,
     FOREIGN KEY (idTipoProducto) REFERENCES tipo_producto(idTipoProducto)
 );
 
@@ -57,6 +58,13 @@ CREATE TABLE reporte_financiero(
     FOREIGN KEY (idUsuario) REFERENCES usuario(idUsuario)
 );
 
+CREATE TABLE reporte_financiero_boleta (
+    idReporteFinanciero INTEGER NOT NULL,
+    idBoleta INTEGER NOT NULL,
+    PRIMARY KEY (idReporteFinanciero, idBoleta),
+    FOREIGN KEY (idReporteFinanciero) REFERENCES reporte_financiero(idReporteFinanciero),
+    FOREIGN KEY (idBoleta) REFERENCES boleta(idBoleta)
+);
 
 CREATE TABLE carrito(
     idCarrito INTEGER AUTO_INCREMENT NOT NULL PRIMARY KEY,
@@ -102,3 +110,12 @@ CREATE TABLE deposito(
 
 INSERT INTO usuario (correoUsuario, contrasenaUsuario, rutUsuario, pNombre, sNombre, pApellido, sApellido, fechaNac, celular, direccion, cargo) 
 VALUES ('fe.valenzuelav@duocuc.cl', 'judas123', '21244616-5', 'Felipe', null, 'Valenzuela', 'Vivanco', '2004-04-29', 123456789, 'Calle de las reinas magicas.', 'Admin');
+
+
+INSERT INTO reporte_financiero (fecha, monto, idUsuario)
+SELECT fechaBoleta, total, idUsuario FROM boleta;
+
+INSERT INTO reporte_financiero_boleta (idReporteFinanciero, idBoleta)
+SELECT rf.idReporteFinanciero, b.idBoleta
+FROM reporte_financiero rf
+JOIN boleta b ON rf.fecha = b.fechaBoleta AND rf.monto = b.total AND rf.idUsuario = b.idUsuario;

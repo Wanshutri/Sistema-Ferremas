@@ -151,7 +151,7 @@ const Ayuda = () => {
                             <FaUserCircle className="iconayuda" />
                             Configuracion De Mi Cuenta
                           </h4>
-                          <p>Agregar Texto Predeterminado Aqui</p>
+                          <p></p>
                           <Divider
                             orientation="horizontal"
                             flexItem
@@ -161,7 +161,7 @@ const Ayuda = () => {
                             <FaUserShield className="iconayuda" />
                             Seguridad
                           </h4>
-                          <p>Agregar Texto Predeterminado Aqui</p>
+                          <p></p>
                           <hr></hr>
                         </div>
                       </div>

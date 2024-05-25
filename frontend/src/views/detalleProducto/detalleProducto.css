@@ -45,19 +45,19 @@
 .calificaproducto{
     text-decoration: underline;
     margin-top: 2px;
-    margin-left: 10px;
+    margin-right: 20px !important;
     font-size: medium;
 }
 
 .vendidopor{
     margin-top: 10px;
-    margin-left: 20px;
-    text-align: start;
-    font-size: medium;
+    
+    font-size: 20px;
+    font-weight: bold;
 }
 
 
-.precio{
+.preciodet{
     margin-top: 30px;
     margin-left: 20px;
     text-align: start;
@@ -112,10 +112,9 @@
     animation: myAnim4 2s ease 0s 1 normal forwards;
 }
 .contadorbtn{
-    margin-top: 20px;
     font-size: large;
-    margin-left: 40px;
     text-align: start;
+    margin: 5px;
 }
 
 .botonresta{
@@ -136,3 +135,39 @@
     height: 40px;
 }
 
+.card2detalle {
+    justify-content: center;
+    align-items: center;
+    text-align: center;
+}
+
+.boxdetalles {
+    display: flex; /* Asegúrate de que el contenedor use flexbox */
+    justify-content: center; /* Centrar horizontalmente */
+    align-items: center; /* Centrar verticalmente */
+    text-align: center;
+    width: fit-content;
+    border: greenyellow solid 1px;
+    border-radius: 15px;
+    border-style: ridge;
+    margin: 0 auto; /* Centra el contenedor dentro de su padre */
+    margin-bottom: 20px;
+}
+
+
+.vendidopor, .contadorbtn, .clasificacion, .preciodet, .descripciondet{
+    justify-content: center ;
+    align-items: center;
+    text-align: center;
+}
+
+.botonesiconos{
+    background-color: #f8ba35 !important;
+}
+
+.chipdetalle{
+    margin: 5px;
+    background-color: #f8ba35 !important;
+    color: #4e4e4e !important;
+    font-weight: bold;
+}

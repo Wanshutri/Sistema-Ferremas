@@ -6,3 +6,8 @@
    justify-items: center;
    padding: 1rem;
 }
+
+.cardproductohome {
+   background-color: rgb(232, 232, 232);
+   background-size: cover;
+}

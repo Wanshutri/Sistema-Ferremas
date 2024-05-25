@@ -7,8 +7,10 @@ import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faBell } from "@fortawesome/free-solid-svg-icons";
 import Sidebar1 from "../../components/sidebar/sidebar";
 import Divider from "@mui/material/Divider";
+import Chip from "@mui/material/Chip";
 import { ParallaxProvider, Parallax } from "react-scroll-parallax";
 import banner4 from "./../../assets/img/banner4.jpg";
+import FloatCarrito from "../../components/FloatCarrito/FloatCarrito";
 
 const Sobrenosotros = () => {
   return (
@@ -23,6 +25,7 @@ const Sobrenosotros = () => {
             {" "}
             {/* Adjust column width as needed */}
             <header>
+              <FloatCarrito />
               <Sidebar1 />
               <BannerCom2 imagen={banner4} />
             </header>
@@ -80,9 +83,16 @@ const Sobrenosotros = () => {
                       <div class="card cartassn">
                         <div class="card-body">
                           <h2 class="card-title">
-                            Mas información de nosotros!
+                            Mas información de nosotros
                           </h2>
-                          <h5>Nuestra Ubicacion</h5>
+                          <Divider>
+                            <Chip
+                              label="Nuestra Ubicacion"
+                              size="small"
+                              className="chipperfil"
+                            />
+                          </Divider>
+
                           <p class="card-text">
                             "Lorem ipsum dolor sit amet, consectetur adipiscing
                             elit, sed do eiusmod tempor incididunt ut labore et
@@ -94,12 +104,13 @@ const Sobrenosotros = () => {
                             cupidatat non proident, sunt in culpa qui officia
                             deserunt mollit anim id est laborum."
                           </p>
-                          <Divider
-                            orientation="horizontal"
-                            flexItem
-                            className="dividerayuda"
-                          />
-                          <h5>Horarios</h5>
+                          <Divider>
+                            <Chip
+                              label="Horario"
+                              size="small"
+                              className="chipperfil"
+                            />
+                          </Divider>
                           <p class="card-text">
                             Somos un equipo comprometido con brindarte el mejor
                             servicio posible.
@@ -112,12 +123,15 @@ const Sobrenosotros = () => {
                             Estamos aquí para atenderte y resolver cualquier
                             consulta que tengas. ¡No dudes en contactarnos!
                           </p>
-                          <Divider
-                            orientation="horizontal"
-                            flexItem
-                            className="dividerayuda"
-                          />
-                          <h5>Puedes hablar con nuestro personal</h5>
+
+                          <Divider>
+                            <Chip
+                              label="Puedes hablar con nuestro personal"
+                              size="small"
+                              className="chipperfil"
+                            />
+                          </Divider>
+
                           <p class="card-text">
                             "Lorem ipsum dolor sit amet, consectetur adipiscing
                             elit, sed do eiusmod tempor incididunt ut labore et

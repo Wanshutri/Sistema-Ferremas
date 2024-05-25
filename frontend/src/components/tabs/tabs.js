@@ -2,7 +2,7 @@ import Tab from 'react-bootstrap/Tab';
 import Tabs from 'react-bootstrap/Tabs';
 import "./tabs.css"
 
-function JustifiedTab({extra , extra2, extra3, extra4}) {
+function JustifiedTab({extra , extra2}) {
     return (
         <Tabs
             defaultActiveKey="home"
@@ -13,14 +13,8 @@ function JustifiedTab({extra , extra2, extra3, extra4}) {
             <Tab eventKey="home" title="Home" className='tabnormal' >
                 {extra}
             </Tab>
-            <Tab eventKey="Productos" title="Productos" className='tabnormal'>
+            <Tab eventKey="Productos" title="Ofertas" className='tabnormal'>
                 {extra2}
-            </Tab>
-            <Tab eventKey="Hmanuales" title="Herramientas" className='tabnormal'>
-                {extra3}
-            </Tab>
-            <Tab eventKey="Eseguridad" title="Equipo" className='tabnormal'>
-                {extra4}
             </Tab>
         </Tabs>
     );

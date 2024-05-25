@@ -17,7 +17,6 @@ const MenuProps = {
 };
 
 const names = [
-  'Felipe andrade xupalo',
   'Menor a Mayor',
   'Mayor a menor',
   'Recomendados',

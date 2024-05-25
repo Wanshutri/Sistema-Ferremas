@@ -54,3 +54,11 @@
     border-bottom-right-radius: 15%;
 }
 
+
+.contenidohome{
+    background-image: url("./../../assets/img/inicioferreteria.jpg");
+    background-blend-mode: darken;
+    background-repeat: no-repeat;
+    background-size: cover;
+    background-color: rgba(0, 0, 0, 0.293);
+}

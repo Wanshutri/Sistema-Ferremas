@@ -41,7 +41,7 @@ var FnRut = {
 }
 
 // Función para validar el usuario antes de crearlo
-async function validarUsuario(usuario) {
+async function validarUsuario(usuario, nuevo, usuarioActual) {
     try {
         usuario.correoUsuario = usuario.correoUsuario.trim();
         usuario.contrasenaUsuario = usuario.contrasenaUsuario.trim();
@@ -55,12 +55,12 @@ async function validarUsuario(usuario) {
         const usuarios = await getUsuarios();
 
         const usuarioExistenteCorreo = usuarios.find(u => u.correoUsuario === usuario.correoUsuario);
-        if (usuarioExistenteCorreo) {
+        if ((usuarioExistenteCorreo && nuevo) || (usuarioActual.correoUsuario != usuario.correoUsuario)) {
             throw new Error('El correo electrónico ya está en uso');
         }
 
         const usuarioExistenteRut = usuarios.find(u => u.rutUsuario === usuario.rutUsuario);
-        if (usuarioExistenteRut) {
+        if ((usuarioExistenteRut && nuevo) || (usuarioActual.rutUsuario != usuario.rutUsuario)) {
             throw new Error('El RUT ya está en uso');
         }
 
@@ -74,17 +74,18 @@ async function validarUsuario(usuario) {
             throw new Error('La contraseña no es segura');
         }
 
+        // Verificar que el RUT sea válido
         if (!FnRut.validaRut(usuario.rutUsuario)) {
             throw new Error('El RUT no es válido');
         }
 
         // Verificar que el número de celular tenga 9 caracteres
-        if (!usuario.celular.length === 9) {
+        if (usuario.celular.toString().length !== 9) {
             throw new Error('El número de celular debe tener exactamente 9 dígitos');
         }
 
         const usuarioExistenteTelefono = usuarios.find(u => u.celular === usuario.celular);
-        if (usuarioExistenteTelefono) {
+        if ((usuarioExistenteTelefono && nuevo) || (usuarioActual.celular != usuario.celular)) {
             throw new Error('El número de celular ya está registrado');
         }
 
@@ -120,12 +121,11 @@ async function validarUsuario(usuario) {
     }
 }
 
-
 // Función para crear un nuevo Usuario
 function crearUsuario(usuario) {
     return new Promise((resolve, reject) => {
         // Validar el usuario antes de crearlo
-        validarUsuario(usuario).then(() => {
+        validarUsuario(usuario, true, usuario).then(() => {
                 const connection = conectar();
                 // Generar hash de la contraseña
                 bcrypt.hash(usuario.contrasenaUsuario, 10, (error, hash) => {
@@ -181,10 +181,10 @@ function crearCarritoParaUsuario(idUsuario) {
 }
 
 // Función para actualizar un Usuario existente
-function actualizarUsuario(id, nuevoUsuario) {
+function actualizarUsuario(id, nuevoUsuario, usuario) {
     return new Promise((resolve, reject) => {
         // Validar el nuevo usuario antes de actualizarlo
-        validarUsuario(nuevoUsuario).then(() => {
+        validarUsuario(nuevoUsuario, false, usuario).then(() => {
                 const connection = conectar();
                 // Si se está actualizando la contraseña, hacer hash del nuevo valor
                 if (nuevoUsuario.contrasenaUsuario) {

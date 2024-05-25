@@ -45,22 +45,32 @@ function Sidebar1({ onTabChange }) {
                     </div>
                 </Offcanvas.Header>
                 <Offcanvas.Body>
-                    <Button className="btn btn-primary b1" aria-current="page" href="#"><FontAwesomeIcon icon={faHouse} className='iconleftmenu' />Home</Button>
+                    <Link to="/"> 
+                    <Button className="btn btn-primary b1" aria-current="page"><FontAwesomeIcon icon={faHouse} className='iconleftmenu' />Home</Button>
+                    </Link>
 
-                    <Button className="btn btn-primary b1" aria-current="page" href="#"><FontAwesomeIcon icon={faUsers} className='iconleftmenu' />Sobre nosotros</Button>
+                    <Link to="/sobrenosotros" >
 
+                    <Button className="btn btn-primary b1" aria-current="page" ><FontAwesomeIcon icon={faUsers} className='iconleftmenu' />Sobre nosotros</Button>
+                    </Link>
 
-                    <Button className="btn btn-primary b1" aria-current="page" href="#"><FontAwesomeIcon icon={faHammer} shake className='iconleftmenu' /> Productos </Button>
+                   
 
+                    <Button className="btn btn-primary b1" aria-current="page" ><FontAwesomeIcon icon={faHammer} shake className='iconleftmenu' /> Productos </Button>
+                    
+                    <Link to="/contactanos">
+                    <Button className="btn btn-primary b1" aria-current="page" ><FontAwesomeIcon icon={faLocationDot} className='iconleftmenu' />Contactanos</Button>
+                    </Link>
+                    
 
-                    <Button className="btn btn-primary b1" aria-current="page" href="#"><FontAwesomeIcon icon={faLocationDot} className='iconleftmenu' />Ubicación</Button>
+                    <Link to="/ayuda" >
+                    <Button className="btn btn-primary b1" aria-current="page" ><FontAwesomeIcon icon={faCircleQuestion} className='iconleftmenu' />Ayuda</Button>
+                    </Link>
 
-                    <Button className="btn btn-primary b1" aria-current="page" href="#"><FontAwesomeIcon icon={faCircleQuestion} className='iconleftmenu' />Ayuda</Button>
-
-
-                    <Button className="btn btn-primary b1" href="#"><FontAwesomeIcon icon={faCartShopping} className='iconleftmenu' />Carrito</Button>
-
-                    <Button className="b1" onClick={() => setOpen(!open)} aria-controls="collapse-contacto" aria-expanded={open} ><FontAwesomeIcon icon={faMessage} /> Contacto
+                    <Link to="/carro">
+                    <Button className="btn btn-primary b1" ><FontAwesomeIcon icon={faCartShopping} className='iconleftmenu' />Carrito</Button>
+                    </Link>
+                    <Button className="b1" onClick={() => setOpen(!open)} aria-controls="collapse-contacto" aria-expanded={open} ><FontAwesomeIcon icon={faMessage} /> Info
                         <Collapse in={open}>
                             <div id="collapse-contacto">
                                 <li><a><FontAwesomeIcon icon={faReceipt} /> Formulario</a></li>

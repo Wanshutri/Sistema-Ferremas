@@ -17,6 +17,7 @@ import { Link } from "react-router-dom";
 import { AuthContext } from './../../js/AuthContext'; // Importa el contexto de autenticación
 import "./login.css";
 
+
 function Login() {
   const [correo, setCorreo] = useState("");
   const [contrasena, setContrasena] = useState("");
@@ -105,7 +106,7 @@ function Login() {
                 >
                   Login
                 </Button>
-                <Link to={"recuperar"}>
+                <Link to="/recuperarcontraseña">
                   <a
                     className="small text-muted text1"
                     style={{ textAlign: "center" }}

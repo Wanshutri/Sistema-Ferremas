@@ -12,6 +12,7 @@ import {
 } from "mdb-react-ui-kit";
 import logo from "./../../assets/img/logo.png";
 import banner from "./../../assets/img/Verticalbanner.jpg";
+import { Link } from "react-router-dom";
 
 function RestablecerContraseña() {
   return (
@@ -67,9 +68,11 @@ function RestablecerContraseña() {
                   style={{ color: "#393f81", textAlign: "center" }}
                 >
                   ¿No tienes cuenta? <br></br>
-                  <a href="#!" style={{ color: "#393f81" }}>
+                  <Link to="/registro">
+                  <a  style={{ color: "#393f81" }}>
                     Registrate aqui
                   </a>
+                  </Link>
                 </p>
 
                 <div className="d-flex flex-row justify-content-end">

@@ -38,10 +38,10 @@
     color: #6c757d;
   }
   .counter {
+    background-color: #2951a0;
     display: inline-flex;
     align-items: center;
     justify-content: center;
-    background-color: #20ad20;
     border: 1px solid transparent;
     border-radius: 0.25rem;
     padding: 0.25rem 0.5rem;
@@ -63,18 +63,20 @@
   }
   
   .counter span {
+    
     color: #fff;
     font-size: 1rem;
     margin: 0 0.5rem;
   }
 
-  .contlog {
+  .contcar {
     background-image: url("./../../assets/img/ferreteriaproductos.jpg");
     background-blend-mode: darken;
     background-color: rgba(0, 0, 0, 0.293);
+    background-size: cover;
+    background-repeat: no-repeat;
     margin: 0;
     padding: 0;
-    height: 100vh;
   }
   
   .button-container {
@@ -82,4 +84,28 @@
     bottom: 20px;
     right: 20px;
     z-index: 1000;
+  }
+
+  .toolbarcarro{
+    background-color: #f8ba35 !important;
+  }
+
+  .pagination-controlsdetalle{
+    
+    justify-content: center;
+    align-items: center;
+    text-align: center;
+  }
+
+  .maincart {
+    border-radius: 5px;
+  }
+
+  .tablacarro {
+
+    th{
+      justify-content: space-between;
+      align-items: center;
+      text-align: center;
+    }
   }

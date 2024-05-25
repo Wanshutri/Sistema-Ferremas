@@ -42,7 +42,7 @@ root.render(
           <Route path="login" element={<Login></Login>} />
           <Route path="registro" element={<Registro></Registro>} />
           <Route
-            path="recuperarContraseña"
+            path="recuperarcontraseña"
             element={<RecuperarContraseña></RecuperarContraseña>}
           />
           <Route path="ayuda" element={<Ayuda></Ayuda>} />
