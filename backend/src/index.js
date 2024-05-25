@@ -6,7 +6,7 @@ const path = require('path');
 const { getProductos, crearProducto, actualizarProducto, eliminarProducto, getProducto } = require('./../resources/DAOproductos');
 const { actualizarTipoProducto, crearTipoProducto, eliminarTipoProducto, getTipoProducto, getTiposProducto } = require('./../resources/DAOtipo_producto');
 const { getUsuarios, crearUsuario, actualizarUsuario, eliminarUsuario, getUsuario, autenticarUsuario } = require('./../resources/DAOusuarios');
-const { getBoletas, actualizarBoleta, getBoleta, crearBoleta } = require('./../resources/DAOboletas');
+const { getBoletas, actualizarBoleta, getBoleta, crearBoleta, eliminarBoleta } = require('./../resources/DAOboletas');
 const { getCarritoPorUsuario, agregarProductoAlCarrito, eliminarProductoDelCarrito } = require('./../resources/DAOcarrito');
 const { eliminarOrdenPedido, actualizarOrdenPedido, crearOrdenPedido, getOrdenPedido, getOrdenesPedido } = require('../resources/DAOorden_pedido');
 const { getReportesFinancieros, getReporteFinanciero, crearReporteFinanciero, actualizarReporteFinanciero, eliminarReporteFinanciero } = require('../resources/DAOreporte_financiero');
@@ -46,48 +46,81 @@ app.get('/', (req, res) => {
     });
 });
 
+//Depositos
+
 // Ruta para subir un depósito
 app.post('/api/depositos', (req, res) => {
-    uploader.upload(req, res, async (err) => {
-
+    uploader.upload(req, res, (err) => {
         if (!req.body.idUsuario) {
-            return res.send({ message: 'No se subio ninguna imagen', error: 'Falta id del usuario' });
+            fs.unlink(req.file.path, (err) => {
+                if (err) {
+                    return res.send({ message: 'Error al eliminar el archivo del sistema de archivos', error: err.message });
+                }
+            });
+            return res.send({ message: 'No se subió ninguna imagen', error: 'Falta id del usuario' });
         }
-    
         if (!req.body.monto) {
-            return res.send({ message: 'No se subio ninguna imagen', error: 'Falta monto del deposito' });
+            fs.unlink(req.file.path, (err) => {
+                if (err) {
+                    return res.send({ message: 'Error al eliminar el archivo del sistema de archivos', error: err.message });
+                }
+            });
+            return res.send({ message: 'No se subió ninguna imagen', error: 'Falta monto del depósito' });
         }
-
-        const usuario = await getUsuario(req.body.idUsuario);
-
-        if (!usuario) {
-            return res.send({ message: 'No se subio ninguna imagen', error: 'Usuario no existe' });
+        if (req.body.monto < 0) {
+            fs.unlink(req.file.path, (err) => {
+                if (err) {
+                    return res.send({ message: 'Error al eliminar el archivo del sistema de archivos', error: err.message });
+                }
+            });
+            return res.send({ message: 'No se subió ninguna imagen', error: 'Monto no puede ser negativo' });
         }
-
-        if (err) {
-            if (err.code === 'INVALID_FILE_TYPE') {
-                return res.send({ message : 'Error al subir la imagen' ,error: 'Solo se admiten formatos de imagen' });
+        getUsuario(req.body.idUsuario, (error, usuario) => {
+            if (error) {
+                fs.unlink(req.file.path, (err) => {
+                    if (err) {
+                        return res.send({ message: 'Error al eliminar el archivo del sistema de archivos', error: err.message });
+                    }
+                });
+                return res.send({ message: 'Error al obtener usuario', error: error.message });
             }
-            return res.send({ message: 'Error al subir la imagen: ', error: err.message });
-        }
+            if (!usuario) {
+                fs.unlink(req.file.path, (err) => {
+                    if (err) throw err
+                });
+                return res.send({ message: 'No se subió ninguna imagen', error: 'Usuario no existe' });
+            }
 
-        if (!req.file) {
-            return res.send({ message : 'Error al subir la imagen' , error: 'No se subió ninguna imagen' });
-        }
-        const fecha = new Date().toISOString().split('T')[0]
-        deposito = {
-            "idUsuario" : req.body.idUsuario,
-            "urlComprobante" : req.file.filename,
-            "estadoDeposito" : 'P',
-            "fechaDeposito" : fecha,
-            "monto" : req.body.monto
-        }
+            if (err) {
+                fs.unlink(req.file.path, (err) => {
+                    if (err) throw err
+                });
+                if (err.code === 'INVALID_FILE_TYPE') {
+                    return res.send({ message: 'Error al subir la imagen', error: 'Solo se admiten formatos de imagen' });
+                }
+                return res.send({ message: 'Error al subir la imagen', error: err.message });
+            }
 
-        crearDeposito(deposito).then(() => {
-            res.send("Comprobande subido y creado con exito")
-        }).catch((err) => {
-            res.send({ message: "Ocurrio un error al subir o crear comprobante: ", error:  err.message})
-        })
+            if (!req.file) {
+                return res.send({ message: 'Error al subir la imagen', error: 'No se subió ninguna imagen' });
+            }
+
+            const fecha = new Date().toISOString().split('T')[0];
+            const deposito = {
+                idUsuario: req.body.idUsuario,
+                urlComprobante: req.file.filename,
+                estadoDeposito: 'P',
+                fechaDeposito: fecha,
+                monto: req.body.monto
+            };
+
+            crearDeposito(deposito, (error) => {
+                if (error) {
+                    return res.send({ message: 'Ocurrió un error al subir o crear comprobante', error: error.message });
+                }
+                res.send("Comprobante subido y creado con éxito");
+            });
+        });
     });
 });
 
@@ -108,7 +141,7 @@ app.delete('/api/depositos/:id', (req, res) => {
             }
             fs.unlink(filePath, (err) => {
                 if (err) {
-                    return res.send({ message: 'Error al eliminar el archivo del sistema de archivos: ', error: err.message });
+                    return res.send({ message: 'Error al eliminar el archivo del sistema de archivos', error: err.message });
                 }
                 res.send({ message: 'Depósito eliminado correctamente' });
             });
@@ -118,34 +151,31 @@ app.delete('/api/depositos/:id', (req, res) => {
 
 // Ruta para obtener todos los depósitos
 app.get('/api/depositos', (req, res) => {
-    getDepositos()
-        .then(depositos => {
-        if (depositos) 
-            res.json(depositos)
-        }).catch(err => {
-            res.send({ message : 'Error al obtener los depositos', error: err.message});
-        })
+    getDepositos((error, depositos) => {
+        if (error) {
+            return res.send({ message: 'Error al obtener los depósitos', error: error.message });
+        }
+        res.json(depositos);
+    });
 });
 
 // Ruta para obtener los depósitos de un usuario específico
 app.get('/api/deposito-usuario/:id', (req, res) => {
     const id = req.params.id;
-    getDepositosUsuario(id)
-        .then(depositos => {
-        if (depositos) 
-            res.json(depositos)
-        }).catch(err => {
-            res.send({message: 'Error al obtener depositos del usuario', error : err.message});
-        })
+    getDepositosUsuario(id, (error, depositos) => {
+        if (error) {
+            return res.send({ message: 'Error al obtener depósitos del usuario', error: error.message });
+        }
+        res.json(depositos);
+    });
 });
 
 // Ruta para obtener un depósito específico
-app.get('/api/deposito/:id', (req, res) => {
+app.get('/api/depositos/:id', (req, res) => {
     const id = req.params.id;
     getDeposito(id, (error, deposito) => {
         if (error) {
-            res.status(500).send({ message: 'Error al obtener el depósito', error: error.message });
-            return;
+            return res.status(500).send({ message: 'Error al obtener el depósito', error: error.message });
         }
         if (deposito) {
             res.json(deposito);
@@ -185,6 +215,11 @@ app.get('/api/productos/:id', (req, res) => {
 app.post('/api/productos', (req, res) => {
     uploader.upload(req, res, (err) => {
         if (err) {
+            fs.unlink(req.file.path, (err) => {
+                if (err) {
+                    return res.send({ message: 'Error al eliminar el archivo del sistema de archivos', error: err.message });
+                }
+            });
             if (err.code === 'INVALID_FILE_TYPE') {
                 return res.send({ message: 'Error al subir la imagen', error: 'Solo se admiten formatos de imagen' });
             }
@@ -201,6 +236,11 @@ app.post('/api/productos', (req, res) => {
 
         crearProducto(nuevoProducto, (error, insertId) => {
             if (error) {
+                fs.unlink(req.file.path, (err) => {
+                    if (err) {
+                        return res.send({ message: 'Error al eliminar el archivo del sistema de archivos', error: err.message });
+                    }
+                });
                 return res.send({ message: 'Error al crear producto', error: error.message });
             }
             res.json({ id: insertId, message: 'Producto creado exitosamente' });
@@ -211,6 +251,21 @@ app.post('/api/productos', (req, res) => {
 // Ruta para actualizar un producto existente
 app.put('/api/productos/:id', (req, res) => {
     const id = req.params.id;
+    if (!req.body.nombreProducto) {
+        return res.send({message : "Error al actualizar el producto", error: "Debe haber un nombre de producto"})
+    }
+    if (!req.body.descripcion) {
+        return res.send({message : "Error al actualizar el producto", error: "Debe haber una descripcion de producto"})
+    }
+    if (!req.body.precioProducto) {
+        return res.send({message : "Error al actualizar el producto", error: "Debe haber un precio de producto"})
+    }
+    if (!req.body.idTipoProducto) {
+        return res.send({message : "Error al actualizar el producto", error: "Debe tener un tipo de producto vinculado"})
+    }
+    if (!req.body.stock) {
+        return res.send({message : "Error al actualizar el producto", error: "Debe tener un stock de producto"})
+    }
     const nuevoProducto = {
         nombreProducto: req.body.nombreProducto,
         descripcion: req.body.descripcion,
@@ -258,16 +313,16 @@ app.delete('/api/productos/:id', (req, res) => {
 //TIPO PRODUCTOS
 
 // Ruta para obtener un tipo de producto por su ID
-app.get('/api/tipo-producto/:id', (req, res) => {
+app.get('/api/tipo-productos/:id', (req, res) => {
     const id = req.params.id;
     getTipoProducto(id, (error, tipo_producto) => {
         if (error) {
-            return res.send({ message: 'Error al obtener producto', error: error.message });
+            return res.send({ message: 'Error al obtener tipo producto', error: error.message });
         }
         if (tipo_producto) {
             res.json(tipo_producto);
         } else {
-            res.send({ message: 'Error al obtener producto', error: 'Producto no encontrado' });
+            res.send({ message: 'Error al obtener tipo producto', error: 'Tipo producto no encontrado' });
         }
     });
 });
@@ -275,12 +330,12 @@ app.get('/api/tipo-producto/:id', (req, res) => {
 app.get('/api/tipo-productos', (req, res) => {
     getTiposProducto((error, tipo_producto) => {
         if (error) {
-            return res.send({ message: 'Error al obtener producto', error: error.message });
+            return res.send({ message: 'Error al obtener tipo producto', error: error.message });
         }
         if (tipo_producto) {
             res.json(tipo_producto);
         } else {
-            res.send({ message: 'Error al obtener producto', error: 'Producto no encontrado' });
+            res.send({ message: 'Error al obtener tipo producto', error: 'Tipo producto no encontrado' });
         }
     });
 });
@@ -288,13 +343,13 @@ app.get('/api/tipo-productos', (req, res) => {
 // Ruta para crear un nuevo tipo producto
 app.post('/api/tipo-productos', (req, res) => {
     if (!req.body.nombreTipo) {
-        return res.send({ message: 'Error al crear tipo producto', error: 'Debe haber un nombre de producto' });
+        return res.send({ message: 'Error al crear tipo producto', error: 'Debe haber un nombre de tipo producto' });
     }
     crearTipoProducto(req.body.nombreTipo, (error, insertId) => {
         if (error) {
             return res.send({ message: 'Error al crear tipo producto', error: error.message });
         }
-        res.json({ id: insertId, message: 'Producto creado exitosamente' });
+        res.json({ id: insertId, message: 'Tipo producto creado exitosamente' });
     });
 });
 
@@ -304,7 +359,7 @@ app.put('/api/tipo-productos/:id', (req, res) => {
     const nombreTipo = req.body.nombreTipo;
 
     if (!nombreTipo) {
-        return res.send({ message: 'Error al actualizar tipo producto', error: 'Debe haber un nombre de producto.' });
+        return res.send({ message: 'Error al actualizar tipo producto', error: 'Debe haber un nombre de tipo de producto.' });
     }
 
     actualizarTipoProducto(id, nombreTipo, (error, success) => {
@@ -314,7 +369,7 @@ app.put('/api/tipo-productos/:id', (req, res) => {
         if (success) {
             res.json({ message: 'Tipo producto actualizado exitosamente' });
         } else {
-            res.send('Producto no encontrado');
+            res.send('Tipo producto no encontrado');
         }
     });
 });
@@ -324,12 +379,12 @@ app.delete('/api/tipo-productos/:id', (req, res) => {
     const id = req.params.id;
     eliminarTipoProducto(id, (error, success) => {
         if (error) {
-            return res.send({ message: 'Error al eliminar producto', error: error.message });
+            return res.send({ message: 'Error al eliminar tipo producto', error: error.message });
         }
         if (success) {
-            res.json({ message: 'Producto eliminado exitosamente' });
+            res.json({ message: 'Tipo producto eliminado exitosamente' });
         } else {
-            res.send({ message: 'Error al eliminar producto', error: 'Producto no encontrado' });
+            res.send({ message: 'Error al eliminar tipo producto', error: 'Tipo producto no encontrado' });
         }
     });
 });
@@ -338,29 +393,27 @@ app.delete('/api/tipo-productos/:id', (req, res) => {
 
 // Ruta para obtener todos los usuarios
 app.get('/api/usuarios', (req, res) => {
-    getUsuarios()
-        .then(usuarios => {
+    getUsuarios((err, usuarios) => {
+        if (err) {
+            res.send({ message: 'Error al obtener usuarios', error: err.message });
+        } else {
             res.json(usuarios);
-        })
-        .catch(err => {
-            res.send({ message : 'Error al obtener usuarios', error: err.message});
-        });
+        }
+    });
 });
 
 // Ruta para obtener un usuario por su ID
 app.get('/api/usuarios/:id', (req, res) => {
     const id = req.params.id;
-    getUsuario(id)
-        .then(usuario => {
-            if (usuario) {
-                res.json(usuario);
-            } else {
-                res.send('Usuario no encontrado');
-            }
-        })
-        .catch(err => {
-            res.send({ message: 'Error al obtener usuario', error: err.message});
-        });
+    getUsuario(id, (err, usuario) => {
+        if (err) {
+            res.send({ message: 'Error al obtener usuario', error: err.message });
+        } else if (usuario) {
+            res.json(usuario);
+        } else {
+            res.send('Usuario no encontrado');
+        }
+    });
 });
 
 // Ruta para autenticar al usuario
@@ -369,276 +422,321 @@ app.post('/api/autenticar', (req, res) => {
     const contrasenaUsuario = req.body.contrasenaUsuario;
 
     if (!correo) {
-        return res.send({message: "Error al autenticar", error: "Se necesita un correo"})
+        return res.send({ message: "Error al autenticar", error: "Se necesita un correo" });
     }
 
     if (!contrasenaUsuario) {
-        return res.send({message: "Error al autenticar", error: "Se necesita una clave"})
+        return res.send({ message: "Error al autenticar", error: "Se necesita una clave" });
     }
 
-    autenticarUsuario(correo, contrasenaUsuario)
-        .then(usuario => {
-            if (usuario) {
-                // Generar token JWT
-                const token = jwt.sign({ id: usuario.idUsuario }, 'SistemaFerremasTokensDeMierdaAhoraEsPersonal2', {
-                    expiresIn: '100y' // El token expira en 100 años jajaj lol
-                });
-                // Crear un objeto que contenga tanto el token como los datos del usuario
-                const responseData = {
-                    token: token,
-                    usuario: usuario
-                };
-                // Enviar la respuesta con el objeto que contiene el token y los datos del usuario
-                res.json(responseData);
-            } else {
-                res.send({ message: 'Error al autenticar al usuario', error: 'Usuario no encontrado'});
-            }
-        })
-        .catch(err => {
-            res.send({ message: 'Error al autenticar al usuario', error: err.message});
-        });
+    autenticarUsuario(correo, contrasenaUsuario, (err, usuario) => {
+        if (err) {
+            res.send({ message: 'Error al autenticar al usuario', error: err.message });
+        } else if (usuario) {
+            // Generar token JWT
+            const token = jwt.sign({ id: usuario.idUsuario }, 'SistemaFerremasTokensDeMierdaAhoraEsPersonal2', {
+                expiresIn: '100y' // El token expira en 100 años jajaj lol
+            });
+            // Crear un objeto que contenga tanto el token como los datos del usuario
+            const responseData = {
+                token: token,
+                usuario: usuario
+            };
+            // Enviar la respuesta con el objeto que contiene el token y los datos del usuario
+            res.json(responseData);
+        } else {
+            res.send({ message: 'Error al autenticar al usuario', error: 'Usuario no encontrado' });
+        }
+    });
 });
 
 // Ruta para crear un nuevo usuario
 app.post('/api/usuarios', (req, res) => {
     const nuevoUsuario = req.body;
-    crearUsuario(nuevoUsuario)
-        .then(insertId => {
+    crearUsuario(nuevoUsuario, (err, insertId) => {
+        if (err) {
+            res.send({ message: 'Error al crear usuario', error: err.message });
+        } else {
             res.json({ id: insertId, message: 'Usuario creado exitosamente' });
-        })
-        .catch(err => {
-            res.send({message : 'Error al crear usuario: ', error: err.message });
-        });
+        }
+    });
 });
 
 // Ruta para actualizar un usuario existente
-app.put('/api/usuarios/:id', async (req, res) => {
+app.put('/api/usuarios/:id', (req, res) => {
     const id = req.params.id;
     const nuevoUsuario = req.body;
 
-    try {
-        // Obtener el usuario actual
-        const usuarioActual = await getUsuario(id);
-        
-        if (!usuarioActual) {
-            return res.status(404).json({ message: 'Error al actualizar usuario', error: 'Usuario no encontrado' });
-        }
-
-        // Actualizar el usuario
-        const success = await actualizarUsuario(id, nuevoUsuario, usuarioActual);
-        
-        if (success) {
-            res.json({ message: 'Usuario actualizado exitosamente' });
+    getUsuario(id, (err, usuarioActual) => {
+        if (err) {
+            res.status(500).json({ message: 'Error al obtener usuario', error: err.message });
+        } else if (!usuarioActual) {
+            res.status(404).json({ message: 'Error al actualizar usuario', error: 'Usuario no encontrado' });
         } else {
-            res.status(500).json({ message: 'Error al actualizar usuario', error: 'Error desconocido' });
+            actualizarUsuario(id, nuevoUsuario, (err, success) => {
+                if (err) {
+                    res.status(500).json({ message: 'Error al actualizar usuario', error: err.message });
+                } else if (success) {
+                    res.json({ message: 'Usuario actualizado exitosamente' });
+                } else {
+                    res.status(500).json({ message: 'Error al actualizar usuario', error: 'Error desconocido' });
+                }
+            });
         }
-    } catch (err) {
-        res.status(500).json({ message: 'Error al actualizar usuario', error: err.message });
-    }
+    });
 });
-
 
 // Ruta para eliminar un usuario
 app.delete('/api/usuarios/:id', (req, res) => {
     const id = req.params.id;
-    eliminarUsuario(id)
-        .then(success => {
-            if (success) {
-                res.json({ message: 'Usuario eliminado exitosamente' });
-            } else {
-                res.send({ message : 'Error al eliminar usuario', error : 'Usuario no encontrado'});
-            }
-        })
-        .catch(err => {
-            res.send({ message : 'Error al eliminar usuario', error : err.message});
-        });
+    eliminarUsuario(id, (err, success) => {
+        if (err) {
+            res.send({ message: 'Error al eliminar usuario', error: err.message });
+        } else if (success) {
+            res.json({ message: 'Usuario eliminado exitosamente' });
+        } else {
+            res.send({ message: 'Error al eliminar usuario', error: 'Usuario no encontrado' });
+        }
+    });
 });
 
 //BOLETAS
 
 // Ruta para obtener todas las boletas
 app.get('/api/boletas', (req, res) => {
-    getBoletas()
-        .then(boletas => {
-            res.json(boletas);
-        })
-        .catch(err => {
-            res.send({ message : 'Error al obtener boletas)', error: err.message});
-        });
+    getBoletas((err, boletas) => {
+        if (err) {
+            return res.send({ message: 'Error al obtener boletas', error: err.message });
+        }
+        res.json(boletas);
+    });
 });
 
 // Ruta para obtener una boleta por su ID
 app.get('/api/boletas/:id', (req, res) => {
     const id = req.params.id;
-    getBoleta(id)
-        .then(boleta => {
-            if (boleta) {
-                res.json(boleta);
-            } else {
-                res.send({ message : 'Error al obtener boleta' , error: 'Boleta no encontrada'});
-            }
-        })
-        .catch(err => {
-            res.send({ message : 'Error al obtener boleta' , error : err.message});
-        });
+    getBoleta(id, (err, boleta) => {
+        if (err) {
+            return res.send({ message: 'Error al obtener boleta', error: err.message });
+        }
+        if (boleta) {
+            res.json(boleta);
+        } else {
+            res.send({ message: 'Error al obtener boleta', error: 'Boleta no encontrada' });
+        }
+    });
 });
 
 // Ruta para actualizar una boleta existente
 app.put('/api/boletas/:id', (req, res) => {
     const id = req.params.id;
     const nuevaBoleta = req.body;
-    actualizarBoleta(id, nuevaBoleta)
-        .then(success => {
-            if (success) {
-                res.json({ message: 'Boleta actualizada exitosamente' });
-            } else {
-                res.send({ message : 'Error al actualizar boleta' , error: 'Boleta no encontrada'});
-            }
-        })
-        .catch(err => {
-            res.send({ message : 'Error al actualizar boleta' , error: err.message});
-        });
+    actualizarBoleta(id, nuevaBoleta, (err, success) => {
+        if (err) {
+            return res.send({ message: 'Error al actualizar boleta', error: err.message });
+        }
+        if (success) {
+            res.json({ message: 'Boleta actualizada exitosamente' });
+        } else {
+            res.send({ message: 'Error al actualizar boleta', error: 'Boleta no encontrada' });
+        }
+    });
 });
 
-//CARRITO
+// Ruta para eliminar un usuario
+app.delete('/api/boletas/:id', (req, res) => {
+    const id = req.params.id;
+    eliminarBoleta(id, (err, success) => {
+        if (err) {
+            res.send({ message: 'Error al eliminar boleta', error: err.message });
+        } else if (success) {
+            res.json({ message: 'Boleta eliminada exitosamente' });
+        } else {
+            res.send({ message: 'Error al eliminar boleta', error: 'Boleta no encontrada' });
+        }
+    });
+});
+
+// CARRITO
 
 // Ruta para obtener el carrito de un usuario
 app.get('/api/carrito/:id', (req, res) => {
     const id = req.params.id;
-    getCarritoPorUsuario(id)
-        .then(carrito => {
-            if (carrito) {
-                res.json(carrito);
-            } else {
-                res.send({message: 'Error al obtener carrito', error: 'El carrito esta vacio'});
-            }
-        })
-        .catch(err => {
-            res.send({message: 'Error al obtener carrito', error: err.message});
-        });
+    getCarritoPorUsuario(id, (error, carrito) => {
+        if (error) {
+            return res.send({ message: 'Error al obtener carrito', error: error.message });
+        }
+        
+        if (carrito.error) {
+            return res.send({ message: carrito.message, error: carrito.error });
+        }
+        
+        res.json(carrito);
+    });
 });
 
 // Ruta para agregar un producto al carrito
 app.post('/api/carrito', (req, res) => {
-    const { idCarrito, idProducto, cantidadProducto } = req.body;
+    const { idUsuario, idProducto, cantidadProducto } = req.body;
 
     // Verificar que se proporcionen los parámetros necesarios
-    if (!idCarrito || !idProducto || !cantidadProducto) {
-        res.send('Faltan parámetros en la solicitud');
-        return;
+    if (!idUsuario) {
+        return res.json({ message: 'No se agregó ningún producto', error: 'Falta el usuario' });
+    }
+    if (!idProducto) {
+        return res.json({ message: 'No se agregó ningún producto', error: 'Falta el producto' });
+    }
+    if (!cantidadProducto) {
+        return res.json({ message: 'No se agregó ningún producto', error: 'Falta la cantidad del producto' });
     }
 
-    agregarProductoAlCarrito(idCarrito, idProducto, cantidadProducto)
-        .then(insertId => {
-            res.json({ id: insertId, message: 'Producto agregado al carrito exitosamente' });
-        })
-        .catch(err => {
-            res.send({message :'Error al agregar producto al carrito', error: err.message});
+    getProducto(idProducto, (error, producto) => {
+        if (error) {
+            return res.json({ message: 'Error al recuperar el producto', error: error.message });
+        }
+        if (!producto) {
+            return res.json({ message: 'No se agregó ningún producto', error: 'El producto no existe' });
+        }
+
+        agregarProductoAlCarrito(idUsuario, idProducto, cantidadProducto, (error, resultado) => {
+            if (error) {
+                return res.json({ message: 'Error al agregar producto al carrito', error: error.message });
+            }
+            if (resultado.length === 0) {
+                return res.json({ message: 'Error al agregar producto al carrito', error: "Carrito esta vacio"});
+            }
+            return res.json(resultado);
         });
+    });
 });
 
 // Ruta para eliminar un producto de un carrito DELETE EJEMPLO: /api/carrito?carrito=456&producto=789
 app.delete('/api/carrito', (req, res) => {
-    const idCarrito = req.query.carrito;
-    const idProducto = req.query.producto;
+    const idCarrito = req.body.carrito;
+    const idProducto = req.body.producto;
 
     // Verificar que se proporcionen los parámetros necesarios
-    if (!idCarrito || !idProducto) {
-        res.send('Faltan parámetros en la solicitud');
-        return;
+    if (!idCarrito) {
+        return res.send({ message : ' Error al eliminar producto del carrito', error: 'Falta id del carrito'});
     }
 
-    eliminarProductoDelCarrito(idCarrito, idProducto)
-        .then(success => {
+    if (!idProducto) {
+        return res.send({ message : ' Error al eliminar producto del carrito', error: 'Falta id del producto'});
+    }
+
+    eliminarProductoDelCarrito(idCarrito, idProducto, (error, success) => {
+        if (error) {
+            res.send({ message: 'Error al eliminar producto del carrito', error: error.message });
+        } else {
             if (success) {
                 res.json({ message: 'Producto eliminado del carrito exitosamente' });
             } else {
                 res.send({ message : ' Error al eliminar producto del carrito', error: 'Producto no encontrado en el carrito'});
             }
-        })
-        .catch(err => {
-            res.send({ message: 'Error al eliminar producto del carrito', error: err.message});
-        });
+        }
+    });
 });
 
 //ORDENES DE PEDIDO
 
 // Ruta para obtener todos los pedidos de orden
-app.get('/api/ordenPedido', (req, res) => {
-    getOrdenesPedido()
-        .then(ordenesPedido => {
+app.get('/api/orden-pedido', (req, res) => {
+    getOrdenesPedido((error, ordenesPedido) => {
+        if (error) {
+            res.send({ message: 'Error al obtener ordenes de pedido', error: error.message });
+        } else {
             res.json(ordenesPedido);
-        })
-        .catch(err => {
-            res.send({ message : 'Error al obtener ordenes de pedido', error : err.message});
-        });
+        }
+    });
 });
 
 // Ruta para obtener un pedido de orden por su ID
-app.get('/api/ordenPedido/:id', (req, res) => {
+app.get('/api/orden-pedido/:id', (req, res) => {
     const id = req.params.id;
-    getOrdenPedido(id)
-        .then(ordenPedido => {
+    getOrdenPedido(id, (error, ordenPedido) => {
+        if (error) {
+            res.send({ message: 'Error al obtener orden de pedido', error: error.message });
+        } else {
             if (ordenPedido) {
                 res.json(ordenPedido);
             } else {
-                res.send({message : ' Error al obtener orden de pedido', error: 'Orden de pedido no encontrada'});
+                res.send({ message: 'Error al obtener orden de pedido', error: 'Orden de pedido no encontrada' });
             }
-        })
-        .catch(err => {
-            res.send({ message : 'Error al obtener orden de pedido', error : err.message});
-        });
+        }
+    });
 });
 
 // Ruta para crear un nuevo pedido de orden
-app.post('/api/ordenPedido', (req, res) => {
-    const nuevaOrdenPedido = req.body;
-    crearOrdenPedido(nuevaOrdenPedido)
-        .then(insertId => {
+app.post('/api/orden-pedido', (req, res) => {
+    if (!req.body.idUsuario) {
+        return res.send({ message: 'Error al crear orden de pedido', error: 'Falta el id del usuario' });
+    }
+    if (!req.body.idBoleta) {
+        return res.send({ message: 'Error al crear orden de pedido', error: 'Falta el id de boleta' });
+    }
+    
+    const nuevaOrdenPedido = {
+        fechaOrden: new Date().toISOString().split('T')[0],
+        idUsuario: req.body.idUsuario,
+        idBoleta: req.body.idBoleta
+    };
+
+    // Verificar si la boleta existe
+    getBoleta(req.body.idBoleta, (error, boleta) => {
+        if (error) {
+            return res.send({ message: 'Error al crear orden de pedido', error: error.message });
+        }
+
+        if (!boleta) {
+            return res.send({ message: 'Error al crear orden de pedido', error: 'No se encontró la boleta' });
+        }
+
+        // Crear la orden de pedido
+        crearOrdenPedido(nuevaOrdenPedido, (error, insertId) => {
+            if (error) {
+                return res.send({ message: 'Error al crear orden de pedido', error: error.message });
+            }
             res.json({ id: insertId, message: 'Orden de pedido creada exitosamente' });
-        })
-        .catch(err => {
-            res.send({message : 'Error al crear orden de pedido', error : err.message});
         });
+    });
 });
 
 // Ruta para actualizar un pedido de orden existente
-app.put('/api/ordenPedido/:id', (req, res) => {
+app.put('/api/orden-pedido/:id', (req, res) => {
     const id = req.params.id;
     const nuevaOrdenPedido = req.body;
-    actualizarOrdenPedido(id, nuevaOrdenPedido)
-        .then(success => {
+    actualizarOrdenPedido(id, nuevaOrdenPedido, (error, success) => {
+        if (error) {
+            res.send({ message: 'Error al actualizar orden de pedido', error: error.message });
+        } else {
             if (success) {
                 res.json({ message: 'Orden de pedido actualizada exitosamente' });
             } else {
-                res.send({ message : 'Error al actualizar orden de pedido', error : 'Orden de pedido no encontrada'});
+                res.send({ message: 'Error al actualizar orden de pedido', error: 'Orden de pedido no encontrada' });
             }
-        })
-        .catch(err => {
-            res.send({ message : 'Error al actualizar orden de pedido', error : err.message});
-        });
+        }
+    });
 });
 
 // Ruta para eliminar un pedido de orden
-app.delete('/api/ordenPedido/:id', (req, res) => {
+app.delete('/api/orden-pedido/:id', (req, res) => {
     const id = req.params.id;
-    eliminarOrdenPedido(id)
-        .then(success => {
+    eliminarOrdenPedido(id, (error, success) => {
+        if (error) {
+            res.send({ message: 'Error al eliminar orden de pedido', error: error.message });
+        } else {
             if (success) {
                 res.json({ message: 'Orden de pedido eliminada exitosamente' });
             } else {
-                res.send({ message : 'Error al eliminar orden de pedido', error: 'Orden de pedido no encontrada'});
+                res.send({ message: 'Error al eliminar orden de pedido', error: 'Orden de pedido no encontrada' });
             }
-        })
-        .catch(err => {
-            res.send({ message : 'Error al eliminar orden de pedido', error : err.message});
-        });
+        }
+    });
 });
 
-// Ruta para los pagos
+// Pagos
 
-//ENTREGAR BODY CON ATRIBUTO "costo" : precio_clp
-const createPayment = async (req, res) => {
+const createPayment = (req, res) => {
     const costo_compra_clp = req.body.costo; // Suponiendo que costo es el monto en CLP
     const idUser = req.body.idUser;
     if (!req.body.costo || typeof req.body.costo !== 'number') {
@@ -648,46 +746,65 @@ const createPayment = async (req, res) => {
         return res.json({ error: 'Se requiere un usuario en la solicitud.' });
     }
 
-    const usuario = await getUsuario(idUser)
-    if (!usuario) {
-        return res.json({ error: 'Usuario no existe' });
+    if (req.body.costo < 0) {
+        return res.json({error: "El costo debe tener un valor minimo de 5 pesos"})
     }
 
-    const url_dolar = "https://dolarapi.com/v1/dolares";
-
-    // Obtener el valor del dólar desde la API
-    const response = await fetch(url_dolar);
-    const data = await response.json();
-    const valor_dolar = data[0].compra; // Suponiendo que data contiene el valor del dólar
-    // Convertir el costo de la compra a USD
-    const costo_compra_usd = (costo_compra_clp / valor_dolar).toFixed(2);
-    const return_url = `http://localhost:3001/api/ejecutar-pago?monto=${costo_compra_clp}&idUser=${idUser}`;
-    const body = {
-        intent: 'CAPTURE',
-        purchase_units: [{
-            amount: {
-                currency_code: 'USD', //https://developer.paypal.com/docs/api/reference/currency-codes/
-                value: costo_compra_usd
-            }
-        }],
-        application_context: {
-            brand_name: `Ferremas`,
-            landing_page: 'NO_PREFERENCE', // Default, para mas informacion https://developer.paypal.com/docs/api/orders/v2/#definition-order_application_context
-            user_action: 'PAY_NOW', // Accion para que en paypal muestre el monto del pago
-            return_url: return_url, // Url despues de realizar el pago
-            cancel_url: `http://localhost:3000/cancelar-pago` // Url despues de realizar el pago
+    getUsuario(idUser, (error, usuario) => {
+        if (error) {
+            return res.json({ error: 'Error al obtener usuario: ' + error.message });
         }
-    }
-    //https://api-m.sandbox.paypal.com/v2/checkout/orders [POST]
+        if (!usuario) {
+            return res.json({ error: 'Usuario no existe' });
+        }
 
-    request.post(`${PAYPAL_API}/v2/checkout/orders`, {
-        auth,
-        body,
-        json: true
-    }, (error, response) => {
-        res.json({ data: response.body })
-    })
-}
+        const url_dolar = "https://dolarapi.com/v1/dolares";
+
+        // Obtener el valor del dólar desde la API
+        fetch(url_dolar)
+            .then(response => response.json())
+            .then(data => {
+                const valor_dolar = data[0].compra; // Suponiendo que data contiene el valor del dólar
+                // Convertir el costo de la compra a USD
+                const costo_compra_usd = (costo_compra_clp / valor_dolar).toFixed(2);
+                const return_url = `http://localhost:3001/api/ejecutar-pago?monto=${costo_compra_clp}&idUser=${idUser}`;
+                const body = {
+                    intent: 'CAPTURE',
+                    purchase_units: [{
+                        amount: {
+                            currency_code: 'USD', // https://developer.paypal.com/docs/api/reference/currency-codes/
+                            value: costo_compra_usd
+                        }
+                    }],
+                    application_context: {
+                        brand_name: `Ferremas`,
+                        landing_page: 'NO_PREFERENCE', // Default, para mas informacion https://developer.paypal.com/docs/api/orders/v2/#definition-order_application_context
+                        user_action: 'PAY_NOW', // Accion para que en paypal muestre el monto del pago
+                        return_url: return_url, // Url despues de realizar el pago
+                        cancel_url: `http://localhost:3000/cancelar-pago` // Url despues de cancelar el pago
+                    }
+                };
+
+                // https://api-m.sandbox.paypal.com/v2/checkout/orders [POST]
+                request.post(`${PAYPAL_API}/v2/checkout/orders`, {
+                    auth,
+                    body,
+                    json: true
+                }, (error, response) => {
+                    if (error) {
+                        return res.json({ error: 'Error al crear orden de pago: ' + error.message });
+                    }
+                    if (response.body.name === 'UNPROCESSABLE_ENTITY') {
+                        return res.json({message : "Transferencia incompleta", error: response.body})
+                    }
+                    return res.json({ message: response.body , paylink: response.body.links[1].href });
+                });
+            })
+            .catch(error => {
+                return res.json({ error: 'Error al obtener el valor del dólar: ' + error.message });
+            });
+    });
+};
 
 const executePayment = (req, res) => {
     const token = req.query.token;
@@ -696,20 +813,31 @@ const executePayment = (req, res) => {
         body: {},
         json: true
     }, (error, response) => {
-            const total = req.query.monto;
-            const idUser = req.query.idUser;
-            const fechaBoleta = new Date().toISOString().split('T')[0];
-            const boleta = {
-                fechaBoleta: fechaBoleta,
-                total: total,
-                idUsuario: idUser
-                };
-        crearBoleta(boleta).catch( error => {
-            console.error("Error al crear boleta: " + error.message)
-        })
-        res.redirect('http://localhost:3000/pago-exitoso')
-    })
-}
+        if (error) {
+            return res.json({ error: 'Error al capturar el pago: ' + error.message });
+        }
+
+        const total = req.query.monto;
+        const idUser = req.query.idUser;
+        const fechaBoleta = new Date().toISOString().split('T')[0];
+        const nombreFull = response.body.payment_source.paypal.name.given_name + " " + response.body.payment_source.paypal.name.surname 
+        const boleta = {
+            fechaBoleta : fechaBoleta,
+            totalclp: total,
+            idUsuario: idUser,
+            nombreCompleto: nombreFull,
+            countryCode : response.body.payment_source.paypal.address.country_code,
+            correo: response.body.payment_source.paypal.email_address,
+        };
+
+        crearBoleta(boleta, (error) => {
+            if (error) {
+                console.error("Error al crear boleta: " + error.message);
+            }
+            res.json({message: 'Pago exitoso', data: response.body});
+        });
+    });
+};
 
 app.post('/api/crear-pago', createPayment);
 app.get('/api/ejecutar-pago', executePayment);

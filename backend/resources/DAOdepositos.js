@@ -1,22 +1,18 @@
-const conectar = require('./connection'); // Asegúrate de que la ruta al archivo de conexión sea correcta
+const conectar = require('./connection');
 
-function crearDeposito(deposito) {
-    return new Promise((resolve, reject) => {
-        const connection = conectar();
-        const query = 'INSERT INTO deposito SET ?';
-        connection.query(query, deposito, (error, results, fields) => {
-            if (error) {
-                connection.end();
-                reject(error);
-                return;
-            }
+function crearDeposito(deposito, callback) {
+    const connection = conectar();
+    const query = 'INSERT INTO deposito SET ?';
+    connection.query(query, deposito, (error, results, fields) => {
+        if (error) {
             connection.end();
-            resolve(results.insertId);
-        });
+            return callback(error, null);
+        }
+        connection.end();
+        callback(null, results.insertId);
     });
 }
 
-// Función para eliminar un depósito
 function eliminarDeposito(id, callback) {
     const connection = conectar();
     const query = 'DELETE FROM deposito WHERE idDeposito = ?';
@@ -30,41 +26,32 @@ function eliminarDeposito(id, callback) {
     });
 }
 
-// Función para recuperar todos los depósitos de la base de datos
-function getDepositos() {
-    return new Promise((resolve, reject) => {
-        const connection = conectar();
-        const query = 'SELECT * FROM deposito';
-        connection.query(query, (error, results, fields) => {
-            if (error) {
-                connection.end();
-                reject(error);
-                return;
-            }
+function getDepositos(callback) {
+    const connection = conectar();
+    const query = 'SELECT * FROM deposito';
+    connection.query(query, (error, results, fields) => {
+        if (error) {
             connection.end();
-            resolve(results);
-        });
+            return callback(error, null);
+        }
+        connection.end();
+        callback(null, results);
     });
 }
 
-// Función para recuperar los depósitos de un usuario específico
-function getDepositosUsuario(id) {
-    return new Promise((resolve, reject) => {
-        const connection = conectar();
-        const query = 'SELECT * FROM deposito WHERE idUsuario = ?';
-        connection.query(query, id ,(error, results, fields) => {
-            if (error) {
-                connection.end();
-                reject(error);
-                return;
-            }
+function getDepositosUsuario(id, callback) {
+    const connection = conectar();
+    const query = 'SELECT * FROM deposito WHERE idUsuario = ?';
+    connection.query(query, id ,(error, results, fields) => {
+        if (error) {
             connection.end();
-            resolve(results);
-        });
+            return callback(error, null);
+        }
+        connection.end();
+        callback(null, results);
     });
 }
 
-// Función para recuperar un depósito específico
 function getDeposito(id, callback) {
     const connection = conectar();
     const query = 'SELECT * FROM deposito WHERE idDeposito = ?';
@@ -78,5 +65,4 @@ function getDeposito(id, callback) {
     });
 }
 
-
-module.exports = {crearDeposito, eliminarDeposito, getDeposito, getDepositos, getDepositosUsuario }
+module.exports = { crearDeposito, eliminarDeposito, getDeposito, getDepositos, getDepositosUsuario };

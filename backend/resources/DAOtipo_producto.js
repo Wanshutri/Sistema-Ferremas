@@ -3,22 +3,19 @@ const conectar = require('./connection'); // Importa la función de conexión
 // Función para crear un nuevo tipo de producto
 function crearTipoProducto(nombreTipo, callback) {
     if (nombreTipo.length <= 2) {
-        callback(new Error('El nombre del tipo de producto debe tener al menos 3 caracteres.'), null);
-        return;
+        return callback(new Error('El nombre del tipo de producto debe tener al menos 3 caracteres.'), null);
     }
 
     if (typeof nombreTipo !== 'string') {
-        callback(new Error('El nombre del tipo de producto debe ser caracteres alfabéticos.'), null);
-        return;
-    }    
+        return callback(new Error('El nombre del tipo de producto debe ser caracteres alfabéticos.'), null);
+    }
 
     const connection = conectar();
     const query = 'INSERT INTO tipo_producto (nombreTipo) VALUES(?)';
     connection.query(query, nombreTipo, (error, results, fields) => {
         connection.end();
         if (error) {
-            callback(error, null);
-            return;
+            return callback(error, null);
         }
         callback(null, results.insertId);
     });
@@ -27,13 +24,11 @@ function crearTipoProducto(nombreTipo, callback) {
 // Función para actualizar un tipo de producto existente
 function actualizarTipoProducto(id, nombreTipo, callback) {
     if (nombreTipo.length <= 2) {
-        callback(new Error('El nombre del tipo de producto debe tener al menos 3 caracteres.'), null);
-        return;
+        return callback(new Error('El nombre del tipo de producto debe tener al menos 3 caracteres.'), null);
     }
 
     if (typeof nombreTipo !== 'string') {
-        callback(new Error('El nombre del tipo de producto debe ser caracteres alfabéticos.'), null);
-        return;
+        return callback(new Error('El nombre del tipo de producto debe ser caracteres alfabéticos.'), null);
     }
 
     const connection = conectar();
@@ -41,8 +36,7 @@ function actualizarTipoProducto(id, nombreTipo, callback) {
     connection.query(query, [nombreTipo, id], (error, results, fields) => {
         connection.end();
         if (error) {
-            callback(error, null);
-            return;
+            return callback(error, null);
         }
         callback(null, results.affectedRows > 0);
     });
@@ -55,8 +49,7 @@ function eliminarTipoProducto(id, callback) {
     connection.query(query, id, (error, results, fields) => {
         connection.end();
         if (error) {
-            callback(error, null);
-            return;
+            return callback(error, null);
         }
         callback(null, results.affectedRows > 0);
     });
@@ -69,8 +62,7 @@ function getTipoProducto(id, callback) {
     connection.query(query, id, (error, results, fields) => {
         connection.end();
         if (error) {
-            callback(error, null);
-            return;
+            return callback(error, null);
         }
         if (results.length === 0) {
             callback(null, null); // No se encontró ningún tipo de producto con ese ID
@@ -87,8 +79,7 @@ function getTiposProducto(callback) {
     connection.query(query, (error, results, fields) => {
         connection.end();
         if (error) {
-            callback(error, null);
-            return;
+            return callback(error, null);
         }
         callback(null, results);
     });
