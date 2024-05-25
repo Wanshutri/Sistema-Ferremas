@@ -47,7 +47,7 @@ const Ayuda = () => {
                             <FaShoppingCart className="iconayuda" />
                             Administrar y Cancelar Compras
                           </h4>
-                          <p>Agregar Texto Predeterminado Aqui</p>
+                          
                           <Divider
                             orientation="horizontal"
                             flexItem
@@ -57,7 +57,7 @@ const Ayuda = () => {
                             <BsCartXFill className="iconayuda" />
                             Devoluciones Y Reembolsos
                           </h4>
-                          <p>Agregar Texto Predeterminado Aqui</p>
+                        
                           <Divider
                             orientation="horizontal"
                             flexItem
