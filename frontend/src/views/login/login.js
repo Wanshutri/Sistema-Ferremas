@@ -23,21 +23,22 @@ function Login() {
   const [error, setError] = useState("");
   const { login, authState } = useContext(AuthContext); // Usa el contexto de autenticación
 
-  const accederLogin = async () => {
+  const accederLogin = () => {
+    console.log("1")
     if (correo.trim() === "" || contrasena.trim() === "") {
       console.log(authState.usuario)
       setError("Por favor, completa todos los campos.");
       return;
     }
-
-    const datos = {
-      correoUsuario: correo,
-      contrasenaUsuario: contrasena,
-    };
-
+    
     try {
-      await login(datos);
+      login(correo, contrasena);
+      if (authState.isAuthenticated == false) {
+        console.log("Usuario incorrecto o noi encontrado")
+      }
+      console.log(authState.isAuthenticated)
     } catch (error) {
+      console.log("ERROR: " + error)
       setError("Hubo un problema con la autenticación. Por favor, inténtalo de nuevo más tarde.");
     }
   };

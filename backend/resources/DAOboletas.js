@@ -7,7 +7,6 @@ function getBoletas() {
         const query = 'SELECT * FROM boleta';
         connection.query(query, (error, results, fields) => {
             if (error) {
-                console.error('Error al ejecutar la consulta:', error);
                 connection.end();
                 reject(error);
                 return;
@@ -25,7 +24,6 @@ function crearBoleta(boleta) {
         const query = 'INSERT INTO boleta SET ?';
         connection.query(query, boleta, (error, results, fields) => {
             if (error) {
-                console.error('Error al ejecutar la consulta:', error);
                 connection.end();
                 reject(error);
                 return;
@@ -43,7 +41,6 @@ function actualizarBoleta(id, nuevaBoleta) {
         const query = 'UPDATE boleta SET ? WHERE idBoleta = ?';
         connection.query(query, [nuevaBoleta, id], (error, results, fields) => {
             if (error) {
-                console.error('Error al ejecutar la consulta:', error);
                 connection.end();
                 reject(error);
                 return;
@@ -61,7 +58,6 @@ function eliminarBoleta(id) {
         const query = 'DELETE FROM boleta WHERE idBoleta = ?';
         connection.query(query, id, (error, results, fields) => {
             if (error) {
-                console.error('Error al ejecutar la consulta:', error);
                 connection.end();
                 reject(error);
                 return;
@@ -79,7 +75,6 @@ function getBoleta(id) {
         const query = 'SELECT * FROM boleta WHERE idBoleta = ?';
         connection.query(query, id, (error, results, fields) => {
             if (error) {
-                console.error('Error al ejecutar la consulta:', error);
                 connection.end();
                 reject(error);
                 return;
@@ -90,6 +85,23 @@ function getBoleta(id) {
             } else {
                 resolve(results[0]); // Devuelve el primer resultado encontrado (debería ser único por el ID)
             }
+        });
+    });
+}
+
+// Función para recuperar productos de una boleta
+function getProductosBoleta(id) {
+    return new Promise((resolve, reject) => {
+        const connection = conectar();
+        const query = 'SELECT * FROM detalle_boleta WHERE idBoleta = ?';
+        connection.query(query, id, (error, results, fields) => {
+            if (error) {
+                connection.end();
+                reject(error);
+                return;
+            }
+            connection.end();
+            resolve(results);
         });
     });
 }

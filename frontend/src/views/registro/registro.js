@@ -52,14 +52,14 @@ const Register = () => {
         },
         body: JSON.stringify(usuario)
       });
-  
-      if (response.ok) {
+      const data = await response.json()
+      console.log(data)
+      if (data) {
         // Si la solicitud fue exitosa (código de respuesta 200-299), continuar
-        const responseData = await response.json();
-        await login(usuario.correoUsuario, usuario.contrasenaUsuario);
+        //await login(usuario.correoUsuario, usuario.contrasenaUsuario);
       } else {
         // Si la solicitud falló, lanzar un error
-        throw new Error(`Error al crear usuario: ${response.status} ${response.statusText}`);
+        throw new Error(`${response.status} ${response.statusText}`);
       }
     } catch (error) {
       console.error("Error al crear usuario:", error);

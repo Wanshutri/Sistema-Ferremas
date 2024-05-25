@@ -17,6 +17,7 @@ const uploader = require('../resources/uploads')
 const jwt = require('jsonwebtoken');
 const multer = require("multer");
 const upload = multer({ dest: 'uploads/' });
+const { error } = require('console');
 
 const CLIENT = 'AV7RbVPozcoaIgXrxjWQU5WWnGyMyZmMBfauJ16FdFEVU12RTDtFOxSNZzG2GdQUqx5wA6DMwkNR-UfZ';
 const SECRET = 'EOPG-J6D3rZmInvrRvQFuw1N9ZLhOGSEgvKToSaTKBdOltHeXdrsDPNDsui6uT9fyqAAKYpYLUX4p04o';
@@ -40,8 +41,7 @@ app.get('/', (req, res) => {
     // Lee el contenido del archivo 'doc.html'
     fs.readFile(path.join(__dirname, '..', 'public', 'doc.html'), 'utf8', (err, data) => {
         if (err) {
-            console.error('Error al leer el archivo de documentación:', err);
-            res.status(500).send('Error al cargar la documentación');
+            res.send({ message : 'Error al cargar la documentación: ', error: err.message });
             return;
         }
         // Envía la respuesta con el contenido HTML del archivo de documentación
@@ -62,7 +62,7 @@ app.post('/api/upload', upload.single('imagenProducto'), (req, res) => {
 app.post('/api/deposito/:idUsuario', (req, res) => {
     // Validar que se haya enviado un ID de usuario
     if (!req.params.idUsuario) {
-        return res.status(400).send({ message: 'Falta el ID del usuario' });
+        return res.send({ message: 'No se subio ninguna imagen', error: 'Falta id del usuario' });
     }
 
    const idUsuario = req.params.idUsuario
@@ -70,13 +70,13 @@ app.post('/api/deposito/:idUsuario', (req, res) => {
     uploader.upload(req, res, (err) => {
         if (err) {
             if (err.code === 'INVALID_FILE_TYPE') {
-                return res.status(400).send({ message: err.message });
+                return res.send({ message : 'Error al subir la imagen' ,error: 'Solo se admiten formatos de imagen' });
             }
-            return res.status(500).send({ message: 'Error al subir la imagen' });
+            return res.send({ message: 'Error al subir la imagen: ', error: err.message });
         }
 
         if (!req.file) {
-            return res.status(400).send({ message: 'No se subió ninguna imagen' });
+            return res.send({ message : 'Error al subir la imagen' , error: 'No se subió ninguna imagen' });
         }
 
         deposito = {
@@ -87,8 +87,8 @@ app.post('/api/deposito/:idUsuario', (req, res) => {
 
         uploader.crearDeposito(deposito).then(() => {
             res.send("Comprobande subido y creado con exito")
-        }).catch((error) => {
-            res.send("Ocurrio un error al subir o crear comprobante: " + error)
+        }).catch((err) => {
+            res.send({ message: "Ocurrio un error al subir o crear comprobante: ", error:  err.message})
         })
     });
 });
@@ -98,19 +98,19 @@ app.delete('/api/deposito/:id', (req, res) => {
     const id = req.params.id;
     uploader.getDeposito(id).then(deposito => {
         if (!deposito) {
-            return res.status(404).send({ message: 'Depósito no encontrado' });
+            return res.send({ message: 'Error al eliminar un deposito' ,error: 'Depósito no encontrado' });
         }
         const filePath = path.join(__dirname, '../uploads', deposito[0].urlComprobante);
         uploader.eliminarDeposito(id).then( () => {
             fs.unlink(filePath, (err) => {
-                if (err) {
-                    return res.status(500).send({ message: 'Error al eliminar el archivo del sistema de archivos' });
+                if (err.message) {
+                    return res.send({ message: 'Error al eliminar el archivo del sistema de archivos: ', error: err.message });
                 }
                 res.send({ message: 'Depósito eliminado correctamente' });
             });
         })
-    }).catch(err => {
-        return res.send("Error durante eliminar comprobante: " + err)
+    }).catch(error => {
+        return res.send({ message: "Error durante eliminar comprobante", error: err.message})
     })
 });
 
@@ -121,8 +121,8 @@ app.get('/api/depositos', (req, res) => {
         .then(depositos => {
         if (depositos) 
             res.json(depositos)
-        }).catch(error => {
-            res.status(500).send('Error al obtener depositos del usuario desde la base de datos');
+        }).catch(err => {
+            res.send({ message : 'Error al obtener los depositos', error: err.message});
         })
 });
 
@@ -135,8 +135,8 @@ app.get('/api/deposito-usuario/:id', (req, res) => {
         .then(depositos => {
         if (depositos) 
             res.json(depositos)
-        }).catch(error => {
-            res.status(500).send('Error al obtener depositos del usuario desde la base de datos');
+        }).catch(err => {
+            res.send({message: 'Error al obtener depositos del usuario', error : err.message});
         })
 });
 
@@ -147,8 +147,8 @@ app.get('/api/deposito/:id', (req, res) => {
         .then(deposito => {
         if (deposito) 
             res.json(deposito)
-        }).catch(error => {
-            res.status(500).send('Error al obtener deposito desde la base de datos');
+        }).catch(err => {
+            res.send({ message : 'Error al obtener el deposito', error: err.message});
         })
 });
 
@@ -160,9 +160,8 @@ app.get('/api/productos', (req, res) => {
         .then(productos => {
             res.json(productos);
         })
-        .catch(error => {
-            console.error('Error al obtener productos:', error);
-            res.status(500).send('Error al obtener productos desde la base de datos');
+        .catch(err => {
+            res.send({message : 'Error al obtener los productos', error: err.message});
         });
 });
 
@@ -174,12 +173,11 @@ app.get('/api/productos/:id', (req, res) => {
             if (producto) {
                 res.json(producto);
             } else {
-                res.status(404).send('Producto no encontrado');
+                res.send({ message: 'Error al obtener el producto' , error: 'Producto no encontrado'});
             }
         })
-        .catch(error => {
-            console.error('Error al obtener producto:', error);
-            res.status(500).send('Error al obtener producto desde la base de datos');
+        .catch(err => {
+            res.send({ message: 'Error al obtener producto' , error: err.message});
         });
 });
 
@@ -188,11 +186,10 @@ app.post('/api/productos', (req, res) => {
     const nuevoProducto = req.body;
     crearProducto(nuevoProducto)
         .then(insertId => {
-            res.status(201).json({ id: insertId, message: 'Producto creado exitosamente' });
+            res.json({ id: insertId, message: 'Producto creado exitosamente' });
         })
-        .catch(error => {
-            console.error('Error al crear producto:', error);
-            res.status(500).send('Error al crear producto en la base de datos');
+        .catch(err => {
+            res.send({ message : 'Error al crear producto', error: err.message});
         });
 });
 
@@ -203,14 +200,13 @@ app.put('/api/productos/:id', (req, res) => {
     actualizarProducto(id, nuevoProducto)
         .then(success => {
             if (success) {
-                res.json({ message: 'Producto actualizado exitosamente' });
+                res.send({ message: 'Producto actualizado exitosamente' , producto: nuevoProducto});
             } else {
-                res.status(404).send('Producto no encontrado');
+                res.send({ message: 'Error al actualizar producto', error: 'Producto no encontrado'});
             }
         })
-        .catch(error => {
-            console.error('Error al actualizar producto:', error);
-            res.status(500).send('Error al actualizar producto en la base de datos');
+        .catch(err => {
+            res.send({ message : 'Error al actualizar producto' , error: err.message});
         });
 });
 
@@ -220,14 +216,13 @@ app.delete('/api/productos/:id', (req, res) => {
     eliminarProducto(id)
         .then(success => {
             if (success) {
-                res.json({ message: 'Producto eliminado exitosamente' });
+                res.send('Producto eliminado exitosamente');
             } else {
-                res.status(404).send('Producto no encontrado');
+                res.send({message: 'Error al eliminar el producto', error: 'Producto no encontrado'});
             }
         })
-        .catch(error => {
-            console.error('Error al eliminar producto:', error);
-            res.status(500).send('Error al eliminar producto en la base de datos');
+        .catch(err => {
+            res.send({message : 'Error al eliminar producto', error: err.message});
         });
 });
 
@@ -239,9 +234,8 @@ app.get('/api/tipo-productos', (req, res) => {
         .then(tipo_productos => {
             res.json(tipo_productos);
         })
-        .catch(error => {
-            console.error('Error al obtener productos:', error);
-            res.status(500).send('Error al obtener productos desde la base de datos');
+        .catch(err => {
+            res.send({ message : 'Error al obtener productos', error: err.message });
         });
 });
 
@@ -253,12 +247,11 @@ app.get('/api/tipo-productos/:id', (req, res) => {
             if (producto) {
                 res.json(tipo_producto);
             } else {
-                res.status(404).send('Producto no encontrado');
+                res.send({ message: 'Error al obtener producto' , error: 'Producto no encontrado'});
             }
         })
-        .catch(error => {
-            console.error('Error al obtener producto:', error);
-            res.status(500).send('Error al obtener producto desde la base de datos');
+        .catch(err => {
+            res.send({ message : 'Error al obtener producto' , error: err.message });
         });
 });
 
@@ -269,11 +262,10 @@ app.post('/api/tipo-productos', (req, res) => {
     const nuevoTipoProducto = req.body;
     crearTipoProducto(nuevoTipoProducto)
         .then(insertId => {
-            res.status(201).json({ id: insertId, message: 'Producto creado exitosamente' });
+            res.json({ id: insertId, message: 'Producto creado exitosamente' });
         })
-        .catch(error => {
-            console.error('Error al crear producto:', error);
-            res.status(500).send('Error al crear producto en la base de datos');
+        .catch(err => {
+            res.send({message : 'Error al crear producto', error: err.message});
         });
 });
 
@@ -286,12 +278,11 @@ app.put('/api/tipo-productos/:id', (req, res) => {
             if (success) {
                 res.json({ message: 'Producto actualizado exitosamente' });
             } else {
-                res.status(404).send('Producto no encontrado');
+                res.send('Producto no encontrado');
             }
         })
-        .catch(error => {
-            console.error('Error al actualizar producto:', error);
-            res.status(500).send('Error al actualizar producto en la base de datos');
+        .catch(err => {
+            res.send({ message : 'Error al actualizar producto', error: err.message});
         });
 });
 
@@ -303,12 +294,11 @@ app.delete('/api/tipo-productos/:id', (req, res) => {
             if (success) {
                 res.json({ message: 'Producto eliminado exitosamente' });
             } else {
-                res.status(404).send('Producto no encontrado');
+                res.send({ message: 'Error al eliminar producto' , error: 'Producto no encontrado'});
             }
         })
-        .catch(error => {
-            console.error('Error al eliminar producto:', error);
-            res.status(500).send('Error al eliminar producto en la base de datos');
+        .catch(err => {
+            res.send({ message : 'Error al eliminar producto' , error: err.message});
         });
 });
 
@@ -320,9 +310,8 @@ app.get('/api/usuarios', (req, res) => {
         .then(usuarios => {
             res.json(usuarios);
         })
-        .catch(error => {
-            console.error('Error al obtener usuarios:', error);
-            res.status(500).send('Error al obtener usuarios desde la base de datos');
+        .catch(err => {
+            res.send({ message : 'Error al obtener usuarios', error: err.message});
         });
 });
 
@@ -334,12 +323,11 @@ app.get('/api/usuarios/:id', (req, res) => {
             if (usuario) {
                 res.json(usuario);
             } else {
-                res.status(404).send('Usuario no encontrado');
+                res.send('Usuario no encontrado');
             }
         })
-        .catch(error => {
-            console.error('Error al obtener usuario:', error);
-            res.status(500).send('Error al obtener usuario desde la base de datos');
+        .catch(err => {
+            res.send({ message: 'Error al obtener usuario', error: err.message});
         });
 });
 
@@ -363,11 +351,11 @@ app.post('/api/autenticar', (req, res) => {
                 // Enviar la respuesta con el objeto que contiene el token y los datos del usuario
                 res.json(responseData);
             } else {
-                res.status(404).send('Usuario no encontrado');
+                res.send({ message: 'Error al autenticar al usuario', error: 'Usuario no encontrado'});
             }
         })
-        .catch(error => {
-            res.status(500).send('Error al autenticar al usuario');
+        .catch(err => {
+            res.send({ message: 'Error al autenticar al usuario', error: err.message});
         });
 });
 
@@ -376,11 +364,10 @@ app.post('/api/usuarios', (req, res) => {
     const nuevoUsuario = req.body;
     crearUsuario(nuevoUsuario)
         .then(insertId => {
-            res.status(201).json({ id: insertId, message: 'Usuario creado exitosamente' });
+            res.json({ id: insertId, message: 'Usuario creado exitosamente' });
         })
-        .catch(error => {
-            console.error('Error al crear usuario:', error);
-            res.status(500).send('Error al crear usuario en la base de datos');
+        .catch(err => {
+            res.send({message : 'Error al crear usuario: ', error: err.message });
         });
 });
 
@@ -393,12 +380,11 @@ app.put('/api/usuarios/:id', (req, res) => {
             if (success) {
                 res.json({ message: 'Usuario actualizado exitosamente' });
             } else {
-                res.status(404).send('Usuario no encontrado');
+                res.send({message : 'Error al actualizar usuario', error: 'Usuario no encontrado'});
             }
         })
-        .catch(error => {
-            console.error('Error al actualizar usuario:', error);
-            res.status(500).send('Error al actualizar usuario en la base de datos');
+        .catch(err => {
+            res.send({message : 'Error al actualizar usuario', error: err.message});
         });
 });
 
@@ -410,15 +396,13 @@ app.delete('/api/usuarios/:id', (req, res) => {
             if (success) {
                 res.json({ message: 'Usuario eliminado exitosamente' });
             } else {
-                res.status(404).send('Usuario no encontrado');
+                res.send({ message : 'Error al eliminar usuario', error : 'Usuario no encontrado'});
             }
         })
-        .catch(error => {
-            console.error('Error al eliminar usuario:', error);
-            res.status(500).send('Error al eliminar usuario en la base de datos');
+        .catch(err => {
+            res.send({ message : 'Error al eliminar usuario', error : err.message});
         });
 });
-
 
 //BOLETAS
 
@@ -428,9 +412,8 @@ app.get('/api/boletas', (req, res) => {
         .then(boletas => {
             res.json(boletas);
         })
-        .catch(error => {
-            console.error('Error al obtener boletas:', error);
-            res.status(500).send('Error al obtener boletas desde la base de datos');
+        .catch(err => {
+            res.send({ message : 'Error al obtener boletas)', error: err.message});
         });
 });
 
@@ -442,12 +425,11 @@ app.get('/api/boletas/:id', (req, res) => {
             if (boleta) {
                 res.json(boleta);
             } else {
-                res.status(404).send('Boleta no encontrada');
+                res.send({ message : 'Error al obtener boleta' , error: 'Boleta no encontrada'});
             }
         })
-        .catch(error => {
-            console.error('Error al obtener boleta:', error);
-            res.status(500).send('Error al obtener boleta desde la base de datos');
+        .catch(err => {
+            res.send({ message : 'Error al obtener boleta' , error : err.message});
         });
 });
 
@@ -460,12 +442,11 @@ app.put('/api/boletas/:id', (req, res) => {
             if (success) {
                 res.json({ message: 'Boleta actualizada exitosamente' });
             } else {
-                res.status(404).send('Boleta no encontrada');
+                res.send({ message : 'Error al actualizar boleta' , error: 'Boleta no encontrada'});
             }
         })
-        .catch(error => {
-            console.error('Error al actualizar boleta:', error);
-            res.status(500).send('Error al actualizar boleta en la base de datos');
+        .catch(err => {
+            res.send({ message : 'Error al actualizar boleta' , error: err.message});
         });
 });
 
@@ -479,35 +460,32 @@ app.get('/api/carrito/:id', (req, res) => {
             if (carrito) {
                 res.json(carrito);
             } else {
-                res.status(404).send('El carrito esta vacio');
+                res.send({message: 'Error al obtener carrito', error: 'El carrito esta vacio'});
             }
         })
-        .catch(error => {
-            console.error('Error al obtener carrito:', error);
-            res.status(500).send('Error al obtener carrito desde la base de datos');
+        .catch(err => {
+            res.send({message: 'Error al obtener carrito', error: err.message});
         });
 });
 
-// Ruta para agregar un producto al carrito POST EJEMPLO: /api/carrito/agregar
+// Ruta para agregar un producto al carrito
 app.post('/api/carrito', (req, res) => {
     const { idCarrito, idProducto, cantidadProducto } = req.body;
 
     // Verificar que se proporcionen los parámetros necesarios
     if (!idCarrito || !idProducto || !cantidadProducto) {
-        res.status(400).send('Faltan parámetros en la solicitud');
+        res.send('Faltan parámetros en la solicitud');
         return;
     }
 
     agregarProductoAlCarrito(idCarrito, idProducto, cantidadProducto)
         .then(insertId => {
-            res.status(201).json({ id: insertId, message: 'Producto agregado al carrito exitosamente' });
+            res.json({ id: insertId, message: 'Producto agregado al carrito exitosamente' });
         })
-        .catch(error => {
-            console.error('Error al agregar producto al carrito:', error);
-            res.status(500).send('Error al agregar producto al carrito');
+        .catch(err => {
+            res.send({message :'Error al agregar producto al carrito', error: err.message});
         });
 });
-
 
 // Ruta para eliminar un producto de un carrito DELETE EJEMPLO: /api/carrito?carrito=456&producto=789
 app.delete('/api/carrito', (req, res) => {
@@ -516,21 +494,20 @@ app.delete('/api/carrito', (req, res) => {
 
     // Verificar que se proporcionen los parámetros necesarios
     if (!idCarrito || !idProducto) {
-        res.status(400).send('Faltan parámetros en la solicitud');
+        res.send('Faltan parámetros en la solicitud');
         return;
     }
 
     eliminarProductoDelCarrito(idCarrito, idProducto)
         .then(success => {
             if (success) {
-                res.json({ message: 'Producto eliminado exitosamente' });
+                res.json({ message: 'Producto eliminado del carrito exitosamente' });
             } else {
-                res.status(404).send('Producto no encontrado en el carrito');
+                res.send({ message : ' Error al eliminar producto del carrito', error: 'Producto no encontrado en el carrito'});
             }
         })
-        .catch(error => {
-            console.error('Error al eliminar producto del carrito:', error);
-            res.status(500).send('Error al eliminar producto del carrito');
+        .catch(err => {
+            res.send({ message: 'Error al eliminar producto del carrito', error: err.message});
         });
 });
 
@@ -542,9 +519,8 @@ app.get('/api/ordenPedido', (req, res) => {
         .then(ordenesPedido => {
             res.json(ordenesPedido);
         })
-        .catch(error => {
-            console.error('Error al obtener ordenes de pedido:', error);
-            res.status(500).send('Error al obtener ordenes de pedido desde la base de datos');
+        .catch(err => {
+            res.send({ message : 'Error al obtener ordenes de pedido', error : err.message});
         });
 });
 
@@ -556,12 +532,11 @@ app.get('/api/ordenPedido/:id', (req, res) => {
             if (ordenPedido) {
                 res.json(ordenPedido);
             } else {
-                res.status(404).send('Orden de pedido no encontrada');
+                res.send({message : ' Error al obtener orden de pedido', error: 'Orden de pedido no encontrada'});
             }
         })
-        .catch(error => {
-            console.error('Error al obtener orden de pedido:', error);
-            res.status(500).send('Error al obtener orden de pedido desde la base de datos');
+        .catch(err => {
+            res.send({ message : 'Error al obtener orden de pedido', error : err.message});
         });
 });
 
@@ -570,11 +545,10 @@ app.post('/api/ordenPedido', (req, res) => {
     const nuevaOrdenPedido = req.body;
     crearOrdenPedido(nuevaOrdenPedido)
         .then(insertId => {
-            res.status(201).json({ id: insertId, message: 'Orden de pedido creada exitosamente' });
+            res.json({ id: insertId, message: 'Orden de pedido creada exitosamente' });
         })
-        .catch(error => {
-            console.error('Error al crear orden de pedido:', error);
-            res.status(500).send('Error al crear orden de pedido en la base de datos');
+        .catch(err => {
+            res.send({message : 'Error al crear orden de pedido', error : err.message});
         });
 });
 
@@ -587,12 +561,11 @@ app.put('/api/ordenPedido/:id', (req, res) => {
             if (success) {
                 res.json({ message: 'Orden de pedido actualizada exitosamente' });
             } else {
-                res.status(404).send('Orden de pedido no encontrada');
+                res.send({ message : 'Error al actualizar orden de pedido', error : 'Orden de pedido no encontrada'});
             }
         })
-        .catch(error => {
-            console.error('Error al actualizar orden de pedido:', error);
-            res.status(500).send('Error al actualizar orden de pedido en la base de datos');
+        .catch(err => {
+            res.send({ message : 'Error al actualizar orden de pedido', error : err.message});
         });
 });
 
@@ -604,12 +577,11 @@ app.delete('/api/ordenPedido/:id', (req, res) => {
             if (success) {
                 res.json({ message: 'Orden de pedido eliminada exitosamente' });
             } else {
-                res.status(404).send('Orden de pedido no encontrada');
+                res.send({ message : 'Error al eliminar orden de pedido', error: 'Orden de pedido no encontrada'});
             }
         })
-        .catch(error => {
-            console.error('Error al eliminar orden de pedido:', error);
-            res.status(500).send('Error al eliminar orden de pedido en la base de datos');
+        .catch(err => {
+            res.send({ message : 'Error al eliminar orden de pedido', error : err.message});
         });
 });
 
@@ -618,9 +590,19 @@ app.delete('/api/ordenPedido/:id', (req, res) => {
 //ENTREGAR BODY CON ATRIBUTO "costo" : precio_clp
 const createPayment = async (req, res) => {
     const costo_compra_clp = req.body.costo; // Suponiendo que costo es el monto en CLP
+    const idUser = req.body.idUser;
     if (!req.body.costo || typeof req.body.costo !== 'number') {
-        return res.status(400).json({ error: 'Se requiere un costo válido en la solicitud.' });
+        return res.json({ error: 'Se requiere un costo válido en la solicitud.' });
     }
+    if (!req.body.idUser) {
+        return res.json({ error: 'Se requiere un usuario en la solicitud.' });
+    }
+
+    const usuario = await getUsuario(idUser)
+    if (!usuario) {
+        return res.json({ error: 'Usuario no existe' });
+    }
+
     const url_dolar = "https://dolarapi.com/v1/dolares";
 
     // Obtener el valor del dólar desde la API
@@ -629,6 +611,7 @@ const createPayment = async (req, res) => {
     const valor_dolar = data[0].compra; // Suponiendo que data contiene el valor del dólar
     // Convertir el costo de la compra a USD
     const costo_compra_usd = (costo_compra_clp / valor_dolar).toFixed(2);
+    const return_url = `http://localhost:3001/api/ejecutar-pago?monto=${costo_compra_clp}&idUser=${idUser}`;
     const body = {
         intent: 'CAPTURE',
         purchase_units: [{
@@ -641,7 +624,7 @@ const createPayment = async (req, res) => {
             brand_name: `Ferremas`,
             landing_page: 'NO_PREFERENCE', // Default, para mas informacion https://developer.paypal.com/docs/api/orders/v2/#definition-order_application_context
             user_action: 'PAY_NOW', // Accion para que en paypal muestre el monto del pago
-            return_url: `http://localhost:3001/api/ejecutar-pago`, // Url despues de realizar el pago
+            return_url: return_url, // Url despues de realizar el pago
             cancel_url: `http://localhost:3000/cancelar-pago` // Url despues de realizar el pago
         }
     }
@@ -651,26 +634,29 @@ const createPayment = async (req, res) => {
         auth,
         body,
         json: true
-    }, (err, response) => {
+    }, (error, response) => {
         res.json({ data: response.body })
     })
 }
 
 const executePayment = (req, res) => {
-    const token = req.query.token; //<-----------
-
+    const token = req.query.token;
     request.post(`${PAYPAL_API}/v2/checkout/orders/${token}/capture`, {
         auth,
         body: {},
         json: true
-    }, (err, response) => {
-        boleta = {
-            //DATA
-        }
-        crearBoleta().catch( error => {
-            console.error("Error al crear boleta: " + error)
+    }, (error, response) => {
+            const total = req.query.monto;
+            const idUser = req.query.idUser;
+            const fechaBoleta = new Date().toISOString().split('T')[0];
+            const boleta = {
+                fechaBoleta: fechaBoleta,
+                total: total,
+                idUsuario: idUser
+                };
+        crearBoleta(boleta).catch( error => {
+            console.error("Error al crear boleta: " + error.message)
         })
-
         res.redirect('http://localhost:3000/pago-exitoso')
     })
 }
@@ -686,9 +672,8 @@ app.get('/api/reportesFinancieros', (req, res) => {
         .then(reportes => {
             res.json(reportes);
         })
-        .catch(error => {
-            console.error('Error al obtener los reportes financieros:', error);
-            res.status(500).send('Error al obtener los reportes financieros desde la base de datos');
+        .catch(err => {
+            res.send({ message : 'Error al obtener los reportes financieros', error: err.message});
         });
 });
 
@@ -700,12 +685,11 @@ app.get('/api/reportesFinancieros/:id', (req, res) => {
             if (reporte) {
                 res.json(reporte);
             } else {
-                res.status(404).send('Reporte financiero no encontrado');
+                res.send({message : 'Error al obtener reporte financiero', error: 'Reporte financiero no encontrado'});
             }
         })
-        .catch(error => {
-            console.error('Error al obtener el reporte financiero:', error);
-            res.status(500).send('Error al obtener el reporte financiero desde la base de datos');
+        .catch(err => {
+            res.send({message : 'Error al obtener reporte financiero', error: err.message});
         });
 });
 
@@ -714,11 +698,10 @@ app.post('/api/reportesFinancieros', (req, res) => {
     const nuevoReporte = req.body;
     crearReporteFinanciero(nuevoReporte)
         .then(insertId => {
-            res.status(201).json({ id: insertId, message: 'Reporte financiero creado exitosamente' });
+            res.json({ id: insertId, message: 'Reporte financiero creado exitosamente' });
         })
-        .catch(error => {
-            console.error('Error al crear el reporte financiero:', error);
-            res.status(500).send('Error al crear el reporte financiero en la base de datos');
+        .catch(err => {
+            res.send({message : 'Error al crear el reporte financiero', error: err.message});
         });
 });
 
@@ -731,12 +714,11 @@ app.put('/api/reportesFinancieros/:id', (req, res) => {
             if (success) {
                 res.json({ message: 'Reporte financiero actualizado exitosamente' });
             } else {
-                res.status(404).send('Reporte financiero no encontrado');
+                res.send({message : 'Error al actualizar el reporte financiero', error: 'Reporte financiero no encontrado'});
             }
         })
-        .catch(error => {
-            console.error('Error al actualizar el reporte financiero:', error);
-            res.status(500).send('Error al actualizar el reporte financiero en la base de datos');
+        .catch(err => {
+            res.send({message : 'Error al actualizar el reporte financiero', error: err.message});
         });
 });
 
@@ -748,12 +730,11 @@ app.delete('/api/reportesFinancieros/:id', (req, res) => {
             if (success) {
                 res.json({ message: 'Reporte financiero eliminado exitosamente' });
             } else {
-                res.status(404).send('Reporte financiero no encontrado');
+                res.send({ message : 'Error al eliminar el reporte financiero', error: 'Reporte financiero no encontrado'});
             }
         })
-        .catch(error => {
-            console.error('Error al eliminar el reporte financiero:', error);
-            res.status(500).send('Error al eliminar el reporte financiero en la base de datos');
+        .catch(err => {
+            res.send({ message : 'Error al eliminar el reporte financiero', error: err.message});
         });
 });
 
@@ -768,7 +749,7 @@ app.get('/api/recuperar/:id', async (req, res) => {
         const usuario = await getUsuario(userId);
 
         if (!usuario) {
-            return res.status(404).send('Usuario no encontrado');
+            return res.send('Usuario no encontrado');
         }
 
         // Generar un código aleatorio
@@ -787,10 +768,9 @@ app.get('/api/recuperar/:id', async (req, res) => {
         // Enviar el código al correo electrónico del usuario
         enviarCorreo(usuario.correoUsuario, recoveryCode);
 
-        res.status(200).json({ message: 'Código de recuperación enviado con éxito' });
-    } catch (error) {
-        console.error('Error al procesar la solicitud de recuperación de contraseña:', error);
-        res.status(500).send('Error interno del servidor');
+        res.json({ message: 'Código de recuperación enviado con éxito' });
+    } catch (err) {
+        res.send({ message : 'Error interno del servidor', error : err.message});
     }
 });
 
@@ -805,7 +785,7 @@ app.post('/api/verificar-codigo', (req, res) => {
 
     // Verificar si se encontró un código de recuperación para este usuario
     if (!codigoRecuperacion) {
-        return res.status(404).json({ message: 'No se encontró un código de recuperación para este usuario' });
+        return res.json({ message: 'No se encontró un código de recuperación para este usuario' });
     }
 
     // Verificar si el código ingresado coincide con el código de recuperación guardado
@@ -818,51 +798,16 @@ app.post('/api/verificar-codigo', (req, res) => {
                 codigosRecuperacionList.splice(index, 1);
             }
             // Código válido y dentro del tiempo de expiración
-            return res.status(200).json({ success: true });
+            return res.json({ success: true });
         } else {
             // Código válido pero ha expirado
-            return res.status(400).json({ message: 'El código de recuperación ha expirado' });
+            return res.json({ message: 'El código de recuperación ha expirado' });
         }
     } else {
         // Código incorrecto
-        return res.status(400).json({ message: 'El código de recuperación es incorrecto' });
+        return res.json({ message: 'El código de recuperación es incorrecto' });
     }
 });
-
-
-// Endpoint para verificar el código de recuperación
-app.post('/api/verificar-codigo', (req, res) => {
-    const userId = req.body.id;
-    const codigoIngresado = req.body.codigo;
-
-    // Verificar si el usuario tiene un código de recuperación guardado
-    if (!codigosRecuperacion[userId]) {
-        return res.status(404).json({ message: 'No se encontró un código de recuperación para este usuario' });
-    }
-
-    // Obtener el código de recuperación del usuario
-    const recoveryCode = codigosRecuperacion[userId].codigo;
-
-    // Verificar si el código ingresado coincide con el código de recuperación guardado
-    if (codigoIngresado === recoveryCode) {
-        // Verificar si el código ha expirado
-        if (Date.now() <= codigosRecuperacion[userId].tiempoExpiracion) {
-            // Eliminar el código de recuperación después de usarlo
-            codigosRecuperacionList.remove(c);
-            // Código válido y dentro del tiempo de expiración
-            return res.status(200).json({ success: true });
-        } else {
-            // Eliminar el código de recuperación si ha expirado
-            codigosRecuperacionList.remove(c);
-            // Código válido pero ha expirado
-            return res.status(400).json({ message: 'El código de recuperación ha expirado' });
-        }
-    } else {
-        // Código incorrecto
-        return res.status(400).json({ message: 'El código de recuperación es incorrecto' });
-    }
-});
-
 
 // Función para enviar correo electrónico
 function enviarCorreo(destinatario, codigo) {
@@ -895,6 +840,6 @@ const server = app.listen(PORT, () => {
 });
 
 server.on('error', (err) => {
-    console.error('Error al iniciar el servidor Express:', err);
+    console.error('Error al iniciar el servidor Express:', err.message);
     process.exit(1);
 });

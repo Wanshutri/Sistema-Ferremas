@@ -9,7 +9,6 @@ function getUsuarios() {
         const query = 'SELECT * FROM usuario';
         connection.query(query, (error, results, fields) => {
             if (error) {
-                console.error('Error al ejecutar la consulta:', error);
                 connection.end();
                 reject(error);
                 return;
@@ -42,97 +41,83 @@ var FnRut = {
 }
 
 // Función para validar el usuario antes de crearlo
-function validarUsuario(usuario) {
-    usuario.correoUsuario = usuario.correoUsuario.trim();
-    usuario.contrasenaUsuario = usuario.contrasenaUsuario.trim();
-    usuario.rutUsuario = usuario.rutUsuario.trim();
-    usuario.pNombre = usuario.pNombre.trim();
-    usuario.sNombre = usuario.sNombre ? usuario.sNombre.trim() : null;
-    usuario.pApellido = usuario.pApellido.trim();
-    usuario.sApellido = usuario.sApellido.trim();
-    usuario.direccion = usuario.direccion.trim();
+async function validarUsuario(usuario) {
+    try {
+        usuario.correoUsuario = usuario.correoUsuario.trim();
+        usuario.contrasenaUsuario = usuario.contrasenaUsuario.trim();
+        usuario.rutUsuario = usuario.rutUsuario.trim();
+        usuario.pNombre = usuario.pNombre.trim();
+        usuario.sNombre = usuario.sNombre ? usuario.sNombre.trim() : null;
+        usuario.pApellido = usuario.pApellido.trim();
+        usuario.sApellido = usuario.sApellido.trim();
+        usuario.direccion = usuario.direccion.trim();
 
-    return new Promise((resolve, reject) => {
-        getUsuarios()
-            .then(usuarios => {
-                const usuarioExistenteCorreo = usuarios.find(u => u.correoUsuario === usuario.correoUsuario);
-                if (usuarioExistenteCorreo) {
-                    reject(new Error('El correo electrónico ya está en uso'));
-                    return;
-                }
+        const usuarios = await getUsuarios();
 
-                const usuarioExistenteRut = usuarios.find(u => u.rutUsuario === usuario.rutUsuario);
-                if (usuarioExistenteRut) {
-                    reject(new Error('El RUT ya está en uso'));
-                    return;
-                }
+        const usuarioExistenteCorreo = usuarios.find(u => u.correoUsuario === usuario.correoUsuario);
+        if (usuarioExistenteCorreo) {
+            throw new Error('El correo electrónico ya está en uso');
+        }
 
-                // Verificar que el correo electrónico sea válido
-                if (!usuario.correoUsuario || !/\S+@\S+\.\S+/.test(usuario.correoUsuario)) {
-                    reject(new Error('El correo electrónico no es válido'));
-                    return;
-                }
+        const usuarioExistenteRut = usuarios.find(u => u.rutUsuario === usuario.rutUsuario);
+        if (usuarioExistenteRut) {
+            throw new Error('El RUT ya está en uso');
+        }
 
-                // Verificar que la contraseña tenga al menos 8 caracteres, incluyendo al menos un número, una letra minúscula y una letra mayúscula
-                if (!usuario.contrasenaUsuario || !/(?=.*\d)(?=.*[a-z])(?=.*[A-Z]).{8,}/.test(usuario.contrasenaUsuario)) {
-                    reject(new Error('La contraseña no es segura'));
-                    return;
-                }
+        // Verificar que el correo electrónico sea válido
+        if (!usuario.correoUsuario || !/\S+@\S+\.\S+/.test(usuario.correoUsuario)) {
+            throw new Error('El correo electrónico no es válido');
+        }
 
-                if (!FnRut.validaRut(usuario.rutUsuario)) {
-                    reject(new Error('El RUT no es válido'));
-                    return;
-                }
+        // Verificar que la contraseña tenga al menos 8 caracteres, incluyendo al menos un número, una letra minúscula y una letra mayúscula
+        if (!usuario.contrasenaUsuario || !/(?=.*\d)(?=.*[a-z])(?=.*[A-Z]).{8,}/.test(usuario.contrasenaUsuario)) {
+            throw new Error('La contraseña no es segura');
+        }
 
-                // Verificar que el número de celular tenga 9 caracteres
-                if (!usuario.celular.length == 9) {
-                    reject(new Error('El número de celular debe tener exactamente 9 dígitos'));
-                    return;
-                }
-                
-                const usuarioExistenteTelefono = usuarios.find(u => u.celular === usuario.celular);
-                if (usuarioExistenteTelefono) {
-                    reject(new Error('El número de celular ya esta registrado'));
-                    return;
-                }
+        if (!FnRut.validaRut(usuario.rutUsuario)) {
+            throw new Error('El RUT no es válido');
+        }
 
-                if (usuario.direccion.length < 10) {
-                    reject(new Error('La dirección debe tener al menos 10 caracteres'));
-                    return;
-                }
+        // Verificar que el número de celular tenga 9 caracteres
+        if (!usuario.celular.length === 9) {
+            throw new Error('El número de celular debe tener exactamente 9 dígitos');
+        }
 
-                // Verificar que el usuario tenga al menos 18 años
-                const fechaNacimiento = new Date(usuario.fechaNac);
-                const hoy = new Date();
-                var edad = hoy.getFullYear() - fechaNacimiento.getFullYear();
-                const mes = hoy.getMonth() - fechaNacimiento.getMonth();
-                if (mes < 0 || (mes === 0 && hoy.getDate() < fechaNacimiento.getDate())) {
-                    edad--;
-                }
-                if (edad < 18) {
-                    reject(new Error('El usuario debe tener al menos 18 años'));
-                    return;
-                }
+        const usuarioExistenteTelefono = usuarios.find(u => u.celular === usuario.celular);
+        if (usuarioExistenteTelefono) {
+            throw new Error('El número de celular ya está registrado');
+        }
 
-                // Verificar longitud de nombres y apellidos
-                if (usuario.pNombre.length < 2 || usuario.pApellido.length < 2 || usuario.sApellido.length < 2) {
-                    reject(new Error('Los nombres y apellidos deben tener al menos 2 caracteres'));
-                    return;
-                }
+        if (usuario.direccion.length < 10) {
+            throw new Error('La dirección debe tener al menos 10 caracteres');
+        }
 
-                if (usuario.sNombre) { // Si hay segundo nombre
-                    if (usuario.sNombre.length < 2) {
-                        reject(new Error('El segundo nombre debe tener al menos 2 caracteres'));
-                        return;
-                    }
-                }
-                // Si todas las validaciones pasan, resuelve la promesa
-                resolve();
-            })
-            .catch(error => {
-                reject(error);
-            });
-    });
+        // Verificar que el usuario tenga al menos 18 años
+        const fechaNacimiento = new Date(usuario.fechaNac);
+        const hoy = new Date();
+        let edad = hoy.getFullYear() - fechaNacimiento.getFullYear();
+        const mes = hoy.getMonth() - fechaNacimiento.getMonth();
+        if (mes < 0 || (mes === 0 && hoy.getDate() < fechaNacimiento.getDate())) {
+            edad--;
+        }
+        if (edad < 18) {
+            throw new Error('El usuario debe tener al menos 18 años');
+        }
+
+        // Verificar longitud de nombres y apellidos
+        if (usuario.pNombre.length < 2 || usuario.pApellido.length < 2 || usuario.sApellido.length < 2) {
+            throw new Error('Los nombres y apellidos deben tener al menos 2 caracteres');
+        }
+
+        if (usuario.sNombre && usuario.sNombre.length < 2) {
+            throw new Error('El segundo nombre debe tener al menos 2 caracteres');
+        }
+
+        // Si todas las validaciones pasan, retorna true
+        return true;
+    } catch (error) {
+        throw new Error(error.message);
+    }
 }
 
 
@@ -140,13 +125,11 @@ function validarUsuario(usuario) {
 function crearUsuario(usuario) {
     return new Promise((resolve, reject) => {
         // Validar el usuario antes de crearlo
-        validarUsuario(usuario)
-            .then(() => {
+        validarUsuario(usuario).then(() => {
                 const connection = conectar();
                 // Generar hash de la contraseña
                 bcrypt.hash(usuario.contrasenaUsuario, 10, (error, hash) => {
                     if (error) {
-                        console.error('Error al hacer hash de la contraseña:', error);
                         reject(error);
                         return;
                     }
@@ -155,7 +138,6 @@ function crearUsuario(usuario) {
                     const query = 'INSERT INTO usuario SET ?';
                     connection.query(query, usuario, (error, results, fields) => {
                         if (error) {
-                            console.error('Error al ejecutar la consulta:', error);
                             connection.end();
                             reject(error);
                             return;
@@ -202,14 +184,12 @@ function crearCarritoParaUsuario(idUsuario) {
 function actualizarUsuario(id, nuevoUsuario) {
     return new Promise((resolve, reject) => {
         // Validar el nuevo usuario antes de actualizarlo
-        validarUsuario(nuevoUsuario)
-            .then(() => {
+        validarUsuario(nuevoUsuario).then(() => {
                 const connection = conectar();
                 // Si se está actualizando la contraseña, hacer hash del nuevo valor
                 if (nuevoUsuario.contrasenaUsuario) {
                     bcrypt.hash(nuevoUsuario.contrasenaUsuario, 10, (error, hash) => {
                         if (error) {
-                            console.error('Error al hacer hash de la contraseña:', error);
                             reject(error);
                             return;
                         }
@@ -217,7 +197,6 @@ function actualizarUsuario(id, nuevoUsuario) {
                         const query = 'UPDATE usuario SET ? WHERE idUsuario = ?';
                         connection.query(query, [nuevoUsuario, id], (error, results, fields) => {
                             if (error) {
-                                console.error('Error al ejecutar la consulta:', error);
                                 connection.end();
                                 reject(error);
                                 return;
@@ -231,7 +210,6 @@ function actualizarUsuario(id, nuevoUsuario) {
                     const query = 'UPDATE usuario SET ? WHERE idUsuario = ?';
                     connection.query(query, [nuevoUsuario, id], (error, results, fields) => {
                         if (error) {
-                            console.error('Error al ejecutar la consulta:', error);
                             connection.end();
                             reject(error);
                             return;
@@ -254,7 +232,6 @@ function eliminarUsuario(id) {
         const query = 'DELETE FROM usuario WHERE idUsuario = ?';
         connection.query(query, id, (error, results, fields) => {
             if (error) {
-                console.error('Error al ejecutar la consulta:', error);
                 connection.end();
                 reject(error);
                 return;
@@ -272,11 +249,10 @@ function getUsuario(id) {
         const query = 'SELECT * FROM usuario WHERE idUsuario = ?';
         connection.query(query, id, (error, results, fields) => {
             if (error) {
-                console.error('Error al ejecutar la consulta:', error);
                 connection.end();
                 reject(error);
                 return;
-            }
+            }   
             connection.end();
             if (results.length === 0) {
                 resolve(null); // No se encontró ningún Usuario con ese ID
@@ -294,7 +270,6 @@ function autenticarUsuario(correo, contrasena) {
         const query = 'SELECT * FROM usuario WHERE correoUsuario = ?';
         connection.query(query, correo, (error, results, fields) => {
             if (error) {
-                console.error('Error al ejecutar la consulta:', error);
                 connection.end();
                 reject(error);
                 return;
@@ -308,7 +283,6 @@ function autenticarUsuario(correo, contrasena) {
                 // Comparar la contraseña proporcionada con el hash almacenado
                 bcrypt.compare(contrasena, usuario.contrasenaUsuario, (error, match) => {
                     if (error) {
-                        console.error('Error al comparar contraseñas:', error);
                         reject(error);
                         return;
                     }
