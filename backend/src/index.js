@@ -26,8 +26,8 @@ const auth = { user: CLIENT, pass: SECRET };
 function generarCodigo() {
     return Math.random().toString(36).substring(7).toUpperCase();
 }
-
 app.use(cors());
+  
 app.use(express.json()); // Middleware para analizar el cuerpo de las solicitudes JSON
 // Configuración para servir archivos estáticos desde el directorio 'public'
 app.use(express.static(path.join(__dirname, '..', 'public')));
@@ -1098,7 +1098,9 @@ function enviarCorreo(destinatario, codigo) {
 
 const PORT = 3001;
 const server = app.listen(PORT, () => {
+    console.log("------------------------------------------------\n\n\n")
     console.log(`Servidor Express escuchando en el puerto ${PORT}`);
+    console.log("\n\n\n------------------------------------------------")
 });
 
 server.on('error', (err) => {
