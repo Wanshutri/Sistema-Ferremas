@@ -8,6 +8,8 @@ services:
       - ./bd.sql:/docker-entrypoint-initdb.d/bd.sql
     networks:
       - ferremas_network
+    ports:        #SOLO PARA DESAROLLO
+      - "3306:3306"
 
 
   node_ferremas:
@@ -19,15 +21,14 @@ services:
     ports:
       - "3001:3001"
 
-  #react_ferremas:
-  #  build: ./frontend
-  #  depends_on:
-  #    - node_ferremas
-  #  networks:
-  #    - ferremas_network
-  #  ports:
-  #    - "3000:3000"
-  #  command: sh -c "npm start > /dev/null 2>&1" # Redirigir salida de la consola a /dev/null
+  react_ferremas:
+    build: ./frontend
+    depends_on:
+      - node_ferremas
+    networks:
+      - ferremas_network
+    ports:
+      - "3000:3000"
 
 networks:
   ferremas_network:

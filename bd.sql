@@ -50,7 +50,7 @@ CREATE TABLE producto(
     FOREIGN KEY (idTipoProducto) REFERENCES tipo_producto(idTipoProducto)
 );
 
-CREATE TABLE reporte_financiero(
+CREATE TABLE reporte_financiero (
     idReporteFinanciero INTEGER AUTO_INCREMENT NOT NULL PRIMARY KEY,
     fecha DATE NOT NULL,
     monto INTEGER NOT NULL,
@@ -58,12 +58,15 @@ CREATE TABLE reporte_financiero(
     FOREIGN KEY (idUsuario) REFERENCES usuario(idUsuario)
 );
 
-CREATE TABLE reporte_financiero_boleta (
-    idReporteFinanciero INTEGER NOT NULL,
-    idBoleta INTEGER NOT NULL,
-    PRIMARY KEY (idReporteFinanciero, idBoleta),
-    FOREIGN KEY (idReporteFinanciero) REFERENCES reporte_financiero(idReporteFinanciero),
-    FOREIGN KEY (idBoleta) REFERENCES boleta(idBoleta)
+CREATE TABLE boleta(
+    idBoleta INTEGER AUTO_INCREMENT NOT NULL PRIMARY KEY,
+    fechaBoleta DATE NOT NULL,
+    totalclp INTEGER NOT NULL,
+    idUsuario INTEGER NOT NULL,
+    nombreCompleto VARCHAR(50) NOT NULL,
+    countryCode VARCHAR(2) NOT NULL,
+    correo VARCHAR(50) NOT NULL,
+    FOREIGN KEY (idUsuario) REFERENCES usuario(idUsuario)
 );
 
 CREATE TABLE carrito(
@@ -79,14 +82,6 @@ CREATE TABLE detalle_carrito(
     cantidadProducto INTEGER NOT NULL,
     FOREIGN KEY (idProducto) REFERENCES producto(idProducto),
     FOREIGN KEY (idCarrito) REFERENCES carrito(idCarrito)
-);
-
-CREATE TABLE boleta(
-    idBoleta INTEGER AUTO_INCREMENT NOT NULL PRIMARY KEY,
-    fechaBoleta DATE NOT NULL,
-    total INTEGER NOT NULL,
-    idUsuario INTEGER NOT NULL,
-    FOREIGN KEY (idUsuario) REFERENCES usuario(idUsuario)
 );
 
 CREATE TABLE ordenPedido(
@@ -110,12 +105,3 @@ CREATE TABLE deposito(
 
 INSERT INTO usuario (correoUsuario, contrasenaUsuario, rutUsuario, pNombre, sNombre, pApellido, sApellido, fechaNac, celular, direccion, cargo) 
 VALUES ('fe.valenzuelav@duocuc.cl', 'judas123', '21244616-5', 'Felipe', null, 'Valenzuela', 'Vivanco', '2004-04-29', 123456789, 'Calle de las reinas magicas.', 'Admin');
-
-
-INSERT INTO reporte_financiero (fecha, monto, idUsuario)
-SELECT fechaBoleta, total, idUsuario FROM boleta;
-
-INSERT INTO reporte_financiero_boleta (idReporteFinanciero, idBoleta)
-SELECT rf.idReporteFinanciero, b.idBoleta
-FROM reporte_financiero rf
-JOIN boleta b ON rf.fecha = b.fechaBoleta AND rf.monto = b.total AND rf.idUsuario = b.idUsuario;
