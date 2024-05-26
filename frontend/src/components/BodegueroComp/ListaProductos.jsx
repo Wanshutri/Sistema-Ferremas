@@ -32,7 +32,7 @@ const ListaProductos = () => {
         {productos.map((producto) => (
           <div className={s.lista2} key={producto.idProducto}> {/* Asegúrate de usar una clave única para cada producto */}
             <div className={s.empDetalle}>
-              <img src={Imagen1} alt={producto.nombreProducto} className={s.imgprod} />
+              <img src={"http://localhost:3001/images/"+producto.urlProducto} alt={producto.nombreProducto} className={s.imgprod} />
               <h2>{producto.nombreProducto} {producto.apellido}</h2>
             </div>
             <span>{producto.descripcion}</span>

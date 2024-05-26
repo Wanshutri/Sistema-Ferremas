@@ -134,7 +134,7 @@ function PaginaProducto() {
                     >
                       <CardMedia
                         sx={{ height: 140 }}
-                        image={product.image}
+                        image={"http://localhost:3001/images/"+product.image}
                         
                       />
                       <CardContent className="cardcontentcarrusel">

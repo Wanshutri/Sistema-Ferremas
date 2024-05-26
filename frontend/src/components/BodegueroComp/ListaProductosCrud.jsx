@@ -31,6 +31,7 @@ const ListaProductosCrud = () => {
     precioProducto: 0,
     idTipoProducto: 1,
     stock: 0,
+    urlProducto:"",
   });
 
   const [show, setShow] = useState(false);
@@ -47,6 +48,7 @@ const ListaProductosCrud = () => {
       precioProducto: 0,
       idTipoProducto: 1,
       stock: 0,
+      urlProducto:"",
     });
   };
   const handleShow = () => {
@@ -57,6 +59,7 @@ const ListaProductosCrud = () => {
       precioProducto: 0,
       idTipoProducto: 1,
       stock: 0,
+      urlProducto:"",
     };
     setProducto(nuevoProducto);
     setModalTitle("Agregar Producto");
@@ -194,10 +197,10 @@ const ListaProductosCrud = () => {
             </thead>
             <tbody>
               {productos.map((producto) => (
-                <tr key={producto.idProducto}>
+                <><tr key={producto.idProducto}>
                   <td>
                     <div className={s.empDetalle}>
-                      <img src={Imagen1} alt={producto.nombreProducto} className={s.imgprod} />
+                      <img src={"http://localhost:3001/images/" + producto.urlProducto} alt={producto.nombreProducto} className={s.imgprod} />
                     </div>
                   </td>
                   <td>{producto.nombreProducto}</td>
@@ -216,16 +219,14 @@ const ListaProductosCrud = () => {
                           Modificar
                         </Dropdown.Item>
                         <Dropdown.Item
-                          onClick={() =>
-                            handleEliminarProducto(producto.idProducto)
-                          }
+                          onClick={() => handleEliminarProducto(producto.idProducto)}
                         >
                           Eliminar
                         </Dropdown.Item>
                       </Dropdown.Menu>
                     </Dropdown>
                   </td>
-                </tr>
+                </tr><br></br></>
               ))}
             </tbody>
           </table>
