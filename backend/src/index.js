@@ -46,6 +46,13 @@ app.get('/', (req, res) => {
     });
 });
 
+// Ruta para obtener una imagen por su nombre
+app.get('/images/:filename', (req, res) => {
+    const filename = req.params.filename;
+    const filepath = path.join(__dirname, '../uploads', filename);
+    res.sendFile(filepath);
+});
+
 //Depositos
 
 // Ruta para subir un depósito
