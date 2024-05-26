@@ -23,21 +23,21 @@ export const AuthProvider = ({ children }) => {
         })
       });
       const data = await response.json();
-      if (data) {
-        localStorage.setItem('token', data.token);
+      if (data.token) {
         localStorage.setItem('user', data.usuario.idUsuario);
+        localStorage.setItem('token', data.token);
         setAuthState({
           token: data.token,
           usuario: data.usuario,
           isAuthenticated: true,
         });
+        return { success: true };
       } else {
-        // Manejo de errores del servidor (por ejemplo, si el servidor devuelve un mensaje de error)
-        throw new Error(data.message);
+          throw new Error(data.error);
       }
     } catch (error) {
-      // Manejo de errores de red
-      console.error('Error al intentar iniciar sesión:', error.message);
+      logout()
+      return { success: false, error: error.message };
     }
   };
 

@@ -24,30 +24,23 @@ function Login() {
   const [error, setError] = useState("");
   const { login, authState } = useContext(AuthContext); // Usa el contexto de autenticación
 
-  const accederLogin = () => {
-    console.log("1")
+  const accederLogin = async () => {
     if (correo.trim() === "" || contrasena.trim() === "") {
-      console.log(authState.usuario)
       setError("Por favor, completa todos los campos.");
       return;
     }
-    
     try {
-      login(correo, contrasena);
-      if (authState.isAuthenticated == false) {
-        console.log("Usuario incorrecto o noi encontrado")
+      const result = await login(correo, contrasena)
+      if (result.success) {
+        window.location.href = "http://localhost:3000/";
+      } else {
+        throw new Error(result.error)
       }
-      console.log(authState.isAuthenticated)
+      
     } catch (error) {
-      console.log("ERROR: " + error)
-      setError("Hubo un problema con la autenticación. Por favor, inténtalo de nuevo más tarde.");
+      setError("Hubo un problema con la autenticación: " + error.message);
     }
   };
-
-  // Redirigir al usuario si está autenticado
-  if (authState.isAuthenticated) {
-    window.location.href = "http://localhost:3000/";
-  }
 
   return (
     <div className="contlog">
