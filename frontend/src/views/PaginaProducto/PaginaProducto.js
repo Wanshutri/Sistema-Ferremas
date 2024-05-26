@@ -1,80 +1,185 @@
-import React from "react";
-import './PaginaProducto.css'; // Asegúrate de importar tu archivo de estilos CSS
-import sana from './../../img/sana.jpg';
-import Card from 'react-bootstrap/Card';
-import ListGroup from 'react-bootstrap/ListGroup';
-import Button from 'react-bootstrap/Button';
+import React, { useState, useEffect } from "react";
+import {
+  AppBar,
+  Toolbar,
+  IconButton,
+  Typography,
+  Box,
+  Card,
+  CardContent,
+  CardMedia,
+  Grid,
+  TextField,
+  Button,
+  Menu,
+  MenuItem,
+  List,
+  ListItem,
+  ListItemText,
+  Pagination,
+} from "@mui/material";
+import MenuIcon from "@mui/icons-material/Menu";
+import sana from "./../../img/sana.jpg";
+import s from "./PaginaProducto.module.css";
+import BannerCom from "../../components/banner/bannerCom";
+import Footer from "../../components/footer/footer";
+import BasicSelect from "./dropdownbarra";
+import Divider from "@mui/material/Divider";
+import Chip from "@mui/material/Chip";
+import escaletira from "./../../assets/img/escalerita.jpg";
+import CardActions from "@mui/material/CardActions";
+import FloatCarrito from "../../components/FloatCarrito/FloatCarrito";
+import axios from "axios";
 
 function PaginaProducto() {
-    return (
-      <>
-        <div className="main">
-          <div className="sidebar">
-            <nav className="sidebar__nav">
-              <h4>Categoría</h4>
-              <ul className="category-list">
-                <li><a href="#" className="category-item">Seguridad</a></li>
-                <li><a href="#" className="category-item">Herramientas</a></li>
-              </ul>
-              <h4>Precio</h4>
-              <ul className="price-list">
-                <li><a href="#" className="price-item">Mayor a Menor</a></li>
-                <li><a href="#" className="price-item">Menor a Mayor</a></li>
-              </ul>
-              <h4>Material</h4>
-              <ul className="material-list">
-                <li><a href="#" className="material-item">Madera</a></li>
-                <li><a href="#" className="material-item">Metal</a></li>
-                <li><a href="#" className="material-item">Plástico</a></li>
-              </ul>
-            </nav>
-          </div>
-          
-          <div className="contenido">
-            <div className="search-container">
-              <input
-                type="text"
-                placeholder="Buscar productos..."
-                className="search-input"
-              />
-              <button type="submit" className="search-button">
-                <i className="fas fa-search"></i>
-              </button>
-            </div>
-            <div className="productos">
-              {[...Array(12)].map((_, idx) => (
-                <Card className="custom-card" key={idx} style={{ width: '18rem' }}>
-                  <Card.Img variant="top" src={sana} />
-                  <Card.Body>
-                    <Card.Title><h2>Titulo aquí</h2></Card.Title> 
-                    <Card.Text>
-                      Some quick example text to build on the card title and make up the
-                      bulk of the card's content.
-                    </Card.Text>
-                  </Card.Body>
-                  <ListGroup className="list-group-flush">
-                    <ListGroup.Item>$150.990</ListGroup.Item>
-                  </ListGroup>
-                  <Card.Body>
-                    <Button className="boton">Agregar Al Carrito</Button>
-                  </Card.Body>
-                </Card>
-              ))}
-            </div>
-          </div>
+  const [anchorEl, setAnchorEl] = React.useState(null);
+  const [page, setPage] = useState(1);
+  const [productos, setProductos] = useState([]);
+  const handleChange = (event, value) => {
+    setPage(value);
+  };
 
-          <div className="aside">
-            <h4>Acciones</h4>
-            <ul className="aside-menu">
-              <li><a href="#">Ver tu carro</a></li>
-              <li><a href="#">Ver mis compras</a></li>
-              <li><a href="#">Iniciar sesión</a></li>
-              <li><a href="#">Tarjetas y cuentas</a></li>
-            </ul>
-          </div>
-        </div>
-      </>
-    );
+  const handleMenuClick = (event) => {
+    setAnchorEl(event.currentTarget);
+  };
+
+  const handleMenuClose = () => {
+    setAnchorEl(null);
+  };
+
+  useEffect(() => {
+    axios
+      .get("http://localhost:3001/api/productos")
+      .then((response) => {
+        const productosData = response.data.map((producto) => ({
+          id: producto.idProducto,
+          title: producto.nombreProducto,
+          description: producto.descripcion,
+          price: producto.precioProducto,
+          image: producto.urlProducto,
+          category: producto.idTipoProducto,
+        }));
+        setProductos(productosData);
+      })
+      .catch((error) => {
+        console.error("Error al obtener los productos:", error);
+      });
+  }, []);
+
+  // Esta función genera una lista de productos para la página actual
+  const generateProductsForPage = (pageNumber) => {
+    const productsPerPage = 20; // Número de productos por página
+    const startIndex = (pageNumber - 1) * productsPerPage; // Índice de inicio de la página actual
+    const endIndex = startIndex + productsPerPage; // Índice de fin de la página actual
+
+    return productos.slice(startIndex, endIndex); // Retorna solo los productos correspondientes a la página actual
+  };
+
+  return (
+    <div className={s.pagproductodo}>
+      <header>
+        <FloatCarrito />
+        <BannerCom />
+      </header>
+      <body className={s.bodyprodpag}>
+        <Box sx={{ flexGrow: 1 }}>
+          <AppBar position="static">
+            <Toolbar className={s.toolbarproducto}>
+              <IconButton
+                edge="start"
+                color="inherit"
+                aria-label="menu"
+                onClick={handleMenuClick}
+              >
+                <MenuIcon />
+              </IconButton>
+              <Typography variant="h6" sx={{ flexGrow: 1 }}>
+                Catálogo de Productos
+              </Typography>
+              <TextField
+                variant="outlined"
+                placeholder="Buscar productos..."
+                size="small"
+                sx={{ bgcolor: "background.paper", borderRadius: 1, mr: 2 }}
+              />
+              <Button
+                className={s.buttonbuscar}
+                variant="contained"
+                color="secondary"
+              >
+                Buscar
+              </Button>
+            </Toolbar>
+          </AppBar>
+
+          <Menu
+            anchorEl={anchorEl}
+            open={Boolean(anchorEl)}
+            onClose={handleMenuClose}
+            MenuListProps={{ "aria-labelledby": "basic-button" }}
+          >
+            <Box sx={{ p: 2, width: 250 }}>
+              <BasicSelect />
+            </Box>
+          </Menu>
+
+          <Box sx={{ p: 3 }}>
+            <Grid container spacing={3}>
+              {generateProductsForPage(page).map((product) => (
+                <Grid item xs={12} sm={6} md={4} lg={3} key={product.id}>
+                  <div class="Cards cardproductohome">
+                    <Card
+                      className="cartasdet"
+                      sx={{ width: 320, maxWidth: 545 }}
+                    >
+                      <CardMedia
+                        sx={{ height: 140 }}
+                        image={product.image}
+                        
+                      />
+                      <CardContent className="cardcontentcarrusel">
+                        <br></br>
+                        <Typography gutterBottom variant="h5" component="div">
+                          {product.title}
+                        </Typography>
+                        <Divider>
+                          <Chip
+                            label={product.category}
+                            size="small"
+                            color="warning"
+                            sx={{ mr: 1 }}
+                            className={s.chipcarrusel}
+                          />
+                        </Divider>
+                        <br></br>
+                        <Typography gutterBottom variant="h5" component="div">
+                          {product.price}
+                        </Typography>
+                        <Typography variant="body2" color="text.secondary">
+                          {product.description}
+                        </Typography>
+                      </CardContent>
+                      <Divider className="dividercarrusel" />
+                      <CardActions className="cardactioncarrusel">
+                        <Button size="small">Agregar al carrito</Button>
+                        <Button size="small">Ver detalles</Button>
+                      </CardActions>
+                    </Card>
+                  </div>
+                </Grid>
+              ))}
+            </Grid>
+          </Box>
+          <Box sx={{ my: 2, display: "flex", justifyContent: "center" }}>
+            <Pagination count={3} page={page} onChange={handleChange} />
+          </Box>
+        </Box>
+      </body>
+      <footer>
+        <Footer />
+      </footer>
+    </div>
+  );
 }
 
 export default PaginaProducto;
