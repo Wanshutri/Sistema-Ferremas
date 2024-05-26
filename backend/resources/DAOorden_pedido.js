@@ -31,7 +31,7 @@ function crearOrdenPedido(ordenPedido, callback) {
 // Función para actualizar una orden de pedido existente
 function actualizarOrdenPedido(id, nuevaOrdenPedido, callback) {
     const connection = conectar();
-    const query = 'UPDATE ordenPedido SET ? WHERE idOrdenPedido = ?';
+    const query = 'UPDATE ordenPedido() ? WHERE idOrdenPedido = ?';
     connection.query(query, [nuevaOrdenPedido, id], (error, results, fields) => {
         if (error) {
             connection.end();

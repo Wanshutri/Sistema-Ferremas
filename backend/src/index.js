@@ -830,11 +830,26 @@ const executePayment = (req, res) => {
             correo: response.body.payment_source.paypal.email_address,
         };
 
-        crearBoleta(boleta, (error) => {
+        crearBoleta(boleta, (error, insertId) => {
             if (error) {
                 console.error("Error al crear boleta: " + error.message);
+                return res.send({ message: 'Error al crear boleta', error: error.message });
             }
-            res.json({message: 'Pago exitoso', data: response.body});
+
+            // Aquí insertId contiene el id generado automáticamente de la boleta creada
+            const nuevaOrdenPedido = {
+                fechaOrden: new Date().toISOString().split('T')[0],
+                idUsuario: idUser,
+                idBoleta: insertId  // Usamos el insertId de la boleta creada
+            };
+
+            // Crear la orden de pedido
+            crearOrdenPedido(nuevaOrdenPedido, (error, insertIdOrden) => {
+                if (error) {
+                    return res.send({ message: 'Error al crear orden de pedido', error: error.message });
+                }
+                return res.send({ idBoleta: insertId, idOrdenPedido: insertIdOrden });
+            });
         });
     });
 };
@@ -842,166 +857,126 @@ const executePayment = (req, res) => {
 app.post('/api/crear-pago', createPayment);
 app.get('/api/ejecutar-pago', executePayment);
 
-// Rutas para el reporte financiero
+//Reportes financieros
 
 // Ruta para obtener todos los reportes financieros
-// app.get('/api/reportesFinancieros', (req, res) => {
-//     getReportesFinancieros()
-//         .then(reportes => {
-//             res.json(reportes);
-//         })
-//         .catch(err => {
-//             res.send({ message : 'Error al obtener los reportes financieros', error: err.message});
-//         });
-// });
-
-// // Ruta para obtener un reporte financiero por su ID
-// app.get('/api/reportesFinancieros/:id', (req, res) => {
-//     const id = req.params.id;
-//     getReporteFinanciero(id)
-//         .then(reporte => {
-//             if (reporte) {
-//                 res.json(reporte);
-//             } else {
-//                 res.send({message : 'Error al obtener reporte financiero', error: 'Reporte financiero no encontrado'});
-//             }
-//         })
-//         .catch(err => {
-//             res.send({message : 'Error al obtener reporte financiero', error: err.message});
-//         });
-// });
-
-// // Ruta para crear un nuevo reporte financiero
-// app.post('/api/reportesFinancieros', (req, res) => {
-//     const nuevoReporte = req.body;
-//     crearReporteFinanciero(nuevoReporte)
-//         .then(insertId => {
-//             res.json({ id: insertId, message: 'Reporte financiero creado exitosamente' });
-//         })
-//         .catch(err => {
-//             res.send({message : 'Error al crear el reporte financiero', error: err.message});
-//         });
-// });
-
-// // Ruta para actualizar un reporte financiero existente
-// app.put('/api/reportesFinancieros/:id', (req, res) => {
-//     const id = req.params.id;
-//     const nuevoReporte = req.body;
-//     actualizarReporteFinanciero(id, nuevoReporte)
-//         .then(success => {
-//             if (success) {
-//                 res.json({ message: 'Reporte financiero actualizado exitosamente' });
-//             } else {
-//                 res.send({message : 'Error al actualizar el reporte financiero', error: 'Reporte financiero no encontrado'});
-//             }
-//         })
-//         .catch(err => {
-//             res.send({message : 'Error al actualizar el reporte financiero', error: err.message});
-//         });
-// });
-
-// // Ruta para eliminar un reporte financiero
-// app.delete('/api/reportesFinancieros/:id', (req, res) => {
-//     const id = req.params.id;
-//     eliminarReporteFinanciero(id)
-//         .then(success => {
-//             if (success) {
-//                 res.json({ message: 'Reporte financiero eliminado exitosamente' });
-//             } else {
-//                 res.send({ message : 'Error al eliminar el reporte financiero', error: 'Reporte financiero no encontrado'});
-//             }
-//         })
-//         .catch(err => {
-//             res.send({ message : 'Error al eliminar el reporte financiero', error: err.message});
-//         });
-// });
-
-app.get('/api/reportesFinancieros', (req, res) => {
-    const query = `
-      SELECT rf.fecha, rf.monto, rf.idUsuario
-      FROM reporte_financiero rf
-      ORDER BY rf.fecha DESC;
-    `;
-    db.query(query, (err, results) => {
-      if (err) {
-        return res.status(500).send(err);
-      }
-      res.json(results);
+app.get('/api/reportes-financieros', (req, res) => {
+    getReportesFinancieros((error, reportes) => {
+        if (error) {
+            return res.send({ message: 'Error al obtener los reportes financieros', error: error });
+        }
+        return res.send(reportes);
     });
-  });
-  
-  app.get('/api/reportesFinancieros/:id', (req, res) => {
-    const id = req.params.id;
-    const query = `
-      SELECT rf.fecha, rf.monto, rf.idUsuario
-      FROM reporte_financiero rf
-      WHERE rf.idReporteFinanciero = ?;
-    `;
-    db.query(query, [id], (err, results) => {
-      if (err) {
-        return res.status(500).send(err);
-      }
-      if (results.length > 0) {
-        res.json(results[0]);
-      } else {
-        res.status(404).send({ message: 'Reporte financiero no encontrado' });
-      }
-    });
-  });
-  
-  app.post('/api/reportesFinancieros', (req, res) => {
-    const { fecha, monto, idUsuario } = req.body;
-    const query = `
-      INSERT INTO reporte_financiero (fecha, monto, idUsuario)
-      VALUES (?, ?, ?);
-    `;
-    db.query(query, [fecha, monto, idUsuario], (err, results) => {
-      if (err) {
-        return res.status(500).send(err);
-      }
-      res.json({ id: results.insertId, message: 'Reporte financiero creado exitosamente' });
-    });
-  });
-  
-  app.put('/api/reportesFinancieros/:id', (req, res) => {
-    const id = req.params.id;
-    const { fecha, monto, idUsuario } = req.body;
-    const query = `
-      UPDATE reporte_financiero
-      SET fecha = ?, monto = ?, idUsuario = ?
-      WHERE idReporteFinanciero = ?;
-    `;
-    db.query(query, [fecha, monto, idUsuario, id], (err, results) => {
-      if (err) {
-        return res.status(500).send(err);
-      }
-      if (results.affectedRows > 0) {
-        res.json({ message: 'Reporte financiero actualizado exitosamente' });
-      } else {
-        res.status(404).send({ message: 'Reporte financiero no encontrado' });
-      }
-    });
-  });
-  
-  app.delete('/api/reportesFinancieros/:id', (req, res) => {
-    const id = req.params.id;
-    const query = `
-      DELETE FROM reporte_financiero
-      WHERE idReporteFinanciero = ?;
-    `;
-    db.query(query, [id], (err, results) => {
-      if (err) {
-        return res.status(500).send(err);
-      }
-      if (results.affectedRows > 0) {
-        res.json({ message: 'Reporte financiero eliminado exitosamente' });
-      } else {
-        res.status(404).send({ message: 'Reporte financiero no encontrado' });
-      }
-    });
-  });
+});
 
+// Ruta para obtener un reporte financiero por su ID
+app.get('/api/reportes-financieros/:id', (req, res) => {
+    const idReporte = req.params.id;
+    if (!idReporte) {
+        return res.send({ message: 'Error al obtener el reporte financiero', error: 'Falta id del reporte' });
+    }
+    getReporteFinanciero(idReporte, (err, reporte) => {
+        if (err) {
+            return res.send({ message: 'Error al obtener el reporte financiero', error: error });
+        }
 
+        if (!reporte) {
+            return res.send({ message: 'Error al obtener el reporte financiero', error: 'No se encontro un reporte financiero' });
+        }
+
+        return res.send(reporte);
+    });
+});
+
+// Ruta para crear un nuevo reporte financiero
+app.post('/api/reportes-financieros', (req, res) => {
+    const reporte = req.body;
+
+    // Validación de campos requeridos
+    if (!reporte.monto) {
+        return res.status(400).send({ message: 'Error al crear el reporte financiero', error: 'Se necesita un monto' });
+    }
+
+    if (!reporte.idUsuario) {
+        return res.status(400).send({ message: 'Error al crear el reporte financiero', error: 'Se necesita el id de usuario del contador' });
+    }
+
+    // Verificar si el usuario es un contador
+    getUsuario(reporte.idUsuario, (error, usuario) => {
+        if (error) {
+            return res.status(500).send({ message: 'Error al crear el reporte financiero', error: error });
+        }
+
+        if (!usuario) {
+            return res.status(404).send({ message: 'Error al crear el reporte financiero', error: 'No se encontró un usuario' });
+        }
+
+        if (usuario.cargo.toLowerCase() !== "contador") {
+            return res.status(403).send({ message: 'Error al crear el reporte financiero', error: 'Solo los contadores están habilitados para esta acción' });
+        }
+
+        // Crear el reporte financiero
+        reporte.fecha = new Date().toISOString().split('T')[0];
+        crearReporteFinanciero(reporte, (error, idReporte) => {
+            if (error) {
+                return res.status(500).send({ message: 'Error al crear el reporte financiero', error: error });
+            }
+            res.status(201).send({ message: 'Reporte financiero creado exitosamente', idReporte: idReporte });
+        });
+    });
+});
+
+// Ruta para actualizar un reporte financiero existente
+app.put('/api/reportes-financieros/:id', (req, res) => {
+    const idReporte = req.params.id;
+    const nuevoReporte = req.body;
+
+    // Validación de campos requeridos
+    if (!nuevoReporte.monto) {
+        return res.status(400).send({ message: 'Error al actualizar el reporte financiero', error: 'Se necesita un monto' });
+    }
+
+    if (!nuevoReporte.idUsuario) {
+        return res.status(400).send({ message: 'Error al actualizar el reporte financiero', error: 'Se necesita el id de usuario del contador' });
+    }
+
+    // Verificar si el usuario es un contador
+    getUsuario(nuevoReporte.idUsuario, (error, usuario) => {
+        if (error) {
+            return res.status(500).send({ message: 'Error al actualizar el reporte financiero', error: 'No se encontró un usuario' });
+        }
+
+        if (!usuario || usuario.cargo.toLowerCase() !== "contador") {
+            return res.status(403).send({ message: 'Error al actualizar el reporte financiero', error: 'Solo los contadores están habilitados para esta acción' });
+        }
+
+        // Actualizar el reporte financiero
+        nuevoReporte.fecha = new Date().toISOString().split('T')[0];
+        actualizarReporteFinanciero(idReporte, nuevoReporte, (error, success) => {
+            if (error) {
+                return res.status(500).send({ message: 'Error al actualizar el reporte financiero', error: error });
+            }
+            if (!success) {
+                return res.status(404).send({ message: 'No se encontró ningún reporte financiero con ese ID' });
+            }
+            res.send({ message: 'Reporte financiero actualizado correctamente' });
+        });
+    });
+});
+
+// Ruta para eliminar un reporte financiero
+app.delete('/api/reportes-financieros/:id', (req, res) => {
+    const idReporte = req.params.id;
+    eliminarReporteFinanciero(idReporte, (error, success) => {
+        if (err) {
+            return res.send({ message: 'Error al obtener el reporte financiero', error: err });
+        }
+        if (!success) {
+            return res.send({ message: 'No se encontró ningún reporte financiero con ese ID' });
+        }
+        res.send({ message: 'Reporte financiero eliminado correctamente' });
+    });
+});
 
 // Array para almacenar los códigos de recuperación y sus tiempos de expiración
 const codigosRecuperacionList = [];
