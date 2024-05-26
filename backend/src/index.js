@@ -13,7 +13,7 @@ const { getReportesFinancieros, getReporteFinanciero, crearReporteFinanciero, ac
 const nodemailer = require('nodemailer');
 const app = express();
 const uploader = require('../resources/uploads')
-const { crearDeposito, eliminarDeposito, getDeposito, getDepositos, getDepositosUsuario} = require('../resources/DAOdepositos')
+const { crearDeposito, eliminarDeposito, getDeposito, getDepositos, getDepositosUsuario, actualizarDeposito} = require('../resources/DAOdepositos')
 const jwt = require('jsonwebtoken');
 const { error } = require('console');
 
@@ -165,6 +165,21 @@ app.get('/api/depositos', (req, res) => {
         res.json(depositos);
     });
 });
+
+//Actualizar deposito
+
+app.put('/api/depositos/:id', (req, res) => {
+    const id = req.params.id;
+    const { estadoDeposito } = req.body;
+    
+    actualizarDeposito(id, { estadoDeposito }, (error, resultado) => {
+        if (error) {
+            return res.status(500).send({ message: 'Error al actualizar el depósito', error: error.message });
+        }
+        res.json({ message: 'Depósito actualizado correctamente', resultado });
+    });
+});
+
 
 // Ruta para obtener los depósitos de un usuario específico
 app.get('/api/deposito-usuario/:id', (req, res) => {
