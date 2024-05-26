@@ -35,7 +35,7 @@ import { Button, CardActionArea, CardActions } from "@mui/material";
 const Home = () => {
   const { login, authState } = useContext(AuthContext); // Usa el contexto de autenticación
   return (
-    <ParallaxProvider> 
+    <ParallaxProvider>
       <div className="container-fluid contenidohome">
         {" "}
         {/* Wrap content in a container */}
@@ -118,17 +118,14 @@ const Home = () => {
                                     variant="body2"
                                     color="text.secondary"
                                   >
-                                    Lizards are a widespread group of squamate
-                                    reptiles, with over 6,000 species, ranging
-                                    across all continents except Antarctica
+                                    Bob construye
                                   </Typography>
                                 </CardContent>
                               </CardActionArea>
-
                             </Card>
                           </div>
                           <div className="col">
-                          <Card sx={{ maxWidth: 345 }}>
+                            <Card sx={{ maxWidth: 345 }}>
                               <CardActionArea>
                                 <CardMedia
                                   component="img"
@@ -148,17 +145,14 @@ const Home = () => {
                                     variant="body2"
                                     color="text.secondary"
                                   >
-                                    Lizards are a widespread group of squamate
-                                    reptiles, with over 6,000 species, ranging
-                                    across all continents except Antarctica
+                                    Bob construye
                                   </Typography>
                                 </CardContent>
                               </CardActionArea>
-
                             </Card>
                           </div>
                           <div className="col">
-                          <Card sx={{ maxWidth: 345 }}>
+                            <Card sx={{ maxWidth: 345 }}>
                               <CardActionArea>
                                 <CardMedia
                                   component="img"
@@ -178,13 +172,10 @@ const Home = () => {
                                     variant="body2"
                                     color="text.secondary"
                                   >
-                                    Lizards are a widespread group of squamate
-                                    reptiles, with over 6,000 species, ranging
-                                    across all continents except Antarctica
+                                    Bob construye
                                   </Typography>
                                 </CardContent>
                               </CardActionArea>
-
                             </Card>
                           </div>
                         </div>
