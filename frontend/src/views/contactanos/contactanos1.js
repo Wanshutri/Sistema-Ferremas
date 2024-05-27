@@ -49,12 +49,12 @@ const Contactanos = () => {
                 }}
               >
                 <div className="container-fluid">
-                  <div class="row">
-                    <div class="col-sm-6 mb-3 mb-sm-0 mt-4">
-                      <div class="card cartasdet">
-                        <div class="card-body">
-                          <h5 class="card-title">Special title treatment</h5>
-                          <p class="card-text">
+                  <div className="row">
+                    <div className="col-sm-6 mb-3 mb-sm-0 mt-4">
+                      <div className="card cartasdet">
+                        <div className="card-body">
+                          <h5 className="card-title">Special title treatment</h5>
+                          <p className="card-text">
                             "Lorem ipsum dolor sit amet, consectetur adipiscing
                             elit, sed do eiusmod tempor incididunt ut labore et
                             dolore magna aliqua. Ut enim ad minim veniam, quis
@@ -65,7 +65,7 @@ const Contactanos = () => {
                             cupidatat non proident, sunt in culpa qui officia
                             deserunt mollit anim id est laborum."
                           </p>
-                          <p class="card-text">
+                          <p className="card-text">
                             "Lorem ipsum dolor sit amet, consectetur adipiscing
                             elit, sed do eiusmod tempor incididunt ut labore et
                             dolore magna aliqua. Ut enim ad minim veniam, quis
@@ -89,10 +89,10 @@ const Contactanos = () => {
                       </div>
                     </div>
 
-                    <div class="col-sm-6 mt-4">
-                      <div class="card cartasdet">
-                        <div class="card-body">
-                          <h5 class="card-title">
+                    <div className="col-sm-6 mt-4">
+                      <div className="card cartasdet">
+                        <div className="card-body">
+                          <h5 className="card-title">
                             Ingresa los campos solicitados por favor, con gusto
                             te ayudaremos!
                           </h5>

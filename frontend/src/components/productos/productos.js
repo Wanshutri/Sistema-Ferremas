@@ -14,7 +14,7 @@ const Productos = () => {
   return (
     <div>
       <SearchAppBar />
-      <div class="Cards cardproductohome">
+      <div className="Cards cardproductohome">
         <Card className="cartasdet" sx={{ maxWidth: 345 }}>
           <CardMedia
             sx={{ height: 140 }}

@@ -65,20 +65,16 @@ function getDeposito(id, callback) {
     });
 }
 
-const actualizarDeposito = (id, datos, callback) => {
-    // Asumiendo que estás usando algún ORM o directamente SQL
-    // Aquí te dejo un ejemplo con pseudo código
-    const sql = `UPDATE depositos SET estadoDeposito = ? WHERE id = ?`;
-    const params = [datos.estadoDeposito, id];
-
-    // Ejemplo usando un método ficticio `db.run`
-    db.run(sql, params, function(error) {
+function actualizarDeposito(id, estado, callback) {
+    const connection = conectar();
+    const query = 'UPDATE deposito SET estadoDeposito = ? WHERE idDeposito = ?';
+    connection.query(query, [estado, id], (error, results, fields) => {
+        connection.end();
         if (error) {
-            return callback(error);
+            return callback(error, null);
         }
-        callback(null, { id, ...datos });
+        callback(null, results.affectedRows > 0);
     });
-};
-
+}
 
 module.exports = { crearDeposito, eliminarDeposito, getDeposito, getDepositos, getDepositosUsuario, actualizarDeposito };

@@ -170,13 +170,25 @@ app.get('/api/depositos', (req, res) => {
 
 app.put('/api/depositos/:id', (req, res) => {
     const id = req.params.id;
-    const { estadoDeposito } = req.body;
+    const estado = req.body.estado.toUpperCase();
+
+    if (!id) {
+        return res.send({ message: 'Error al actualizar el depósito', error: 'Falta el id del deposito' });
+    }
+    if (!estado) {
+        return res.send({ message: 'Error al actualizar el depósito', error: 'No se proporciono una actualizacion para el estado del deposito' });
+    }
+
+    const estadosValidos = ['A', 'P', 'R'];
+    if (!estadosValidos.includes(estado)) {
+        return res.send({ message: 'Error al actualizar el depósito', error: 'Estado de depósito incorrecto, solo se aceptan valores A (Aceptado), P (Pendiente) y R (Rechazado)' });
+    }
     
-    actualizarDeposito(id, { estadoDeposito }, (error, resultado) => {
+    actualizarDeposito(id, estado, (error, resultado) => {
         if (error) {
-            return res.status(500).send({ message: 'Error al actualizar el depósito', error: error.message });
+            return res.send({ message: 'Error al actualizar el depósito', error: error.message });
         }
-        res.json({ message: 'Depósito actualizado correctamente', resultado });
+        res.json({ message: 'Depósito actualizado correctamente'});
     });
 });
 
