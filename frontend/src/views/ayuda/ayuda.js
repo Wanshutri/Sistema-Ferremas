@@ -22,16 +22,10 @@ const Ayuda = () => {
   return (
     <ParallaxProvider>
       <div className="container-fluid contayuda">
-        {" "}
-        {/* Wrap content in a container */}
         <Sidebar1 />
         <BannerCom2 imagen={banner2} />
         <div className="row">
-          {" "}
-          {/* Use Bootstrap row */}
           <div className="col">
-            {" "}
-            {/* Adjust column width as needed */}
             <main>
               <Parallax easing="easeInQuad" speed={-8}>
                 <div className="container-fluid ">

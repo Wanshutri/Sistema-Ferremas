@@ -1,17 +1,5 @@
-.footer {
-  background-color: #ffffff;
-  background: linear-gradient(#2951a0 15%, #ffffff 10%);
-  width: 100%;
-  text-align: left;
-  font-family: sans-serif;
-  font-weight: bold;
-  font-size: 16px;
-  padding: 50px;
-  margin-top: 10px;
-}
-
 .logoimg {
-  margin-top: 5px;
+  margin-top: 20px;
   width: 100%;
 
   filter: invert();
@@ -130,8 +118,8 @@
 
 .footer .menu {
   color: #000000;
-  margin: 20px 0 12px;
   padding: 0;
+  text-align: end;
 }
 
 .footer .menu a {
@@ -139,6 +127,7 @@
   line-height: 1.8;
   text-decoration: none;
   color: inherit;
+  text-align: end;
 }
 
 .footer .menu a:hover {

@@ -97,22 +97,22 @@ function Login() {
                   Login
                 </Button>
                 <Link to="/recuperarcontraseña">
-                  <a
+                  <p
                     className="small text-muted text1"
                     style={{ textAlign: "center" }}
                   >
                     ¿Olvidaste tu contraseña?
-                  </a>
+                  </p>
                 </Link>
-                <p
+                <div
                   className="mb-8 pb-lg-2 text1"
                   style={{ color: "#393f81", textAlign: "center" }}
                 >
-                  ¿No tienes cuenta? <br></br>
-                  <Link to={"/registro"}>
-                    <a style={{ color: "#393f81" }}>Registrate aqui</a>
+                  <p>¿No tienes cuenta?</p>
+                  <Link to={"/registro"} style={{ color: "#393f81" }}>
+                    <p>Registrate aqui</p>
                   </Link>
-                </p>
+                </div>
                 <div className="d-flex flex-row justify-content-end">
                   <a href="#!" className="small text-muted me-1">
                     Terminos de uso.

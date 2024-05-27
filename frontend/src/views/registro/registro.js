@@ -14,7 +14,7 @@ const Register = () => {
     pApellido: "",
     sApellido: "",
     fechaNac: "",
-    celular: null,
+    celular: undefined,
     direccion: "",
     cargo: "Cliente",
   });

@@ -61,3 +61,15 @@
   background-size: cover;
   background-color: rgba(0, 0, 0, 0.293);
 }
+
+.footer {
+  background-color: #ffffff;
+  background: linear-gradient(#2951a0 15%, #ffffff 10%);
+  width: 100%;
+  text-align: left;
+  font-family: sans-serif;
+  font-weight: bold;
+  font-size: 16px;
+  padding: 50px;
+  margin-top: 10px;
+}

@@ -23,16 +23,16 @@ function Fade1({ image, image2, image3, image4 }) {
     <div className="slider-container scont">
       <Slider {...settings}>
         <div className="divimg">
-          <img src={image} className="carimg2" />
+          <img src={image} alt="" className="carimg2" />
         </div>
         <div className="divimg">
-          <img src={image2} className="carimg2" />
+          <img src={image2} alt="" className="carimg2" />
         </div>
         <div className="divimg">
-          <img src={image3} className="carimg2" />
+          <img src={image3} alt="" className="carimg2" />
         </div>
         <div className="divimg">
-          <img src={image4} className="carimg2" />
+          <img src={image4} alt="" className="carimg2" />alt="" 
         </div>
       </Slider>
     </div>

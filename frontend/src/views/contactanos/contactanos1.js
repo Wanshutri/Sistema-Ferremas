@@ -73,7 +73,7 @@ const Contactanos = () => {
                           <hr></hr>
 
                           <div className="comentarioscontact">
-                            <label for="floatingTextarea2">Comentarios</label>
+                            <label >Comentarios</label>
                           </div>
                         </div>
 

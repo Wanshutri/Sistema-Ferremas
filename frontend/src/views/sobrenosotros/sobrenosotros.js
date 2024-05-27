@@ -114,7 +114,6 @@ const Sobrenosotros = () => {
                             servicio posible.
                           </p>
                           <p>
-                            {" "}
                             Nuestros horarios están diseñados para adaptarse a
                             tus necesidades: de lunes a viernes, de 9:00 a.m. a
                             6:00 p.m., y los sábados de 10:00 a.m. a 2:00 p.m.
