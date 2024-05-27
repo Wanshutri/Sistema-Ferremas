@@ -23,7 +23,7 @@ function Info({ products, totalPrice }) {
               secondary={producto.descripcion}
             />
             <Typography variant="body1" fontWeight="medium">
-              {producto.precioProducto?.toLocaleString("es-CL", {
+              {producto.precio?.toLocaleString("es-CL", {
                 style: "currency",
                 currency: "CLP",
               })}

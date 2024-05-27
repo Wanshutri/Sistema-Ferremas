@@ -108,3 +108,18 @@ VALUES ('fe.valenzuelav@duocuc.cl', 'judas123', '21244616-5', 'Felipe', null, 'V
 
 INSERT INTO tipo_producto (nombreTipo)
 VALUES ('Herramientas')
+
+INSERT INTO tipo_producto (nombreTipo)
+VALUES ('Materiales Básicos')
+
+INSERT INTO tipo_producto (nombreTipo)
+VALUES ('Equipos de Seguridad')
+
+INSERT INTO tipo_producto (nombreTipo)
+VALUES ('Tornillos y Anclajes')
+
+INSERT INTO tipo_producto (nombreTipo)
+VALUES ('Fijaciones y Adhesivos')
+
+INSERT INTO tipo_producto (nombreTipo)
+VALUES ('Equipos de Medición')

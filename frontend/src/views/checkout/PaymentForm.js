@@ -1,4 +1,5 @@
 import * as React from "react";
+import { useState, useEffect, result} from "react"
 import Alert from "@mui/material/Alert";
 import Box from "@mui/material/Box";
 import Card from "@mui/material/Card";
@@ -13,11 +14,32 @@ import AccountBalanceRoundedIcon from "@mui/icons-material/AccountBalanceRounded
 import CreditCardRoundedIcon from "@mui/icons-material/CreditCardRounded";
 import WarningRoundedIcon from "@mui/icons-material/WarningRounded";
 import { PayPalScriptProvider, PayPalButtons } from "@paypal/react-paypal-js";
+import { Button } from "@mui/material";
+import axios from "axios";
+
 export default function PaymentForm() {
   const [paymentType, setPaymentType] = React.useState("creditCard");
+  const userId = localStorage.getItem("user");
+  const [totalPrice, setTotalPrice] = useState('0');
 
   const handlePaymentTypeChange = (event) => {
     setPaymentType(event.target.value);
+  };
+
+  useEffect(() => {
+    const storedTotalPrice = localStorage.getItem('totalPrice');
+    if (storedTotalPrice) {
+      setTotalPrice(storedTotalPrice);
+    }
+  }, []);
+
+  const PaypalnoDijango2Entrega = async (event) => {
+    console.log(totalPrice)
+    const response = await axios.post("http://localhost:3001/api/crear-pago", {
+        idUser: userId,
+        costo: totalPrice,
+      });
+    console.log(response);
   };
 
   return (
@@ -206,31 +228,12 @@ export default function PaymentForm() {
             gap: 2,
           }}
         >
+          <Button onClick={PaypalnoDijango2Entrega}> Paypal </Button>
           <PayPalScriptProvider
             options={{ "client-id": "AV7RbVPozcoaIgXrxjWQU5WWnGyMyZmMBfauJ16FdFEVU12RTDtFOxSNZzG2GdQUqx5wA6DMwkNR-UfZ" }}
           >
             <PayPalButtons
-              createOrder={(data, actions) => {
-                return actions.order.create({
-                  purchase_units: [
-                    {
-                      amount: {
-                        value: "1.00", // Monto de la compra en USD
-                      },
-                    },
-                  ],
-                });
-              }}
-              onApprove={(data, actions) => {
-                // Ejecutar código cuando el pago es aprobado poner crearboleta API aqui
-                // Redirigir al usuario a tu sitio web o realizar otras acciones necesarias
-                // Por ejemplo, puedes redirigir al usuario a una página de confirmación
-                window.location.href = "http://localhost:3000";
-              }}
-              onError={(err) => {
-                // Manejar errores de PayPal
-                console.error("Error al procesar el pago:", err);
-              }}
+              
             />
           </PayPalScriptProvider>
         </Box>

@@ -269,8 +269,11 @@ const ListaProductosCrud = () => {
             onChange={handleSelectChange}
           >
             <MenuItem value={1}>Herramienta</MenuItem>
-            <MenuItem value={2}>Cosa 2</MenuItem>
-            <MenuItem value={3}>Material</MenuItem>
+            <MenuItem value={2}>Materiales Básicos</MenuItem>
+            <MenuItem value={3}>Equipos de Seguridad</MenuItem>
+            <MenuItem value={7}>Tornillos y Anclajes</MenuItem>
+            <MenuItem value={5}>Fijaciones y Adhesivos</MenuItem>
+            <MenuItem value={6}>Equipos de Medición</MenuItem>
           </Select>
         </FormControl>
         <Form.Group className="mb-3">
