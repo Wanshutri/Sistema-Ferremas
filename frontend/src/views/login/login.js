@@ -32,7 +32,6 @@ function Login() {
     }
     try {
       const result = await login(correo, contrasena);
-      console.log(result)
       if (result.success) {
         const tipoUsuario = result.usuario.cargo
         switch (tipoUsuario) {

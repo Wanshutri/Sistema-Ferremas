@@ -160,9 +160,8 @@ function PaginaProducto() {
                         </Typography>
                       </CardContent>
                       <Divider className="dividercarrusel" />
-                      <CardActions className="cardactioncarrusel">
-                        <Button size="small">Agregar al carrito</Button>
-                        <Button size="small" component={Link} to={`/detalleproducto/${product.id}`}>Ver detalles</Button>
+                      <CardActions className="cardactioncarrusel d-flex">
+                        <Button className="ms-auto me-auto" size="small" component={Link} to={`/detalleproducto/${product.id}`}>Ver detalles</Button>
                       </CardActions>
                     </Card>
                   </div>

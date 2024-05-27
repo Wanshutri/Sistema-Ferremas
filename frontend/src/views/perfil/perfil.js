@@ -11,54 +11,57 @@ import Sidebar1 from "../../components/sidebar/sidebar";
 import Footer from "../../components/footer/footer";
 import BannerCom from "../../components/banner/bannerCom";
 import Card from "react-bootstrap/Card";
-import sana from "./../../img/sana.jpg";
+import userFoto from "./../../assets/img/userFoto.png";
 import Container from "react-bootstrap/Container";
 import { RiFileUploadFill } from "react-icons/ri";
 import { ParallaxProvider, Parallax } from "react-scroll-parallax";
 import Chip from "@mui/material/Chip";
 import { AuthContext } from "./../../js/AuthContext"; // Importa el contexto de autenticación
-import ListGroup from 'react-bootstrap/ListGroup';
+import ListGroup from "react-bootstrap/ListGroup";
+import axios from "axios";
 
 function Perfil() {
   const [pedidos, setPedidos] = useState([]);
+  const [usuario, setUsuario] = useState({});
   const [currentPage, setCurrentPage] = useState(1);
-  const { authState } = useContext(AuthContext); // Usa el contexto de autenticación
-  const navigate = useNavigate(); // Usa useNavigate para redirigir
+  const { authState } = useContext(AuthContext);
+  const navigate = useNavigate();
   const itemsPerPage = 5;
 
   useEffect(() => {
-    // Redirige a la página de login si el usuario no está autenticado
     if (!localStorage.getItem("user")) {
       navigate("/login");
     } else {
-      // Llamada a la API para obtener los pedidos del usuario
       const fetchPedidos = async () => {
         try {
-          const userId = authState.usuario.idUsuario; // Asegúrate de tener la lógica para obtener el ID del usuario actual
-          const response = await fetch(`http://localhost:3001/api/deposito-usuario/${userId}`);
-          if (!response.ok) {
-            throw new Error("Error al obtener los datos");
-          }
-          const data = await response.json();
-          setPedidos(data);
-        } catch (error) {}
+          const userId = localStorage.getItem("user");
+          const responsePedidos = await axios.get(
+            `http://localhost:3001/api/deposito-usuario/${userId}`
+          );
+          const responseUsuario = await axios.get(
+            `http://localhost:3001/api/usuarios/${userId}`
+          );
+
+          setPedidos(responsePedidos.data);
+          setUsuario(responseUsuario.data);
+        } catch (error) {
+          console.error("Error al obtener los datos", error);
+        }
       };
       fetchPedidos();
     }
-  }, [authState.isAuthenticated, navigate]); // Agrega navigate a las dependencias
+  }, [authState.isAuthenticated, navigate]);
 
   const handlePageChange = (pageNumber) => {
     setCurrentPage(pageNumber);
   };
 
-  // Lógica para la paginación
   const indexOfLastItem = currentPage * itemsPerPage;
   const indexOfFirstItem = indexOfLastItem - itemsPerPage;
   const currentItems = pedidos.slice(indexOfFirstItem, indexOfLastItem);
 
   const totalPages = Math.ceil(pedidos.length / itemsPerPage);
 
-  // No renderiza nada si no está autenticado
   if (!authState.isAuthenticated) {
     return null;
   }
@@ -85,7 +88,7 @@ function Perfil() {
                           >
                             <Card.Img
                               variant="top"
-                              src={sana}
+                              src={userFoto}
                               style={{ width: "20rem", height: "20rem" }}
                             />
                             <Card.Body>
@@ -97,7 +100,7 @@ function Perfil() {
                                 />
                               </Divider>
                               <Card.Title>
-                                <h1>Bienvenido (nombre de usuario)</h1>
+                                <h1>Bienvenido {usuario.pNombre}</h1>
                               </Card.Title>
                               <Divider>
                                 <Chip
@@ -106,14 +109,24 @@ function Perfil() {
                                   className="chipperfil"
                                 />
                               </Divider>
-                                  <ListGroup variant="flush">
-                                  <ListGroup.Item>Nombre Completo:(usuario)</ListGroup.Item>
-                                  <ListGroup.Item>Email:(email usu)</ListGroup.Item>
-                                  <ListGroup.Item>Dirección:(Dirección usu)</ListGroup.Item>
-                                  <ListGroup.Item>Celular:(+569... usu)</ListGroup.Item>
-                                </ListGroup>
+                              <ListGroup variant="flush">
+                                <ListGroup.Item>
+                                  Nombre Completo: <br></br>
+                                  {`${usuario.pNombre} ${
+                                    usuario.sNombre ? usuario.sNombre + " " : ""
+                                  }${usuario.pApellido} ${usuario.sApellido}`}
+                                </ListGroup.Item>
+                                <ListGroup.Item>
+                                  Email: <br></br> {usuario.correoUsuario}
+                                </ListGroup.Item>
+                                <ListGroup.Item>
+                                  Dirección: <br></br>{usuario.direccion}
+                                </ListGroup.Item>
+                                <ListGroup.Item>
+                                  Celular: <br></br>{usuario.celular}
+                                </ListGroup.Item>
+                              </ListGroup>
                             </Card.Body>
-                            <Card.Body className="d-flex justify-content-center"></Card.Body>
                           </Card>
                         </div>
                       </Col>

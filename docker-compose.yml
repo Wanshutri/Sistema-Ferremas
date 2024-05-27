@@ -20,14 +20,14 @@ services:
     ports:
       - "3001:3001"
 
-  react_ferremas:
-    build: ./frontend
-    depends_on:
-      - node_ferremas
-    networks:
-      - ferremas_network
-    ports:
-     - "3000:3000"
+  # react_ferremas:
+  #   build: ./frontend
+  #   depends_on:
+  #     - node_ferremas
+  #   networks:
+  #     - ferremas_network
+  #   ports:
+  #    - "3000:3000"
 
 networks:
   ferremas_network:

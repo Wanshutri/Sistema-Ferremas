@@ -3,7 +3,6 @@ import "./detalleProducto.css";
 import SearchAppBar from "./../../components/productos/barraproducto";
 import Footer from "./../../components/footer/footer";
 import logo from "./../../img/logo.png";
-import Imagenesproductos from "../../components/imagenesProductos/imagenesproductos";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import Sidebar1 from "../../components/sidebar/sidebar";
 import { ParallaxProvider, Parallax } from "react-scroll-parallax";
@@ -19,12 +18,11 @@ import { faTruckMoving } from "@fortawesome/free-solid-svg-icons";
 import { faCubesStacked } from "@fortawesome/free-solid-svg-icons";
 import Button from "@mui/material/Button";
 import { faRotateLeft } from "@fortawesome/free-solid-svg-icons";
-import Carousel3 from "../../components/carousel/carousel3";
 import Divider from "@mui/material/Divider";
 import Chip from "@mui/material/Chip";
 import FloatCarrito from "../../components/FloatCarrito/FloatCarrito";
 import axios from "axios";
-import { useParams } from "react-router-dom";
+import { Navigate, useNavigate, useParams } from "react-router-dom";
 import { AuthContext } from "./../../js/AuthContext";
 
 function HalfRating() {
@@ -84,29 +82,44 @@ const DetalleProducto = () => {
   const [cantidadProducto, setCantidad] = useState(1);
   const { authState } = useContext(AuthContext);
   const userId = authState.usuario;
-  console.log(userId);
-  const restarCantidad = () => {
-    if (cantidadProducto > 1) {
-      setCantidad(cantidadProducto - 1);
-    }
-  };
+  const navigate = useNavigate();
 
-  
-function ButtonSizes() {
-  const handleClick = () => {
+  const handleAgregarAlCarrito = () => {
     agregarAlCarrito(userId, producto.idProducto, cantidadProducto);
   };
 
-  return (
-    <Box sx={{ "& button": { m: 1 } }}>
-      <div className="botonagregarcarro">
-        <Button className="btnagregar" variant="contained" size="large" onClick={handleClick}>
-          Agregar al carro
-        </Button>
-      </div>
-    </Box>
-  );
-}
+  const handleIniciarSesion = () => {
+    // Redirigir al usuario a la página de inicio de sesión
+    navigate("/login");
+  };
+
+  const ButtonSizes = () => {
+    return (
+      <Box sx={{ "& button": { m: 1 } }}>
+        <div className="botonagregarcarro">
+          {userId ? (
+            <Button
+              className="btnagregar"
+              variant="contained"
+              size="large"
+              onClick={handleAgregarAlCarrito}
+            >
+              Agregar al carro
+            </Button>
+          ) : (
+            <Button
+              className="btnagregar"
+              variant="contained"
+              size="large"
+              onClick={handleIniciarSesion}
+            >
+              Debes iniciar sesión para poder comprar
+            </Button>
+          )}
+        </div>
+      </Box>
+    );
+  };
 
   const agregarAlCarrito = async (idUsuario, idProducto, cantidadProducto) => {
     try {
@@ -115,14 +128,15 @@ function ButtonSizes() {
         idProducto,
         cantidadProducto,
       });
-      console.log(response.data); // Puedes manejar la respuesta como desees
+      const re = response.data
+      if (re.error) {
+        throw new Error(re.error)
+      } else {
+        navigate("/carro");
+      }
     } catch (error) {
-      console.error("Error al agregar producto al carrito:", error);
+      console.error("Error al agregar producto al carrito:", error.message);
     }
-  };
-
-  const sumarCantidad = () => {
-    setCantidad(cantidadProducto + 1);
   };
 
   useEffect(() => {
@@ -141,27 +155,28 @@ function ButtonSizes() {
     return <div>Cargando...</div>;
   }
 
+  const disminuirCantidad = () => {
+    setCantidad((prevCantidad) => Math.max(prevCantidad - 1, 1));
+  };
+
+  const aumentarCantidad = () => {
+    setCantidad((prevCantidad) => prevCantidad + 1);
+  };
+
   return (
     <ParallaxProvider>
       <div className="container-fluid detalleMain">
-        {" "}
-        {/* Wrap content in a container */}
         <div>
           <FloatCarrito />
           <Sidebar1 />
-          <SearchAppBar />
           <div className="basicdivbread">
             <BasicBreadcrumbs />
           </div>
         </div>
         <br></br>
         <div className="row">
-          {" "}
-          {/* Use Bootstrap row */}
           <div className="col">
-            {" "}
-            {/* Adjust column width as needed */}
-            <main>
+            <main className="mt-5">
               <Parallax
                 easing="easeInQuad"
                 speed={-3}
@@ -181,12 +196,11 @@ function ButtonSizes() {
                     <div className="col-sm-6 mb-3 mb-sm-0 mt-4">
                       <div className="card cartasdet">
                         <div className="card-body">
-                          <div className="cardimagenes">
-                            <Carousel3
-                              imagen1={
-                                "http://localhost:3001/images/" +
-                                producto.urlProducto
-                              }
+                          <div className="cardimagenes d-flex">
+                            <img
+                              className="imgProducto"
+                              src={`http://localhost:3001/images/${producto.urlProducto}`}
+                              alt="Descripción de la imagen"
                             />
                           </div>
 
@@ -267,7 +281,9 @@ function ButtonSizes() {
                             />
                           </Divider>
                           <h1 className="preciodet">
-                            {producto.precioProducto.toLocaleString("es-CL", {
+                            {(
+                              producto.precioProducto * cantidadProducto
+                            ).toLocaleString("es-CL", {
                               style: "currency",
                               currency: "CLP",
                             })}
@@ -275,16 +291,9 @@ function ButtonSizes() {
                           <br></br>
                         </div>
                         <div className="contadorbtn">
-                          <button
-                            className="botonresta"
-                            onClick={restarCantidad}
-                          >
-                            -
-                          </button>
+                          <button className="botonresta" onClick={disminuirCantidad}>-</button>
                           <span>{cantidadProducto}</span>
-                          <button className="botonsuma" onClick={sumarCantidad}>
-                            +
-                          </button>
+                          <button className="botonsuma" onClick={aumentarCantidad}>+</button>
                         </div>
                         <ButtonSizes />
                       </div>

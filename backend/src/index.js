@@ -880,23 +880,10 @@ app.get("/api/carrito/:id", (req, res) => {
 app.post("/api/carrito", (req, res) => {
   const { idUsuario, idProducto, cantidadProducto } = req.body;
 
-  // Verificar que se proporcionen los parámetros necesarios
-  if (!idUsuario) {
+  if (!idUsuario || !idProducto || !cantidadProducto) {
     return res.json({
       message: "No se agregó ningún producto",
-      error: "Falta el usuario",
-    });
-  }
-  if (!idProducto) {
-    return res.json({
-      message: "No se agregó ningún producto",
-      error: "Falta el producto",
-    });
-  }
-  if (!cantidadProducto) {
-    return res.json({
-      message: "No se agregó ningún producto",
-      error: "Falta la cantidad del producto",
+      error: "Falta algún parámetro",
     });
   }
 
@@ -914,69 +901,55 @@ app.post("/api/carrito", (req, res) => {
       });
     }
 
-    agregarProductoAlCarrito(
-      idUsuario,
-      idProducto,
-      cantidadProducto,
-      (error, resultado) => {
-        if (error) {
-          return res.json({
-            message: "Error al agregar producto al carrito",
-            error: error.message,
-          });
-        }
-        if (resultado.length === 0) {
-          return res.json({
-            message: "Error al agregar producto al carrito",
-            error: "Carrito esta vacio",
-          });
-        }
-        return res.json(resultado);
+    agregarProductoAlCarrito(idUsuario, idProducto, cantidadProducto, (error, resultado) => {
+      if (error) {
+        return res.json({
+          message: "Error al agregar producto al carrito",
+          error: error.message,
+        });
       }
-    );
+      res.json(resultado);
+    });
   });
 });
 
-// Ruta para eliminar un producto de un carrito DELETE EJEMPLO: /api/carrito?carrito=456&producto=789
+// Ruta para eliminar un producto de un carrito
 app.delete("/api/carrito", async (req, res) => {
-  const idCarrito = req.body.carrito;
-  const idProducto = req.body.producto;
+  const idUsuario = req.body.idUsuario;
+  const producto = req.body.producto;
 
-  if (!idCarrito) {
-    return res.send({
+  // Verificar que se proporcionen los datos necesarios
+  if (!idUsuario || !producto) {
+    return res.json({
       message: "Error al eliminar producto del carrito",
-      error: "Falta id del carrito",
+      error: "Falta id del usuario en el cuerpo de la solicitud",
     });
   }
 
-  if (!idProducto) {
-    return res.send({
+  if (!producto) {
+    return res.json({
       message: "Error al eliminar producto del carrito",
-      error: "Falta id del producto",
+      error: "Falta ID del producto en el cuerpo de la solicitud",
     });
   }
 
   try {
-    // Verificar la cantidad actual del producto en el carrito
-    const productoEnCarrito = await obtenerProductoEnCarrito(idCarrito, idProducto);
-    if (!productoEnCarrito) {
-      return res.send({
-        message: "Error al eliminar producto del carrito",
-        error: "Producto no encontrado en el carrito",
-      });
-    }
-
-    if (productoEnCarrito.cantidad > 1) {
-      // Reducir la cantidad en 1
-      await actualizarCantidadProducto(idCarrito, idProducto, productoEnCarrito.cantidadProducto - 1);
-      res.json({ message: "Cantidad de producto reducida en el carrito exitosamente" });
-    } else {
-      // Eliminar el producto del carrito si la cantidad es 1
-      await eliminarProductoDelCarrito(idCarrito, idProducto);
-      res.json({ message: "Producto eliminado del carrito exitosamente" });
-    }
+    // Eliminar el producto del carrito
+    eliminarProductoDelCarrito(idUsuario, producto, (error, resultado) => {
+      if (error) {
+        return res.status(500).json({
+          message: "Error al eliminar producto del carrito",
+          error: error.message,
+        });
+      }
+      if (resultado) {
+        return res.json({ message: "Producto eliminado del carrito exitosamente" });
+      } else {
+        return res.json({ message: "No se encontró el producto en el carrito" });
+      }
+    });
   } catch (error) {
-    res.send({
+    return res.status(500).json({
       message: "Error al eliminar producto del carrito",
       error: error.message,
     });

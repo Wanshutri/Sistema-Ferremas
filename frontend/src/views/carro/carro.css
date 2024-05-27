@@ -106,3 +106,8 @@
     text-align: center;
   }
 }
+
+.trashBtn:hover {
+  cursor: pointer;
+}
+
