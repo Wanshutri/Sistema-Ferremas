@@ -6,20 +6,10 @@ import logo from "./../../img/logo.png";
 import banner from "./../../img/banner.png";
 import bob from "./../../img/bob.jpg";
 import sucursales from "./../../img/sucursales.jpg";
-import oferta from "./../../img/oferta.jpg";
-import Carousel from "../../components/carousel/carousel";
-import Cards from "../../components/cards/cards";
 import Sidebar1 from "../../components/sidebar/sidebar";
 import JustifiedTab from "../../components/tabs/tabs";
 import Productos from "../../components/productos/productos";
-import Pbanner from "../../components/parallax/parallaxbanner";
-import fondo from "../../assets/img/ferreteriabricolaje.jpg";
-import {
-  ParallaxProvider,
-  ParallaxBanner,
-  ParallaxBannerLayer,
-  Parallax,
-} from "react-scroll-parallax";
+import { ParallaxProvider, Parallax } from "react-scroll-parallax";
 import Fade1 from "../../components/carousel/carousel2";
 import herramientasb from "../../assets/img/bannerherramientas.jpg";
 import ofertab from "../../assets/img/itembanner.png";
@@ -30,7 +20,7 @@ import Card from "@mui/material/Card";
 import CardContent from "@mui/material/CardContent";
 import CardMedia from "@mui/material/CardMedia";
 import Typography from "@mui/material/Typography";
-import { Button, CardActionArea, CardActions } from "@mui/material";
+import { CardActionArea } from "@mui/material";
 
 const Home = () => {
   const { login, authState } = useContext(AuthContext); // Usa el contexto de autenticación

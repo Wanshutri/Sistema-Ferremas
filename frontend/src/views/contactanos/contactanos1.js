@@ -1,18 +1,10 @@
 import React from "react";
 import Footer from "../../components/footer/footer";
 import BannerCom from "../../components/banner/bannerCom";
-import logo from "./../../img/logo.png";
 import ModalContactanos from "../../components/modalContactanos/modalcontact";
 import "./contactanos.css";
 import Sidebar1 from "../../components/sidebar/sidebar";
-import JustifiedTab from "../../components/tabs/tabs";
-import {
-  Parallax,
-  ParallaxProvider,
-  ParallaxBannerLayer,
-  ParallaxBanner,
-} from "react-scroll-parallax";
-import fondo from "../../assets/img/ferreteriabricolaje.jpg";
+import { Parallax, ParallaxProvider } from "react-scroll-parallax";
 import Formulario from "../../components/formcontact/formContact";
 import FloatCarrito from "../../components/FloatCarrito/FloatCarrito";
 
@@ -53,7 +45,9 @@ const Contactanos = () => {
                     <div className="col-sm-6 mb-3 mb-sm-0 mt-4">
                       <div className="card cartasdet">
                         <div className="card-body">
-                          <h5 className="card-title">Special title treatment</h5>
+                          <h5 className="card-title">
+                            Special title treatment
+                          </h5>
                           <p className="card-text">
                             "Lorem ipsum dolor sit amet, consectetur adipiscing
                             elit, sed do eiusmod tempor incididunt ut labore et
@@ -79,7 +73,7 @@ const Contactanos = () => {
                           <hr></hr>
 
                           <div className="comentarioscontact">
-                            <label for="floatingTextarea2">Comentarios</label>
+                            <label >Comentarios</label>
                           </div>
                         </div>
 

@@ -1,59 +1,45 @@
 import React, { useState, useContext } from "react";
-import axios from "axios";
-import logo from './../../assets/img/logo.png';
-import {
-  MDBBtn,
-  MDBContainer,
-  MDBCard,
-  MDBCardBody,
-  MDBCardImage,
-  MDBRow,
-  MDBCol,
-  MDBInput,
-  MDBRadio,
-  MDBSelect,
-} from "mdb-react-ui-kit";
-import './registro.css';
-import { AuthContext } from './../../js/AuthContext';
+import logo from "./../../assets/img/logo.png";
+import "./registro.css";
+import { AuthContext } from "./../../js/AuthContext";
 
 const Register = () => {
   const { login, authState } = useContext(AuthContext); // Usa el contexto de autenticación
   const [usuario, setUsuario] = useState({
-    correoUsuario: '',
-    contrasenaUsuario: '',
-    rutUsuario: '',
-    pNombre: '',
-    sNombre: '',
-    pApellido: '',
-    sApellido: '',
-    fechaNac: '',
-    celular: null,
-    direccion: '',
-    cargo : 'Cliente'
+    correoUsuario: "",
+    contrasenaUsuario: "",
+    rutUsuario: "",
+    pNombre: "",
+    sNombre: "",
+    pApellido: "",
+    sApellido: "",
+    fechaNac: "",
+    celular: undefined,
+    direccion: "",
+    cargo: "Cliente",
   });
-  
+
   const handleChange = (e) => {
     const { name, value } = e.target;
-    const newValue = name === 'celular' ? parseInt(value) : value; // Convertir a número si el campo es 'celular'
+    const newValue = name === "celular" ? parseInt(value) : value; // Convertir a número si el campo es 'celular'
     setUsuario({
       ...usuario,
-      [name]: newValue
+      [name]: newValue,
     });
   };
-  
 
   const handleSubmit = async (e) => {
     e.preventDefault();
     try {
       const response = await fetch("http://localhost:3001/api/usuarios", {
-        method: 'POST',
+        method: "POST",
         headers: {
-          'Content-Type': 'application/json'
+          "Content-Type": "application/json",
         },
-        body: JSON.stringify(usuario)
+        body: JSON.stringify(usuario),
       });
-      const data = await response.json()
-      console.log(data)
+      const data = await response.json();
+      console.log(data);
       if (data) {
         // Si la solicitud fue exitosa (código de respuesta 200-299), continuar
         //await login(usuario.correoUsuario, usuario.contrasenaUsuario);
@@ -65,7 +51,6 @@ const Register = () => {
       console.error("Error al crear usuario:", error);
     }
   };
-  
 
   // Redirigir al usuario si está autenticado
   if (authState.isAuthenticated) {
@@ -88,7 +73,10 @@ const Register = () => {
             <div>
               <img src={logo} style={{ width: "30vh" }} alt="Logo" />
             </div>
-            <div className="titulo" style={{ textAlign: "center", marginBottom: "20px" }}>
+            <div
+              className="titulo"
+              style={{ textAlign: "center", marginBottom: "20px" }}
+            >
               <h2>Registro</h2>
             </div>
             <form onSubmit={handleSubmit}>

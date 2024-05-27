@@ -1,8 +1,8 @@
-import { useState } from 'react';
-import Button from 'react-bootstrap/Button';
-import Form from 'react-bootstrap/Form';
-import Modal from 'react-bootstrap/Modal';
-import './modalcontac.css';
+import { useState } from "react";
+import Button from "react-bootstrap/Button";
+import Form from "react-bootstrap/Form";
+import Modal from "react-bootstrap/Modal";
+import "./modalcontac.css";
 
 function ModalContactanos() {
   const [show, setShow] = useState(false);
@@ -40,10 +40,18 @@ function ModalContactanos() {
           </Form>
         </Modal.Body>
         <Modal.Footer>
-          <Button className='botoncerrar' variant="secondary" onClick={handleClose}>
+          <Button
+            className="botoncerrar"
+            variant="secondary"
+            onClick={handleClose}
+          >
             Cerrar
           </Button>
-          <Button className='botonenviar' variant="primary" onClick={handleClose}>
+          <Button
+            className="botonenviar"
+            variant="primary"
+            onClick={handleClose}
+          >
             Enviar
           </Button>
         </Modal.Footer>

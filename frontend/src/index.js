@@ -20,7 +20,7 @@ import Bodeindex from "./views/bodeguero/bodeindex";
 import Containdex from "./views/contador/containdex";
 import Carro from "./views/carro/carro";
 import { AuthProvider } from "./js/AuthContext"; // Importa el AuthProvider
-import PaginaProducto from './views/PaginaProducto/PaginaProducto';
+import PaginaProducto from "./views/PaginaProducto/PaginaProducto";
 import DetalleProducto from "./views/detalleProducto/detalleproducto";
 import Perfil from "./views/perfil/perfil";
 
@@ -31,20 +31,11 @@ root.render(
       <Routes>
         <Route path="/">
           <Route index element={<Home></Home>} />
-          <Route path="test" element={<h1>PAGINA DE TEST</h1>} />
-          <Route path="*" element={<Error404></Error404>} />
-          <Route path="*" element={<h1>Pagina no encontrada</h1>} />
           <Route path="contactanos" element={<Contactanos></Contactanos>} />
-          <Route
-            path="sobrenosotros"
-            element={<Sobrenosotros></Sobrenosotros>}
-          />
+          <Route path="sobrenosotros" element={<Sobrenosotros></Sobrenosotros>}/>
           <Route path="login" element={<Login></Login>} />
           <Route path="registro" element={<Registro></Registro>} />
-          <Route
-            path="recuperarcontraseña"
-            element={<RecuperarContraseña></RecuperarContraseña>}
-          />
+          <Route path="recuperarcontraseña" element={<RecuperarContraseña></RecuperarContraseña>}/>
           <Route path="ayuda" element={<Ayuda></Ayuda>} />
           <Route path="admin" element={<Admindex></Admindex>} />
           <Route path="carro" element={<Carro></Carro>} />
@@ -53,12 +44,10 @@ root.render(
           <Route path="vendindex" element={<Vendindex></Vendindex>} />
           <Route path="bodeindex" element={<Bodeindex></Bodeindex>} />
           <Route path="contindex" element={<Containdex></Containdex>} />
-          <Route
-            path="detalleproducto"
-            element={<DetalleProducto></DetalleProducto>}
-          />
+          <Route path="detalleproducto" element={<DetalleProducto></DetalleProducto>}/>
           <Route path="perfil" element={<Perfil></Perfil>} />
           <Route path="paginaproducto" element={<PaginaProducto></PaginaProducto>} />
+          <Route path="*" element={<Error404></Error404>} />
         </Route>
       </Routes>
     </BrowserRouter>

@@ -1,37 +1,96 @@
 import React, { useState } from "react";
 import "./carro.css";
-import sana from "./../../img/sana.jpg";
 import escalera from "./../../assets/img/escalerita.jpg";
 import Sidebar1 from "../../components/sidebar/sidebar";
 import BannerCom from "../../components/banner/bannerCom";
 import Footer from "../../components/footer/footer";
 import Button from "react-bootstrap/Button";
-import fondo from "../../assets/img/ferreteriabricolaje.jpg";
 import { Parallax, ParallaxProvider } from "react-scroll-parallax";
-
 import AppBar from "@mui/material/AppBar";
-import Box from "@mui/material/Box";
 import Toolbar from "@mui/material/Toolbar";
 import Typography from "@mui/material/Typography";
-import IconButton from "@mui/material/IconButton";
-import MenuIcon from "@mui/icons-material/Menu";
 import { FaOpencart } from "react-icons/fa";
 import BasicBreadcrumbs from "../../components/productos/breadcrums";
 import Pagination from "react-bootstrap/Pagination";
 
 const products = [
-  // Aquí pones tu lista de productos
-  { id: 1, name: "Ferreteria y construccion", model: "Escalera de acero", country: "Santiago", price: 900000 },
-  { id: 2, name: "Ferreteria y construccion", model: "Escalera de acero", country: "Santiago", price: 900000 },
-  { id: 3, name: "Ferreteria y construccion", model: "Escalera de acero", country: "Santiago", price: 900000 },
-  { id: 4, name: "Ferreteria y construccion", model: "Escalera de acero", country: "Santiago", price: 900000 },
-  { id: 5, name: "Ferreteria y construccion", model: "Escalera de acero", country: "Santiago", price: 900000 },
-  { id: 6, name: "Ferreteria y construccion", model: "Escalera de acero", country: "Santiago", price: 900000 },
-  { id: 7, name: "Ferreteria y construccion", model: "Escalera de acero", country: "Santiago", price: 900000 },
-  { id: 8, name: "Ferreteria y construccion", model: "Escalera de acero", country: "Santiago", price: 900000 },
-  { id: 9, name: "Ferreteria y construccion", model: "Escalera de acero", country: "Santiago", price: 900000 },
-  { id: 10, name: "Ferreteria y construccion", model: "Escalera de acero", country: "Santiago", price: 900000 },
-  { id: 11, name: "Ferreteria y construccion", model: "Escalera de acero", country: "Santiago", price: 900000 },
+  {
+    id: 1,
+    name: "Ferreteria y construccion",
+    model: "Escalera de acero",
+    country: "Santiago",
+    price: 900000,
+  },
+  {
+    id: 2,
+    name: "Ferreteria y construccion",
+    model: "Escalera de acero",
+    country: "Santiago",
+    price: 900000,
+  },
+  {
+    id: 3,
+    name: "Ferreteria y construccion",
+    model: "Escalera de acero",
+    country: "Santiago",
+    price: 900000,
+  },
+  {
+    id: 4,
+    name: "Ferreteria y construccion",
+    model: "Escalera de acero",
+    country: "Santiago",
+    price: 900000,
+  },
+  {
+    id: 5,
+    name: "Ferreteria y construccion",
+    model: "Escalera de acero",
+    country: "Santiago",
+    price: 900000,
+  },
+  {
+    id: 6,
+    name: "Ferreteria y construccion",
+    model: "Escalera de acero",
+    country: "Santiago",
+    price: 900000,
+  },
+  {
+    id: 7,
+    name: "Ferreteria y construccion",
+    model: "Escalera de acero",
+    country: "Santiago",
+    price: 900000,
+  },
+  {
+    id: 8,
+    name: "Ferreteria y construccion",
+    model: "Escalera de acero",
+    country: "Santiago",
+    price: 900000,
+  },
+  {
+    id: 9,
+    name: "Ferreteria y construccion",
+    model: "Escalera de acero",
+    country: "Santiago",
+    price: 900000,
+  },
+  {
+    id: 10,
+    name: "Ferreteria y construccion",
+    model: "Escalera de acero",
+    country: "Santiago",
+    price: 900000,
+  },
+  {
+    id: 11,
+    name: "Ferreteria y construccion",
+    model: "Escalera de acero",
+    country: "Santiago",
+    price: 900000,
+  },
 ];
 
 const itemsPerPage = 5;
@@ -110,7 +169,10 @@ function Carro() {
                       <p className="text-muted mb-0">{product.country}</p>
                     </td>
                     <td>
-                      <p>Escalera de acero 4 peldaños alto 1.33 m Resistencia 150 kg</p>
+                      <p>
+                        Escalera de acero 4 peldaños alto 1.33 m Resistencia 150
+                        kg
+                      </p>
                     </td>
                     <td>
                       <div className="counter">

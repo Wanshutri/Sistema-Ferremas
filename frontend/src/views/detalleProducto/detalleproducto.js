@@ -3,7 +3,6 @@ import "./detalleProducto.css";
 import SearchAppBar from "./../../components/productos/barraproducto";
 import Footer from "./../../components/footer/footer";
 import logo from "./../../img/logo.png";
-import Imagenesproductos from "../../components/imagenesProductos/imagenesproductos";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import Sidebar1 from "../../components/sidebar/sidebar";
 import { ParallaxProvider, Parallax } from "react-scroll-parallax";

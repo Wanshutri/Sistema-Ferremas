@@ -3,8 +3,6 @@ import {
   BiBookAlt,
   BiHome,
   BiMessage,
-  BiSolidReport,
-  BiStats,
   BiTask,
   BiHelpCircle,
 } from "react-icons/bi";
@@ -12,7 +10,6 @@ import styles from "./sidebarbodeguero.module.css";
 import logo from "./../../assets/img/logo.png";
 
 const Sidebarbodeguero = ({ handleTabClick }) => {
-
   const handleClick = (tab, event) => {
     event.preventDefault();
     handleTabClick(tab);
@@ -26,11 +23,19 @@ const Sidebarbodeguero = ({ handleTabClick }) => {
       </div>
 
       <div className={styles.menulist}>
-        <a href="" className={`${styles.item} active`} onClick={(e) => handleClick("dashboard", e)}>
+        <a
+          href=""
+          className={`${styles.item} active`}
+          onClick={(e) => handleClick("dashboard", e)}
+        >
           <BiHome className={styles.icon} />
           Dashboard
         </a>
-        <a href="" className={styles.item} onClick={(e) => handleClick("productos", e)}>
+        <a
+          href=""
+          className={styles.item}
+          onClick={(e) => handleClick("productos", e)}
+        >
           <BiTask className={styles.icon} />
           Productos
         </a>

@@ -1,13 +1,13 @@
-.Cards{
-   display: grid; 
-   gap: 2rem;
-   text-align: center;
-   grid-template-columns: 1fr 1fr 1fr 1fr;
-   justify-items: center;
-   padding: 1rem;
+.Cards {
+  display: grid;
+  gap: 2rem;
+  text-align: center;
+  grid-template-columns: 1fr 1fr 1fr 1fr;
+  justify-items: center;
+  padding: 1rem;
 }
 
 .cardproductohome {
-   background-color: rgb(232, 232, 232);
-   background-size: cover;
+  background-color: rgb(232, 232, 232);
+  background-size: cover;
 }

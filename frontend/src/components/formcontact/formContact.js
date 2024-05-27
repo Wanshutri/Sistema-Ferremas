@@ -1,9 +1,8 @@
-import Button from 'react-bootstrap/Button';
-import Col from 'react-bootstrap/Col';
-import Form from 'react-bootstrap/Form';
-import Row from 'react-bootstrap/Row';
-import './formContact.css'
-
+import Button from "react-bootstrap/Button";
+import Col from "react-bootstrap/Col";
+import Form from "react-bootstrap/Form";
+import Row from "react-bootstrap/Row";
+import "./formContact.css";
 
 function Formulario() {
   return (
@@ -11,7 +10,10 @@ function Formulario() {
       <Row className="mb-3">
         <Form.Group as={Col} controlId="formGridEmail">
           <Form.Label>Correo electrónico</Form.Label>
-          <Form.Control type="email" placeholder="Ingrese su correo electrónico" />
+          <Form.Control
+            type="email"
+            placeholder="Ingrese su correo electrónico"
+          />
         </Form.Group>
       </Row>
 
@@ -28,11 +30,9 @@ function Formulario() {
       <Row className="mb-3">
         <Form.Group as={Col} controlId="formGridCity">
           <Form.Label> Número de teléfono</Form.Label>
-          <Form.Control type='number' placeholder='+56' />
+          <Form.Control type="number" placeholder="+56" />
         </Form.Group>
       </Row>
-
-    
 
       <Button variant="success" type="submit">
         Enviar

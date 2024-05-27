@@ -1,5 +1,5 @@
 // AuthContext.js
-import React, { createContext, useState, useEffect } from 'react';
+import React, { createContext, useState, useEffect } from "react";
 
 export const AuthContext = createContext();
 
@@ -7,25 +7,25 @@ export const AuthProvider = ({ children }) => {
   const [authState, setAuthState] = useState({
     token: null,
     isAuthenticated: false,
-    usuario: null
+    usuario: null,
   });
 
   const login = async (correo, contrasena) => {
     try {
-        const response = await fetch('http://localhost:3001/api/autenticar', {
-        method: 'POST',
+      const response = await fetch("http://localhost:3001/api/autenticar", {
+        method: "POST",
         headers: {
-          'Content-Type': 'application/json',
+          "Content-Type": "application/json",
         },
         body: JSON.stringify({
           correoUsuario: correo,
-          contrasenaUsuario: contrasena
-        })
+          contrasenaUsuario: contrasena,
+        }),
       });
       const data = await response.json();
       if (data.token) {
-        localStorage.setItem('user', data.usuario.idUsuario);
-        localStorage.setItem('token', data.token);
+        localStorage.setItem("user", data.usuario.idUsuario);
+        localStorage.setItem("token", data.token);
         setAuthState({
           token: data.token,
           usuario: data.usuario,
@@ -33,32 +33,32 @@ export const AuthProvider = ({ children }) => {
         });
         return { success: true };
       } else {
-          throw new Error(data.error);
+        throw new Error(data.error);
       }
     } catch (error) {
-      logout()
+      logout();
       return { success: false, error: error.message };
     }
   };
 
   const logout = () => {
-    localStorage.removeItem('token');
-    localStorage.removeItem('user');
+    localStorage.removeItem("token");
+    localStorage.removeItem("user");
     setAuthState({
       token: null,
       isAuthenticated: false,
-      usuario: null
+      usuario: null,
     });
   };
 
   useEffect(() => {
-    const token = localStorage.getItem('token');
-    const userId = localStorage.getItem('user');
+    const token = localStorage.getItem("token");
+    const userId = localStorage.getItem("user");
     if (token) {
       setAuthState({
         token,
         isAuthenticated: true,
-        usuario: userId
+        usuario: userId,
       });
     }
   }, []);

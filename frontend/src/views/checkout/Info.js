@@ -1,31 +1,31 @@
-import * as React from 'react';
-import PropTypes from 'prop-types';
+import * as React from "react";
+import PropTypes from "prop-types";
 
-import List from '@mui/material/List';
-import ListItem from '@mui/material/ListItem';
-import ListItemText from '@mui/material/ListItemText';
-import Typography from '@mui/material/Typography';
+import List from "@mui/material/List";
+import ListItem from "@mui/material/ListItem";
+import ListItemText from "@mui/material/ListItemText";
+import Typography from "@mui/material/Typography";
 
 const products = [
   {
-    name: 'Plan profesional para culiar al Rulos',
-    desc: 'Subscripcion mensual',
-    price: '$150.000',
+    name: "Plan profesional para culiar al Rulos",
+    desc: "Subscripcion mensual",
+    price: "$150.000",
   },
   {
-    name: 'Dedicated support',
-    desc: 'Included in the Professional plan',
-    price: 'Free',
+    name: "Dedicated support",
+    desc: "Included in the Professional plan",
+    price: "Free",
   },
   {
-    name: 'Hardware',
-    desc: 'Devices needed for development',
-    price: '$69.99',
+    name: "Hardware",
+    desc: "Devices needed for development",
+    price: "$69.99",
   },
   {
-    name: 'Landing page template',
-    desc: 'License',
-    price: '$49.99',
+    name: "Landing page template",
+    desc: "License",
+    price: "$49.99",
   },
 ];
 

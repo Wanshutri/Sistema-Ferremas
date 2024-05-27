@@ -1,4 +1,4 @@
-const mysql = require('mysql2');
+const mysql = require("mysql2");
 
 // Configuración de la conexión a la base de datos
 const dbConfig = {
@@ -11,8 +11,8 @@ const dbConfig = {
 
 // Función para establecer la conexión a la base de datos
 function conectar() {
-    const connection = mysql.createConnection(dbConfig);
-    return connection;
+  const connection = mysql.createConnection(dbConfig);
+  return connection;
 }
 
 // Exportar la función de conexión

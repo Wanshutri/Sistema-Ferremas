@@ -7,10 +7,9 @@ import TableContainer from "@mui/material/TableContainer";
 import TableHead from "@mui/material/TableHead";
 import TableRow from "@mui/material/TableRow";
 import Paper from "@mui/material/Paper";
-import Button from "react-bootstrap/esm/Button";
 import DropdownButton from "react-bootstrap/DropdownButton";
 import Dropdown from "react-bootstrap/Dropdown";
-import ButtonGroup from 'react-bootstrap/ButtonGroup';
+import ButtonGroup from "react-bootstrap/ButtonGroup";
 
 const TAX_RATE = 0.07;
 
@@ -22,10 +21,10 @@ function Informe() {
   const [rows, setRows] = useState([]);
 
   useEffect(() => {
-    fetch('/api/reportesFinancieros')
-      .then(response => response.json())
-      .then(data => setRows(data))
-      .catch(error => console.error('Error fetching data:', error));
+    fetch("/api/reportesFinancieros")
+      .then((response) => response.json())
+      .then((data) => setRows(data))
+      .catch((error) => console.error("Error fetching data:", error));
   }, []);
 
   const invoiceSubtotal = rows.reduce((sum, row) => sum + row.monto, 0);
@@ -42,7 +41,9 @@ function Informe() {
           <Table sx={{ minWidth: 700 }} aria-label="spanning table">
             <TableHead>
               <TableRow>
-                <TableCell align="left" colSpan={3}>Detalles</TableCell>
+                <TableCell align="left" colSpan={3}>
+                  Detalles
+                </TableCell>
                 <TableCell align="right">Valor</TableCell>
               </TableRow>
               <TableRow>
@@ -64,11 +65,15 @@ function Informe() {
               <TableRow>
                 <TableCell rowSpan={3} />
                 <TableCell colSpan={2}>Subtotal</TableCell>
-                <TableCell align="right">{ccyFormat(invoiceSubtotal)}</TableCell>
+                <TableCell align="right">
+                  {ccyFormat(invoiceSubtotal)}
+                </TableCell>
               </TableRow>
               <TableRow>
                 <TableCell>Tax</TableCell>
-                <TableCell align="right">{`${(TAX_RATE * 100).toFixed(0)} %`}</TableCell>
+                <TableCell align="right">{`${(TAX_RATE * 100).toFixed(
+                  0
+                )} %`}</TableCell>
                 <TableCell align="right">{ccyFormat(invoiceTaxes)}</TableCell>
               </TableRow>
               <TableRow>

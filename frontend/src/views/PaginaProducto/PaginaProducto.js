@@ -12,21 +12,15 @@ import {
   TextField,
   Button,
   Menu,
-  MenuItem,
-  List,
-  ListItem,
-  ListItemText,
   Pagination,
 } from "@mui/material";
 import MenuIcon from "@mui/icons-material/Menu";
-import sana from "./../../img/sana.jpg";
 import s from "./PaginaProducto.module.css";
 import BannerCom from "../../components/banner/bannerCom";
 import Footer from "../../components/footer/footer";
 import BasicSelect from "./dropdownbarra";
 import Divider from "@mui/material/Divider";
 import Chip from "@mui/material/Chip";
-import escaletira from "./../../assets/img/escalerita.jpg";
 import CardActions from "@mui/material/CardActions";
 import FloatCarrito from "../../components/FloatCarrito/FloatCarrito";
 import axios from "axios";
@@ -134,8 +128,7 @@ function PaginaProducto() {
                     >
                       <CardMedia
                         sx={{ height: 140 }}
-                        image={"http://localhost:3001/images/"+product.image}
-                        
+                        image={"http://localhost:3001/images/" + product.image}
                       />
                       <CardContent className="cardcontentcarrusel">
                         <br></br>

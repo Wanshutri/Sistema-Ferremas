@@ -4,7 +4,6 @@ import {
   BiHome,
   BiMessage,
   BiSolidReport,
-  BiStats,
   BiTask,
   BiHelpCircle,
 } from "react-icons/bi";
@@ -12,7 +11,6 @@ import styles from "./sidebaradmin.module.css";
 import logo from "./../../assets/img/logo.png";
 
 const Sidebaradmin = ({ handleTabClick }) => {
-
   const handleClick = (tab, event) => {
     event.preventDefault();
     handleTabClick(tab);
@@ -26,15 +24,27 @@ const Sidebaradmin = ({ handleTabClick }) => {
       </div>
 
       <div className={styles.menulist}>
-        <a href="" className={`${styles.item} active`} onClick={(e) => handleClick("dashboard", e)}>
+        <a
+          href=""
+          className={`${styles.item} active`}
+          onClick={(e) => handleClick("dashboard", e)}
+        >
           <BiHome className={styles.icon} />
           Dashboard
         </a>
-        <a href="" className={styles.item} onClick={(e) => handleClick("crudA", e)}>
+        <a
+          href=""
+          className={styles.item}
+          onClick={(e) => handleClick("crudA", e)}
+        >
           <BiTask className={styles.icon} />
           Registro Empleados
         </a>
-        <a href="" className={styles.item} onClick={(e) => handleClick("informe", e)}>
+        <a
+          href=""
+          className={styles.item}
+          onClick={(e) => handleClick("informe", e)}
+        >
           <BiSolidReport className={styles.icon} />
           Informe
         </a>

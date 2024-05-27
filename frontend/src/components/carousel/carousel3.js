@@ -1,4 +1,4 @@
-import Carousel from 'react-bootstrap/Carousel';
+import Carousel from "react-bootstrap/Carousel";
 import "./carousel3.css";
 
 function Carousel3() {
@@ -7,7 +7,7 @@ function Carousel3() {
       <Carousel.Item>
         <img
           className="imagencarousel"
-          src= "https://m.media-amazon.com/images/I/71IgFnDhlUL.jpg"
+          src="https://m.media-amazon.com/images/I/71IgFnDhlUL.jpg"
           alt="First slide"
         />
         <Carousel.Caption>
@@ -20,7 +20,6 @@ function Carousel3() {
           className="imagencarousel2"
           src="https://comicvine.gamespot.com/a/uploads/scale_medium/11117/111178336/7616899-5267378913-latest.png"
           alt="Second slide"
-          
         />
         <Carousel.Caption>
           <h5>2</h5>

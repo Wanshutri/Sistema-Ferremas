@@ -1,173 +1,162 @@
-.imagenescontent{
+.imagenescontent {
+  margin-left: 20px;
+}
+
+.basicdivbread {
+  background-color: white;
+}
+
+.div.row {
+  background-color: white;
+}
+
+.iconoayuda1 {
+  margin-top: 20px;
+  margin-left: 20px;
+  padding-right: 10px;
+  font-size: 40px;
+}
+
+.iconoayuda2 {
+  margin-top: 20px;
+  margin-left: 20px;
+  padding-right: 10px;
+  font-size: 40px;
+}
+
+.descripcion {
+  margin-left: 5px;
+  text-align: start;
+  justify-content: start;
+  display: flex;
+}
+
+.clasificacion {
+  display: inline-flex;
+  margin-left: 15px;
+}
+
+.calificaproducto {
+  text-decoration: underline;
+  margin-top: 2px;
+  margin-right: 20px !important;
+  font-size: medium;
+}
+
+.vendidopor {
+  margin-top: 10px;
+
+  font-size: 20px;
+  font-weight: bold;
+}
+
+.preciodet {
+  margin-top: 30px;
+  margin-left: 20px;
+  text-align: start;
+}
+
+.botonagregarcarro {
+  margin-top: 20px;
+  align-items: center;
+  .btnagregar {
+    background-color: #2951a0;
     margin-left: 20px;
+    font-family: "Segoe UI", Tahoma, Geneva, Verdana, sans-serif;
+    border-radius: 20px;
+  }
 }
 
-.basicdivbread{
-    background-color: white;
-    
-    
+.label2 {
+  text-align: start;
+  justify-content: center;
 }
-
-.div.row{
-    background-color: white;
-}
-
-
-
-.iconoayuda1{
-    margin-top: 20px;
-    margin-left: 20px;
-    padding-right: 10px;
-    font-size: 40px;
-}
-
-.iconoayuda2{
-    margin-top: 20px;
-    margin-left: 20px;
-    padding-right: 10px;
-    font-size: 40px;
-}
-
-
-.descripcion{
-    margin-left: 5px;
-    text-align: start;
-    justify-content: start;
-    display: flex;
-}
-
-
-.clasificacion{
-    display: inline-flex;
-    margin-left: 15px;
-}
-
-.calificaproducto{
-    text-decoration: underline;
-    margin-top: 2px;
-    margin-right: 20px !important;
-    font-size: medium;
-}
-
-.vendidopor{
-    margin-top: 10px;
-    
-    font-size: 20px;
-    font-weight: bold;
-}
-
-
-.preciodet{
-    margin-top: 30px;
-    margin-left: 20px;
-    text-align: start;
-}
-
-.botonagregarcarro{
-    
-    margin-top: 20px;
-    align-items: center;
-    .btnagregar{
-        background-color: #2951a0;
-        margin-left: 20px;
-        font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
-        border-radius: 20px;
-    }
-}
-
-
-
-.label2{
-    text-align: start;
-    justify-content: center;
-       
-
-}
-
-
 
 .detalleMain {
-    background-image: url("./../../assets/img/inicioferreteria.jpg");
-    background-blend-mode: darken;
-    background-repeat: no-repeat;
-    background-size: cover;
-    background-color: rgba(0, 0, 0, 0.293);
+  background-image: url("./../../assets/img/inicioferreteria.jpg");
+  background-blend-mode: darken;
+  background-repeat: no-repeat;
+  background-size: cover;
+  background-color: rgba(0, 0, 0, 0.293);
 }
 
 .cartasdet {
-    animation: myAnim4 2s ease 0s 1 normal forwards;
+  animation: myAnim4 2s ease 0s 1 normal forwards;
 }
 
 @keyframes myAnim4 {
-	0% {
-		box-shadow: 0 0 0 0 rgba(0, 0, 0, 0);
-	}
+  0% {
+    box-shadow: 0 0 0 0 rgba(0, 0, 0, 0);
+  }
 
-	100% {
-		box-shadow: -12px -12px 10px -12px rgb(0, 0, 0);
-	}
+  100% {
+    box-shadow: -12px -12px 10px -12px rgb(0, 0, 0);
+  }
 }
 
 .cartasdet2 {
-    animation: myAnim4 2s ease 0s 1 normal forwards;
+  animation: myAnim4 2s ease 0s 1 normal forwards;
 }
-.contadorbtn{
-    font-size: large;
-    text-align: start;
-    margin: 5px;
-}
-
-.botonresta{
-    background-color: #2951a0;
-    border-radius: 20px;
-    color: white;
-    margin-right: 10px;
-    width: 30px;
-    height: 40px;
+.contadorbtn {
+  font-size: large;
+  text-align: start;
+  margin: 5px;
 }
 
-.botonsuma{
-    border-radius: 20px;
-    background-color: #2951a0;
-    color: white;
-    margin-left: 10px;
-    width: 30px;
-    height: 40px;
+.botonresta {
+  background-color: #2951a0;
+  border-radius: 20px;
+  color: white;
+  margin-right: 10px;
+  width: 30px;
+  height: 40px;
+}
+
+.botonsuma {
+  border-radius: 20px;
+  background-color: #2951a0;
+  color: white;
+  margin-left: 10px;
+  width: 30px;
+  height: 40px;
 }
 
 .card2detalle {
-    justify-content: center;
-    align-items: center;
-    text-align: center;
+  justify-content: center;
+  align-items: center;
+  text-align: center;
 }
 
 .boxdetalles {
-    display: flex; /* Asegúrate de que el contenedor use flexbox */
-    justify-content: center; /* Centrar horizontalmente */
-    align-items: center; /* Centrar verticalmente */
-    text-align: center;
-    width: fit-content;
-    border: greenyellow solid 1px;
-    border-radius: 15px;
-    border-style: ridge;
-    margin: 0 auto; /* Centra el contenedor dentro de su padre */
-    margin-bottom: 20px;
+  display: flex; /* Asegúrate de que el contenedor use flexbox */
+  justify-content: center; /* Centrar horizontalmente */
+  align-items: center; /* Centrar verticalmente */
+  text-align: center;
+  width: fit-content;
+  border: greenyellow solid 1px;
+  border-radius: 15px;
+  border-style: ridge;
+  margin: 0 auto; /* Centra el contenedor dentro de su padre */
+  margin-bottom: 20px;
 }
 
-
-.vendidopor, .contadorbtn, .clasificacion, .preciodet, .descripciondet{
-    justify-content: center ;
-    align-items: center;
-    text-align: center;
+.vendidopor,
+.contadorbtn,
+.clasificacion,
+.preciodet,
+.descripciondet {
+  justify-content: center;
+  align-items: center;
+  text-align: center;
 }
 
-.botonesiconos{
-    background-color: #f8ba35 !important;
+.botonesiconos {
+  background-color: #f8ba35 !important;
 }
 
-.chipdetalle{
-    margin: 5px;
-    background-color: #f8ba35 !important;
-    color: #4e4e4e !important;
-    font-weight: bold;
+.chipdetalle {
+  margin: 5px;
+  background-color: #f8ba35 !important;
+  color: #4e4e4e !important;
+  font-weight: bold;
 }

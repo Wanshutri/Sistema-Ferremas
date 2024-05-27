@@ -1,6 +1,5 @@
 import React, { useState, useContext } from "react";
 import {
-  MDBBtn,
   MDBContainer,
   MDBCard,
   MDBCardBody,
@@ -14,9 +13,8 @@ import Button from "react-bootstrap/esm/Button";
 import logo from "./../../assets/img/logo.png";
 import banner from "./../../assets/img/Verticalbanner.jpg";
 import { Link } from "react-router-dom";
-import { AuthContext } from './../../js/AuthContext'; // Importa el contexto de autenticación
+import { AuthContext } from "./../../js/AuthContext"; // Importa el contexto de autenticación
 import "./login.css";
-
 
 function Login() {
   const [correo, setCorreo] = useState("");
@@ -30,13 +28,12 @@ function Login() {
       return;
     }
     try {
-      const result = await login(correo, contrasena)
+      const result = await login(correo, contrasena);
       if (result.success) {
         window.location.href = "http://localhost:3000/";
       } else {
-        throw new Error(result.error)
+        throw new Error(result.error);
       }
-      
     } catch (error) {
       setError("Hubo un problema con la autenticación: " + error.message);
     }
@@ -100,22 +97,22 @@ function Login() {
                   Login
                 </Button>
                 <Link to="/recuperarcontraseña">
-                  <a
+                  <p
                     className="small text-muted text1"
                     style={{ textAlign: "center" }}
                   >
                     ¿Olvidaste tu contraseña?
-                  </a>
+                  </p>
                 </Link>
-                <p
+                <div
                   className="mb-8 pb-lg-2 text1"
                   style={{ color: "#393f81", textAlign: "center" }}
                 >
-                  ¿No tienes cuenta? <br></br>
-                  <Link to={"/registro"}>
-                    <a style={{ color: "#393f81" }}>Registrate aqui</a>
+                  <p>¿No tienes cuenta?</p>
+                  <Link to={"/registro"} style={{ color: "#393f81" }}>
+                    <p>Registrate aqui</p>
                   </Link>
-                </p>
+                </div>
                 <div className="d-flex flex-row justify-content-end">
                   <a href="#!" className="small text-muted me-1">
                     Terminos de uso.

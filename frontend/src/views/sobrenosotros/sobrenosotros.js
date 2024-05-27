@@ -3,8 +3,6 @@ import "./../sobrenosotros/sobrenosotros.css";
 import Footer from "./../../components/footer/footer";
 import logo from "./../../img/logo.png";
 import BannerCom2 from "../../components/banner/bannerCom2";
-import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import { faBell } from "@fortawesome/free-solid-svg-icons";
 import Sidebar1 from "../../components/sidebar/sidebar";
 import Divider from "@mui/material/Divider";
 import Chip from "@mui/material/Chip";
@@ -116,7 +114,6 @@ const Sobrenosotros = () => {
                             servicio posible.
                           </p>
                           <p>
-                            {" "}
                             Nuestros horarios están diseñados para adaptarse a
                             tus necesidades: de lunes a viernes, de 9:00 a.m. a
                             6:00 p.m., y los sábados de 10:00 a.m. a 2:00 p.m.

@@ -1,13 +1,12 @@
 .carimg {
-    height: 450px;
-
+  height: 450px;
 }
 
 .cardimg {
-    height: 200px;
-    width: 200px;
+  height: 200px;
+  width: 200px;
 }
 
 .carousel-item {
-    height: 70vh;
+  height: 70vh;
 }

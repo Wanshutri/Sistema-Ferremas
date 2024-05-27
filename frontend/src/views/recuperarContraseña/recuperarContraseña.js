@@ -41,7 +41,7 @@ function RestablecerContraseña() {
                     style={{ color: "#ff6219" }}
                   />
                   <span className="h1 fw-bold mb-0">
-                    <img src={logo} style={{ width: "200px" }} />
+                    <img src={logo} alt="" style={{ width: "200px" }} />
                   </span>
                 </div>
 
@@ -63,17 +63,15 @@ function RestablecerContraseña() {
                 <MDBBtn className="mb-4 px-5" color="primary" size="lg">
                   Enviar
                 </MDBBtn>
-                <p
+                <div
                   className="mb-8 pb-lg-2 text1"
                   style={{ color: "#393f81", textAlign: "center" }}
                 >
                   ¿No tienes cuenta? <br></br>
                   <Link to="/registro">
-                  <a  style={{ color: "#393f81" }}>
-                    Registrate aqui
-                  </a>
+                    <p style={{ color: "#393f81" }}>Registrate aqui</p>
                   </Link>
-                </p>
+                </div>
 
                 <div className="d-flex flex-row justify-content-end">
                   <a href="#!" className="small text-muted me-1">

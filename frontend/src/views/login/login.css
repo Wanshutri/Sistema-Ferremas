@@ -5,49 +5,52 @@
   margin: 0;
   padding: 0;
   height: 100vh;
-  
 }
 
 .cartaslog {
   top: 10vh;
 }
 
-
 .gradient-custom-2 {
-    
-    /* fallback for old browsers */
-    background: #fccb90;
-  
-    /* Chrome 10-25, Safari 5.1-6 */
-    background: -webkit-linear-gradient(to right, #ee7724, #d8363a, #dd3675, #b44593);
-  
-    /* W3C, IE 10+/ Edge, Firefox 16+, Chrome 26+, Opera 12+, Safari 7+ */
-    background: linear-gradient(to right, #ee7724, #d8363a, #dd3675, #b44593);
-  }
-  
-  @media (min-width: 768px) {
-    .gradient-form {
-      height: 100vh !important;
-    }
-  }
-  @media (min-width: 769px) {
-    .gradient-custom-2 {
-      border-top-right-radius: .3rem;
-      border-bottom-right-radius: .3rem;
-    }
-  }
+  /* fallback for old browsers */
+  background: #fccb90;
 
-  .cartaslog {
-    animation: myAnim2 2s ease 0s 1 normal forwards;
-    margin-top: 0 !important;
+  /* Chrome 10-25, Safari 5.1-6 */
+  background: -webkit-linear-gradient(
+    to right,
+    #ee7724,
+    #d8363a,
+    #dd3675,
+    #b44593
+  );
+
+  /* W3C, IE 10+/ Edge, Firefox 16+, Chrome 26+, Opera 12+, Safari 7+ */
+  background: linear-gradient(to right, #ee7724, #d8363a, #dd3675, #b44593);
+}
+
+@media (min-width: 768px) {
+  .gradient-form {
+    height: 100vh !important;
+  }
+}
+@media (min-width: 769px) {
+  .gradient-custom-2 {
+    border-top-right-radius: 0.3rem;
+    border-bottom-right-radius: 0.3rem;
+  }
+}
+
+.cartaslog {
+  animation: myAnim2 2s ease 0s 1 normal forwards;
+  margin-top: 0 !important;
 }
 
 @keyframes myAnim2 {
-	0% {
-		box-shadow: 0 0 0 0 rgba(0, 0, 0, 0);
-	}
+  0% {
+    box-shadow: 0 0 0 0 rgba(0, 0, 0, 0);
+  }
 
-	100% {
-		box-shadow: -22px -12px 20px -12px rgb(0, 0, 0);
-	}
+  100% {
+    box-shadow: -22px -12px 20px -12px rgb(0, 0, 0);
+  }
 }
