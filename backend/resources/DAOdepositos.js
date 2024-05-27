@@ -65,4 +65,16 @@ function getDeposito(id, callback) {
     });
 }
 
-module.exports = { crearDeposito, eliminarDeposito, getDeposito, getDepositos, getDepositosUsuario };
+function actualizarDeposito(id, estado, callback) {
+    const connection = conectar();
+    const query = 'UPDATE deposito SET estadoDeposito = ? WHERE idDeposito = ?';
+    connection.query(query, [estado, id], (error, results, fields) => {
+        connection.end();
+        if (error) {
+            return callback(error, null);
+        }
+        callback(null, results.affectedRows > 0);
+    });
+}
+
+module.exports = { crearDeposito, eliminarDeposito, getDeposito, getDepositos, getDepositosUsuario, actualizarDeposito };

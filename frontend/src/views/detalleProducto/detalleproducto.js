@@ -105,7 +105,7 @@ const DetalleProducto = () => {
         <div className="row">
           {" "}
           {/* Use Bootstrap row */}
-          <div class="col">
+          <div className="col">
             {" "}
             {/* Adjust column width as needed */}
             <main>
@@ -124,15 +124,15 @@ const DetalleProducto = () => {
                 }}
               >
                 <div className="container-fluid">
-                  <div class="row">
-                    <div class="col-sm-6 mb-3 mb-sm-0 mt-4">
-                      <div class="card cartasdet">
-                        <div class="card-body">
+                  <div className="row">
+                    <div className="col-sm-6 mb-3 mb-sm-0 mt-4">
+                      <div className="card cartasdet">
+                        <div className="card-body">
                           <div className="cardimagenes">
                             <Carousel3 />
                           </div>
 
-                          <div class="form">
+                          <div className="form">
                             <label for="floatingTextarea2">
                               <FontAwesomeIcon
                                 icon={faHeadset}
@@ -159,9 +159,9 @@ const DetalleProducto = () => {
                         <div className="modalcont"></div>
                       </div>
                     </div>
-                    <div class="col-sm-6 mt-4 card2detalle">
-                      <div class="card cartasdet2">
-                        <div class="card-body ">
+                    <div className="col-sm-6 mt-4 card2detalle">
+                      <div className="card cartasdet2">
+                        <div className="card-body ">
                           <Divider>
                             <Chip
                               label="Producto"
@@ -178,7 +178,7 @@ const DetalleProducto = () => {
                             />
                           </Divider>
                           <br></br>
-                          <p class="descripciondet">
+                          <p className="descripciondet">
                             Taladro inalámbrico percutor 10 mm 12V + 2 baterías
                             + 101 accesorios
                           </p>

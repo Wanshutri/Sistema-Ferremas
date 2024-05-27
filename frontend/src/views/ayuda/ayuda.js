@@ -38,12 +38,12 @@ const Ayuda = () => {
             <main>
               <Parallax easing="easeInQuad" speed={-8}>
                 <div className="container-fluid ">
-                  <div class="">
-                    <div class="">
-                      <div class="card  cartasayuda">
-                        <div class="card-body">
-                          <h1 class="card-title">Compras</h1>
-                          <h4 class="card-text">
+                  <div className="">
+                    <div className="">
+                      <div className="card  cartasayuda">
+                        <div className="card-body">
+                          <h1 className="card-title">Compras</h1>
+                          <h4 className="card-text">
                             <FaShoppingCart className="iconayuda" />
                             Administrar y Cancelar Compras
                           </h4>
@@ -53,7 +53,7 @@ const Ayuda = () => {
                             flexItem
                             className="dividerayuda"
                           />
-                          <h4 class="card-text">
+                          <h4 className="card-text">
                             <BsCartXFill className="iconayuda" />
                             Devoluciones Y Reembolsos
                           </h4>
@@ -63,7 +63,7 @@ const Ayuda = () => {
                             flexItem
                             className="dividerayuda"
                           />
-                          <h4 class="card-text">
+                          <h4 className="card-text">
                             <FaQuestionCircle className="iconayuda" />
                             Preguntas Frecuentes
                           </h4>
@@ -143,11 +143,11 @@ const Ayuda = () => {
                       </div>
                     </div>
                     {/* Separar estos cuadrados de aqui*/}
-                    <div class="">
-                      <div class="card cartasayuda">
-                        <div class="card-body">
-                          <h1 class="card-title">Ayuda Sobre Tu Cuenta</h1>
-                          <h4 class="card-text">
+                    <div className="">
+                      <div className="card cartasayuda">
+                        <div className="card-body">
+                          <h1 className="card-title">Ayuda Sobre Tu Cuenta</h1>
+                          <h4 className="card-text">
                             <FaUserCircle className="iconayuda" />
                             Configuracion De Mi Cuenta
                           </h4>
@@ -157,7 +157,7 @@ const Ayuda = () => {
                             flexItem
                             className="dividerayuda"
                           />
-                          <h4 class="card-text">
+                          <h4 className="card-text">
                             <FaUserShield className="iconayuda" />
                             Seguridad
                           </h4>

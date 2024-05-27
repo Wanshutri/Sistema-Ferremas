@@ -13,7 +13,7 @@ const { getReportesFinancieros, getReporteFinanciero, crearReporteFinanciero, ac
 const nodemailer = require('nodemailer');
 const app = express();
 const uploader = require('../resources/uploads')
-const { crearDeposito, eliminarDeposito, getDeposito, getDepositos, getDepositosUsuario} = require('../resources/DAOdepositos')
+const { crearDeposito, eliminarDeposito, getDeposito, getDepositos, getDepositosUsuario, actualizarDeposito} = require('../resources/DAOdepositos')
 const jwt = require('jsonwebtoken');
 const { error } = require('console');
 
@@ -165,6 +165,33 @@ app.get('/api/depositos', (req, res) => {
         res.json(depositos);
     });
 });
+
+//Actualizar deposito
+
+app.put('/api/depositos/:id', (req, res) => {
+    const id = req.params.id;
+    const estado = req.body.estado.toUpperCase();
+
+    if (!id) {
+        return res.send({ message: 'Error al actualizar el depósito', error: 'Falta el id del deposito' });
+    }
+    if (!estado) {
+        return res.send({ message: 'Error al actualizar el depósito', error: 'No se proporciono una actualizacion para el estado del deposito' });
+    }
+
+    const estadosValidos = ['A', 'P', 'R'];
+    if (!estadosValidos.includes(estado)) {
+        return res.send({ message: 'Error al actualizar el depósito', error: 'Estado de depósito incorrecto, solo se aceptan valores A (Aceptado), P (Pendiente) y R (Rechazado)' });
+    }
+    
+    actualizarDeposito(id, estado, (error, resultado) => {
+        if (error) {
+            return res.send({ message: 'Error al actualizar el depósito', error: error.message });
+        }
+        res.json({ message: 'Depósito actualizado correctamente'});
+    });
+});
+
 
 // Ruta para obtener los depósitos de un usuario específico
 app.get('/api/deposito-usuario/:id', (req, res) => {

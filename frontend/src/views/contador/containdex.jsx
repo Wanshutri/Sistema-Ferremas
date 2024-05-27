@@ -18,14 +18,7 @@ const columns = [
     type: "number",
     width: 120,
   },
-  // {
-  //   field: 'fullName',
-  //   headerName: 'Cliente',
-  //   description: 'This column has a value getter and is not sortable.',
-  //   sortable: false,
-  //   width: 260,
-  //   valueGetter: (value, row) => `${row.firstName || ''} ${row.lastName || ''}`,
-  // },
+
 ];
 
 const rows = [

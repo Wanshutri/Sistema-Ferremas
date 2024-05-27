@@ -31,13 +31,13 @@ const Sobrenosotros = () => {
             </header>
             <main>
               <div className="container-fluid ">
-                <div class="row">
-                  <div class="col-sm-6 mb-3 mb-sm-0 mt-4">
+                <div className="row">
+                  <div className="col-sm-6 mb-3 mb-sm-0 mt-4">
                     <Parallax easing="easeInQuad" speed={-3}>
-                      <div class="card cartassn">
-                        <div class="card-body">
-                          <h2 class="card-title">Sobre nosotros</h2>
-                          <p class="card-text">
+                      <div className="card cartassn">
+                        <div className="card-body">
+                          <h2 className="card-title">Sobre nosotros</h2>
+                          <p className="card-text">
                             "¡Bienvenido a Ferretería Ferremas! Somos una tienda
                             comprometida con la excelencia en el suministro de
                             productos para todas tus necesidades de
@@ -78,11 +78,11 @@ const Sobrenosotros = () => {
                       </div>
                     </Parallax>
                   </div>
-                  <div class="col-sm-6 mt-4">
+                  <div className="col-sm-6 mt-4">
                     <Parallax easing="easeInQuad" speed={-3}>
-                      <div class="card cartassn">
-                        <div class="card-body">
-                          <h2 class="card-title">
+                      <div className="card cartassn">
+                        <div className="card-body">
+                          <h2 className="card-title">
                             Mas información de nosotros
                           </h2>
                           <Divider>
@@ -93,7 +93,7 @@ const Sobrenosotros = () => {
                             />
                           </Divider>
 
-                          <p class="card-text">
+                          <p className="card-text">
                             "Lorem ipsum dolor sit amet, consectetur adipiscing
                             elit, sed do eiusmod tempor incididunt ut labore et
                             dolore magna aliqua. Ut enim ad minim veniam, quis
@@ -111,7 +111,7 @@ const Sobrenosotros = () => {
                               className="chipperfil"
                             />
                           </Divider>
-                          <p class="card-text">
+                          <p className="card-text">
                             Somos un equipo comprometido con brindarte el mejor
                             servicio posible.
                           </p>
@@ -132,7 +132,7 @@ const Sobrenosotros = () => {
                             />
                           </Divider>
 
-                          <p class="card-text">
+                          <p className="card-text">
                             "Lorem ipsum dolor sit amet, consectetur adipiscing
                             elit, sed do eiusmod tempor incididunt ut labore et
                             dolore magna aliqua. Ut enim ad minim veniam, quis

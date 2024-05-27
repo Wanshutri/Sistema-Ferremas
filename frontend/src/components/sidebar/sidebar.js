@@ -40,7 +40,7 @@ function Sidebar1({ onTabChange }) {
             <Offcanvas show={show} onHide={handleClose}>
                 <Offcanvas.Header closeButton>
                     <div className="offcanvas-header">
-                        <h5 className="offcanvas-title" id="offcanvasDarkNavbarLabel"><img src={logo} class="logoFerremas" /></h5>
+                        <h5 className="offcanvas-title" id="offcanvasDarkNavbarLabel"><img src={logo} className="logoFerremas" /></h5>
                         <button type="button" className="btn-close btn-close-white b2" data-bs-dismiss="offcanvas" aria-label="Close"></button>
                     </div>
                 </Offcanvas.Header>
