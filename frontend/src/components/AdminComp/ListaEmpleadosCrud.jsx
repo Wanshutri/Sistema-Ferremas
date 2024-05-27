@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import s from "./ListaEmpleados.module.css";
 import Imagen1 from "./../../assets/img/empleadoDefault.jpg";
 import Button from "react-bootstrap/Button";
@@ -11,59 +11,9 @@ import Select, { SelectChangeEvent } from '@mui/material/Select';
 import axios from "axios";
 import { FaPlusCircle } from "react-icons/fa";
 
-const empleados = [
-  {
-    imagen: Imagen1,
-    nombre: "Negrito",
-    apellido: "Sabroso",
-    cargo: "Gerente",
-    correo: "negrito_sabroso@gmail.com",
-  },
-  {
-    imagen: Imagen1,
-    nombre: "Negrito",
-    apellido: "Sabroso",
-    cargo: "Gerente",
-    correo: "negrito_sabroso@gmail.com",
-  },
-  {
-    imagen: Imagen1,
-    nombre: "Negrito",
-    apellido: "Sabroso",
-    cargo: "Gerente",
-    correo: "negrito_sabroso@gmail.com",
-  },
-  {
-    imagen: Imagen1,
-    nombre: "Negrito",
-    apellido: "Sabroso",
-    cargo: "Gerente",
-    correo: "negrito_sabroso@gmail.com",
-  },
-  {
-    imagen: Imagen1,
-    nombre: "Negrito",
-    apellido: "Sabroso",
-    cargo: "Gerente",
-    correo: "negrito_sabroso@gmail.com",
-  },
-  {
-    imagen: Imagen1,
-    nombre: "Negrito",
-    apellido: "Sabroso",
-    cargo: "Gerente",
-    correo: "negrito_sabroso@gmail.com",
-  },
-  {
-    imagen: Imagen1,
-    nombre: "Negrito",
-    apellido: "Sabroso",
-    cargo: "Gerente",
-    correo: "negrito_sabroso@gmail.com",
-  },
-];
 
 const ListaEmpleadosCrud = () => {
+  const [usuarios, setUsuarios] = useState([]);
   const [usuario, setUsuario] = useState({
     correoUsuario: "",
     contrasenaUsuario: "",
@@ -113,6 +63,19 @@ const ListaEmpleadosCrud = () => {
   const handleChange2 = (event) => {
     setCargo(event.target.value);
   };
+
+  useEffect(() => {
+    axios.get("http://localhost:3001/api/usuarios")
+      .then(response => {
+        // Filtrar los empleados para mostrar solo aquellos que no tienen el cargo de cliente
+        const empleadosFiltrados = response.data.filter(usuario => usuario.cargo !== 'cliente');
+        setUsuarios(empleadosFiltrados);
+      })
+      .catch(error => {
+        console.error("Error al obtener la lista de empleados:", error);
+      });
+  }, []);
+
   return (
     <>
       <div className={s.empLista}>
@@ -120,7 +83,7 @@ const ListaEmpleadosCrud = () => {
           <h2>Empleados</h2>
           <div>
             <select>
-              <option value="gerente">Gerentes</option>
+              <option value="contador">Contadores</option>
               <option value="vendedor">Vendedores</option>
               <option value="bodeguero">Bodegueros</option>
             </select>
@@ -130,16 +93,16 @@ const ListaEmpleadosCrud = () => {
           </div>
         </div>
         <div className={s.listaContainer}>
-          {empleados.map((empleados) => (
+          {usuarios.map((usuarios) => (
             <div className={s.lista2}>
               <div className={s.empDetalle}>
-                <img src={empleados.imagen} alt={empleados.nombre} />
+                <img src={Imagen1} alt={usuarios.pNombre} />
                 <h2>
-                  {empleados.nombre} {empleados.apellido}
+                  {usuarios.pNombre} {usuarios.sNombre}
                 </h2>
               </div>
-              <span>{empleados.cargo}</span>
-              <span>{empleados.correo}</span>
+              <span>{usuarios.cargo}</span>
+              <span>{usuarios.correoUsuario}</span>
               <span className="empTodo">:</span>
             </div>
           ))}
@@ -271,9 +234,9 @@ const ListaEmpleadosCrud = () => {
                   label="Cargo"
                   onChange={handleChange2}
                 >
-                  <MenuItem value={"Contador"}>Contador</MenuItem>
-                  <MenuItem value={"Vendedor"}>Vendedor</MenuItem>
-                  <MenuItem value={"Bodeguero"}>Bodeguero</MenuItem>
+                  <MenuItem value={"contador"}>Contador</MenuItem>
+                  <MenuItem value={"vendedor"}>Vendedor</MenuItem>
+                  <MenuItem value={"bodeguero"}>Bodeguero</MenuItem>
                 </Select>
               </FormControl>
             </div>

@@ -38,15 +38,16 @@ const ListaPedidosCrud = () => {
   }, []);
 
   const handleEstadoChange = (id, nuevoEstado) => {
+    console.log(`Cambiando estado de depósito ${id} a ${nuevoEstado}`);
     axios
       .put(`http://localhost:3001/api/depositos/${id}`, {
-        estadoDeposito: nuevoEstado,
+        estado: nuevoEstado,
       })
       .then((response) => {
         setDepositos(
           depositos.map((deposito) =>
-            deposito.id === id
-              ? { ...deposito, estadoDeposito: nuevoEstado }
+            deposito.idDeposito === id
+              ? { ...deposito, estado: nuevoEstado }
               : deposito
           )
         );
@@ -106,15 +107,17 @@ const ListaPedidosCrud = () => {
                   <td>${deposito.monto}</td>
                   <td>
                     <select
-                      value={deposito.estadoDeposito}
+                      value={deposito.estado}
                       onChange={(e) =>
-                        handleEstadoChange(deposito.id, e.target.value)
+                        handleEstadoChange(deposito.idDeposito, e.target.value)
                       }
                     >
                       <option value="P">Pendiente</option>
                       <option value="A">Aceptado</option>
                       <option value="R">Rechazado</option>
                     </select>
+                    <p>{deposito.estado}</p>
+                    
                   </td>
                   <td>
                     <img

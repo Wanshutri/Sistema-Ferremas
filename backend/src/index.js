@@ -157,40 +157,50 @@ app.delete('/api/depositos/:id', (req, res) => {
 });
 
 // Ruta para obtener todos los depósitos
-app.get('/api/depositos', (req, res) => {
+app.get("/api/depositos", (req, res) => {
     getDepositos((error, depositos) => {
-        if (error) {
-            return res.send({ message: 'Error al obtener los depósitos', error: error.message });
-        }
-        res.json(depositos);
+      if (error) {
+        return res.send({
+          message: "Error al obtener los depósitos",
+          error: error.message,
+        });
+      }
+      res.json(depositos);
     });
-});
-
-//Actualizar deposito
-
-app.put('/api/depositos/:id', (req, res) => {
+  });
+  
+  //Actualizar deposito
+  
+  app.put("/api/depositos/:id", (req, res) => {
     const id = req.params.id;
-    const estado = req.body.estado.toUpperCase();
-
+    const estado = req.body.estado;
+  
     if (!id) {
-        return res.send({ message: 'Error al actualizar el depósito', error: 'Falta el id del deposito' });
+      return res.send({
+        message: "Error al actualizar el depósito",
+        error: "Falta el id del deposito",
+      });
     }
-    if (!estado) {
-        return res.send({ message: 'Error al actualizar el depósito', error: 'No se proporciono una actualizacion para el estado del deposito' });
-    }
-
-    const estadosValidos = ['A', 'P', 'R'];
+  
+    const estadosValidos = ["A", "P", "R"];
     if (!estadosValidos.includes(estado)) {
-        return res.send({ message: 'Error al actualizar el depósito', error: 'Estado de depósito incorrecto, solo se aceptan valores A (Aceptado), P (Pendiente) y R (Rechazado)' });
+      return res.send({
+        message: "Error al actualizar el depósito",
+        error:
+          "Estado de depósito incorrecto, solo se aceptan valores A (Aceptado), P (Pendiente) y R (Rechazado)",
+      });
     }
-    
+  
     actualizarDeposito(id, estado, (error, resultado) => {
-        if (error) {
-            return res.send({ message: 'Error al actualizar el depósito', error: error.message });
-        }
-        res.json({ message: 'Depósito actualizado correctamente'});
+      if (error) {
+        return res.send({
+          message: "Error al actualizar el depósito",
+          error: error.message,
+        });
+      }
+      res.json({ message: "Depósito actualizado correctamente" });
     });
-});
+  });
 
 
 // Ruta para obtener los depósitos de un usuario específico
