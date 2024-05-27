@@ -83,6 +83,8 @@ const DetalleProducto = () => {
   const { authState } = useContext(AuthContext);
   const userId = authState.usuario;
   const navigate = useNavigate();
+  const [dolarValue, setDolarValue] = useState(null);
+
 
   const handleAgregarAlCarrito = () => {
     agregarAlCarrito(userId, producto.idProducto, cantidadProducto);

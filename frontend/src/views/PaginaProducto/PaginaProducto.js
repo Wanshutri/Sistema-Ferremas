@@ -32,6 +32,8 @@ function PaginaProducto() {
   const [anchorEl, setAnchorEl] = React.useState(null);
   const [page, setPage] = useState(1);
   const [productos, setProductos] = useState([]);
+  const [dolarValue, setDolarValue] = useState(null);
+
   const handleChange = (event, value) => {
     setPage(value);
   };
@@ -45,6 +47,15 @@ function PaginaProducto() {
   };
 
   useEffect(() => {
+    axios.get("https://dolarapi.com/v1/dolares")
+    .then((response) => {
+      setDolarValue(response.data[3].compra); // Suponiendo que el valor de compra está en la primera posición
+    })
+    .catch((error) => {
+      console.error("Error al obtener el valor del dólar:", error);
+    });
+
+
     axios
       .get("http://localhost:3001/api/productos")
       .then((response) => {
@@ -149,12 +160,20 @@ function PaginaProducto() {
                           />
                         </Divider>
                         <br></br>
-                        <Typography gutterBottom variant="h5" component="div">
+                        <Typography gutterBottom variant="h5" component="div">CLP 
                           {product.price.toLocaleString("es-CL", {
                             style: "currency",
                             currency: "CLP",
                           })}
                         </Typography>
+                        {dolarValue && (
+                          <Typography gutterBottom variant="h6" component="div">USD $ 
+                            {(product.price / dolarValue).toFixed(2).toLocaleString("en-US", {
+                              style: "currency",
+                              currency: "USD",
+                            })}
+                          </Typography>
+                        )}
                         <Typography variant="body2" color="text.secondary">
                           {product.description}
                         </Typography>

@@ -107,19 +107,16 @@ INSERT INTO usuario (correoUsuario, contrasenaUsuario, rutUsuario, pNombre, sNom
 VALUES ('fe.valenzuelav@duocuc.cl', 'judas123', '21244616-5', 'Felipe', null, 'Valenzuela', 'Vivanco', '2004-04-29', 123456789, 'Calle de las reinas magicas.', 'Admin');
 
 INSERT INTO tipo_producto (nombreTipo)
-VALUES ('Herramientas')
+VALUES ('Herramientas');
 
 INSERT INTO tipo_producto (nombreTipo)
-VALUES ('Materiales Básicos')
+VALUES ('Materiales Básicos');
 
 INSERT INTO tipo_producto (nombreTipo)
-VALUES ('Equipos de Seguridad')
+VALUES ('Equipos de Seguridad');
 
 INSERT INTO tipo_producto (nombreTipo)
-VALUES ('Tornillos y Anclajes')
+VALUES ('Tornillos y Anclajes');
 
 INSERT INTO tipo_producto (nombreTipo)
-VALUES ('Fijaciones y Adhesivos')
-
-INSERT INTO tipo_producto (nombreTipo)
-VALUES ('Equipos de Medición')
+VALUES ('Fijaciones y Adhesivos');

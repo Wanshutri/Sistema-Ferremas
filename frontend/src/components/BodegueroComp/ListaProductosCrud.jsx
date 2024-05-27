@@ -271,9 +271,8 @@ const ListaProductosCrud = () => {
             <MenuItem value={1}>Herramienta</MenuItem>
             <MenuItem value={2}>Materiales Básicos</MenuItem>
             <MenuItem value={3}>Equipos de Seguridad</MenuItem>
-            <MenuItem value={7}>Tornillos y Anclajes</MenuItem>
+            <MenuItem value={4}>Tornillos y Anclajes</MenuItem>
             <MenuItem value={5}>Fijaciones y Adhesivos</MenuItem>
-            <MenuItem value={6}>Equipos de Medición</MenuItem>
           </Select>
         </FormControl>
         <Form.Group className="mb-3">

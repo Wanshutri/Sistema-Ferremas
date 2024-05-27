@@ -1239,7 +1239,7 @@ const executePayment = (req, res) => {
               error: error.message,
             });
           }
-          return res.send({ idBoleta: insertId, idOrdenPedido: insertIdOrden });
+          return res.redirect('http://localhost:3000/exito');
         });
       });
     }

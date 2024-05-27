@@ -1,6 +1,5 @@
 import * as React from "react";
-import { useState, useEffect, result} from "react"
-import Alert from "@mui/material/Alert";
+import { useState } from "react";
 import Box from "@mui/material/Box";
 import Card from "@mui/material/Card";
 import CardActionArea from "@mui/material/CardActionArea";
@@ -12,34 +11,69 @@ import Typography from "@mui/material/Typography";
 import Divider from "@mui/material/Divider";
 import AccountBalanceRoundedIcon from "@mui/icons-material/AccountBalanceRounded";
 import CreditCardRoundedIcon from "@mui/icons-material/CreditCardRounded";
-import WarningRoundedIcon from "@mui/icons-material/WarningRounded";
-import { PayPalScriptProvider, PayPalButtons } from "@paypal/react-paypal-js";
 import { Button } from "@mui/material";
 import axios from "axios";
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
+import { faPaypal } from "@fortawesome/free-brands-svg-icons";
 
 export default function PaymentForm() {
-  const [paymentType, setPaymentType] = React.useState("creditCard");
-  const userId = localStorage.getItem("user");
-  const [totalPrice, setTotalPrice] = useState('0');
+  const [paymentType, setPaymentType] = useState("creditCard");
+  const [selectedFile, setSelectedFile] = useState(null);
 
   const handlePaymentTypeChange = (event) => {
     setPaymentType(event.target.value);
   };
 
-  useEffect(() => {
-    const storedTotalPrice = localStorage.getItem('totalPrice');
-    if (storedTotalPrice) {
-      setTotalPrice(storedTotalPrice);
-    }
-  }, []);
+  const handleFileChange = (event) => {
+    setSelectedFile(event.target.files[0]);
+  };
 
-  const PaypalnoDijango2Entrega = async (event) => {
-    console.log(totalPrice)
-    const response = await axios.post("http://localhost:3001/api/crear-pago", {
-        idUser: userId,
-        costo: totalPrice,
-      });
-    console.log(response);
+  const handleSubmit = async () => {
+    try {
+      if (!selectedFile) {
+        throw new Error("Por favor, selecciona un archivo antes de enviar.");
+      }
+
+      const formData = new FormData();
+      formData.append("file", selectedFile);
+
+      const response = await axios.post(
+        "http://localhost:3001/api/depositos",
+        {
+          idUsuario: localStorage.getItem("user"),
+          estadoComprobante: "P",
+          monto: localStorage.getItem("total"),
+          image: selectedFile
+        },
+        {
+          headers: {
+            "Content-Type": "multipart/form-data",
+          },
+        }
+      );
+      alert(response.data);
+    } catch (error) {
+      alert("Error al subir el archivo: " + error.message);
+    }
+  };
+
+  const PaypalnoDijango2Entrega = async () => {
+    const idUser = localStorage.getItem("user");
+    const costo = parseInt(localStorage.getItem("total"), 10);
+
+    try {
+      const response = await axios.post(
+        "http://localhost:3001/api/crear-pago",
+        {
+          idUser,
+          costo,
+        }
+      );
+      window.open(response.data.paylink, "_blank");
+      console.log(response.data);
+    } catch (error) {
+      console.error("Error procesando pago:", error.message);
+    }
   };
 
   return (
@@ -130,7 +164,7 @@ export default function PaymentForm() {
                 paddingBottom: "10px",
               }}
             >
-              <Typography fontWeight="bold" variant="tittle">
+              <Typography fontWeight="bold" variant="h6">
                 Datos para transferir a FERREMAS
               </Typography>
             </Box>
@@ -149,14 +183,14 @@ export default function PaymentForm() {
                 paddingTop: "10px",
               }}
             >
-              <Typography fontWeight="bold" variant="tittle">
+              <Typography fontWeight="bold" variant="h6">
                 Monto total a transferir:
               </Typography>
             </Box>
             <Box
               sx={{ justifyContent: "space-between", paddingBottom: "15px" }}
             >
-              <Typography fontWeight="bold" variant="tittle" color={"blue"}>
+              <Typography fontWeight="bold" variant="h6" color={"blue"}>
                 $10.000
               </Typography>
               <Typography variant="subtitle2">
@@ -175,7 +209,7 @@ export default function PaymentForm() {
               <Box
                 sx={{ justifyContent: "space-between", paddingBottom: "15px" }}
               >
-                <Typography fontWeight="bold" variant="tittle">
+                <Typography fontWeight="bold" variant="h6">
                   Destinatario:
                 </Typography>
                 <Typography variant="subtitle2">Ferremas Spa</Typography>
@@ -185,7 +219,7 @@ export default function PaymentForm() {
             <Box
               sx={{ justifyContent: "space-between", paddingBottom: "15px" }}
             >
-              <Typography fontWeight="bold" variant="tittle">
+              <Typography fontWeight="bold" variant="h6">
                 RUT:
               </Typography>
               <Typography variant="subtitle2">11.111.111-1</Typography>
@@ -194,27 +228,30 @@ export default function PaymentForm() {
             <Box
               sx={{ justifyContent: "space-between", paddingBottom: "15px" }}
             >
-              <Typography fontWeight="bold" variant="tittle">
+              <Typography fontWeight="bold" variant="h6">
                 Cuenta de destino (alternativas posibles):
-              </Typography>
-              <Typography variant="subtitle2">
-                Banco Santander - Cuenta corriente 61799540
               </Typography>
               <Typography variant="subtitle2">
                 Banco Estado - Cuenta corriente 1733851
               </Typography>
-              <Typography variant="subtitle2">
-                Banco BCI - Cuenta corriente 86066854
-              </Typography>
-              <Typography variant="subtitle2">
-                Banco Chile - Cuenta corriente 1594581405
-              </Typography>
             </Box>
             <Box sx={{ justifyContent: "space-between" }}>
-              <Typography fontWeight="bold" variant="tittle">
+              <Typography fontWeight="bold" variant="h6">
                 E-mail:
               </Typography>
               <Typography variant="subtitle2">personas@ferremas.cl</Typography>
+            </Box>
+            {/* New File Upload and Submit Button */}
+            <Box sx={{ mt: 2 }}>
+              <input type="file" onChange={handleFileChange} />
+              <Button
+                variant="contained"
+                color="primary"
+                onClick={handleSubmit}
+                sx={{ mt: 2 }}
+              >
+                Enviar
+              </Button>
             </Box>
           </Box>
         </Box>
@@ -228,14 +265,16 @@ export default function PaymentForm() {
             gap: 2,
           }}
         >
-          <Button onClick={PaypalnoDijango2Entrega}> Paypal </Button>
-          <PayPalScriptProvider
-            options={{ "client-id": "AV7RbVPozcoaIgXrxjWQU5WWnGyMyZmMBfauJ16FdFEVU12RTDtFOxSNZzG2GdQUqx5wA6DMwkNR-UfZ" }}
+          <Button
+            style={{
+              backgroundColor: "orange",
+              fontSize: "125%",
+              alignItems: "center",
+            }}
+            onClick={PaypalnoDijango2Entrega}
           >
-            <PayPalButtons
-              
-            />
-          </PayPalScriptProvider>
+            Paypal <FontAwesomeIcon className="ms-3" icon={faPaypal} />
+          </Button>
         </Box>
       )}
     </Stack>

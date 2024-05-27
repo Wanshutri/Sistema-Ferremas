@@ -36,7 +36,7 @@ function Informe() {
     0
   );
   const invoiceTaxes = TAX_RATE * invoiceSubtotal;
-  const invoiceTotal = invoiceTaxes + invoiceSubtotal;
+  const invoiceTotal = invoiceTaxes - invoiceSubtotal;
 
   const filterBoletas = (period) => {
     const now = new Date();

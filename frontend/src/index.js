@@ -1,4 +1,4 @@
-  import React from "react";
+import React from "react";
 import ReactDOM from "react-dom/client";
 import "./index.css";
 import reportWebVitals from "./reportWebVitals";
@@ -19,16 +19,17 @@ import Bodeindex from "./views/bodeguero/bodeindex";
 import Containdex from "./views/contador/containdex";
 import Carro from "./views/carro/carro";
 import { AuthProvider } from "./js/AuthContext"; // Importa el AuthProvider
-import PaginaProducto from './views/PaginaProducto/PaginaProducto';
+import PaginaProducto from "./views/PaginaProducto/PaginaProducto";
 import DetalleProducto from "./views/detalleProducto/detalleproducto";
 import Perfil from "./views/perfil/perfil";
+import SuccessPage from "./views/success/success";
 
 const root = ReactDOM.createRoot(document.getElementById("root"));
 root.render(
   <AuthProvider>
     <BrowserRouter>
       <Routes>
-          <Route path="/">
+        <Route path="/">
           <Route index element={<Home></Home>} />
           <Route path="contactanos" element={<Contactanos></Contactanos>} />
           <Route
@@ -53,8 +54,12 @@ root.render(
             element={<DetalleProducto></DetalleProducto>}
           />
           <Route path="perfil" element={<Perfil></Perfil>} />
-          <Route path="paginaproducto" element={<PaginaProducto></PaginaProducto>} />
-          <Route path="*" element={<h1>Pagina no encontrada</h1>} />
+          <Route
+            path="paginaproducto"
+            element={<PaginaProducto></PaginaProducto>}
+          />
+          <Route path="exito" element={SuccessPage} />
+          <Route path="*" element={<Error404></Error404>} />
         </Route>
       </Routes>
     </BrowserRouter>

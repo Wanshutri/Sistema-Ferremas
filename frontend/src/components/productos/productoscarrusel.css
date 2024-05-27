@@ -1,13 +1,14 @@
+/* productoscarrusel.module.css */
 .c1prod {
   margin-bottom: 100px;
 }
 
 .cardactioncarrusel {
   background-color: #f8ba35;
+}
 
-  Button {
-    font-weight: bold !important;
-  }
+.cardactioncarrusel button {
+  font-weight: bold !important;
 }
 
 .titulocarruselprod {
@@ -34,15 +35,15 @@
 .cardbody {
   background-color: #f8ba35;
   background: linear-gradient(#2951a0 10%, #f8ba35 10%);
+}
 
-  .cardtitle {
-    margin-top: 5px;
-    color: #2951a0;
-  }
+.cardtitle {
+  margin-top: 5px;
+  color: #2951a0;
+}
 
-  .cardtext {
-    color: white !important;
-  }
+.cardtext {
+  color: white !important;
 }
 
 .cardbutton {

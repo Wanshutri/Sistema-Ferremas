@@ -11,14 +11,12 @@ import Stack from "@mui/material/Stack";
 import Step from "@mui/material/Step";
 import StepLabel from "@mui/material/StepLabel";
 import Stepper from "@mui/material/Stepper";
-import ToggleButton from "@mui/material/ToggleButton";
-import ToggleButtonGroup from "@mui/material/ToggleButtonGroup";
 import Typography from "@mui/material/Typography";
+import { Link } from "react-router-dom";
 
 import { createTheme, ThemeProvider } from "@mui/material/styles";
 import axios from "axios";
 import ArrowBackRoundedIcon from "@mui/icons-material/ArrowBackRounded";
-import AutoAwesomeRoundedIcon from "@mui/icons-material/AutoAwesomeRounded";
 import ChevronLeftRoundedIcon from "@mui/icons-material/ChevronLeftRounded";
 import ChevronRightRoundedIcon from "@mui/icons-material/ChevronRightRounded";
 
@@ -53,7 +51,7 @@ ToggleCustomTheme.propTypes = {
   toggleCustomTheme: PropTypes.func.isRequired,
 };
 
-const steps = ["Formulario Usuario", "Detalle de Pago", "Finaliza"];
+const steps = ["Formulario Usuario", "Detalle de Pago"];
 
 const logoStyle = {
   width: "250px",
@@ -142,7 +140,6 @@ export default function Checkout() {
           );
           const calculatedTotalPrice = total; // tu lógica de cálculo aquí
           setTotalPrice(calculatedTotalPrice);
-          localStorage.setItem("totalPrice", calculatedTotalPrice);
         }
       } catch (error) {
         console.error("Error al obtener productos:", error);
@@ -371,21 +368,22 @@ export default function Checkout() {
             {activeStep === steps.length ? (
               <Stack spacing={2} useFlexGap>
                 <Typography variant="h1">📦</Typography>
-                <Typography variant="h5">Thank you for your order!</Typography>
+                <Typography variant="h5">Gracias por tu orden!</Typography>
                 <Typography variant="body1" color="text.secondary">
-                  Your order number is
-                  <strong>&nbsp;#140396</strong>. We have emailed your order
-                  confirmation and will update you once its shipped.
+                  Tu pedido esta en proceso!
                 </Typography>
+                <Link to="/perfil"> 
+                
                 <Button
                   variant="contained"
                   sx={{
                     alignSelf: "start",
                     width: { xs: "100%", sm: "auto" },
                   }}
-                >
-                  Go to my orders
+                  >
+                  Ir a perfil
                 </Button>
+                  </Link>
               </Stack>
             ) : (
               <React.Fragment>

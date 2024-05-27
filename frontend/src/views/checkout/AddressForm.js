@@ -1,126 +1,112 @@
 import * as React from "react";
-
+import { useEffect, useState } from "react"
 import Checkbox from "@mui/material/Checkbox";
 import FormControlLabel from "@mui/material/FormControlLabel";
 import FormLabel from "@mui/material/FormLabel";
 import Grid from "@mui/material/Grid";
 import OutlinedInput from "@mui/material/OutlinedInput";
 import { styled } from "@mui/system";
+import axios from "axios";
 
 const FormGrid = styled(Grid)(() => ({
   display: "flex",
   flexDirection: "column",
 }));
 
+
+
 export default function AddressForm() {
+  const [usuario, setUsuario] = useState({});
+  
+  useEffect(() => {
+    const fetchUsuario = async () => {
+      try {
+        const userId = localStorage.getItem("user");
+        const responseUsuario = await axios.get(
+          `http://localhost:3001/api/usuarios/${userId}`
+        );  
+        setUsuario(responseUsuario.data);
+      } catch (error) {
+        console.error("Error al obtener los datos", error);
+      }
+    };
+    fetchUsuario();});
+
+
   return (
     <Grid container spacing={3}>
       <FormGrid item xs={12} md={6}>
         <FormLabel htmlFor="first-name" required>
-          Primer Nombre
+          Nombres
         </FormLabel>
         <OutlinedInput
           id="first-name"
-          name="first-name"
+          name={`${usuario.pNombre} ${
+            usuario.sNombre ? usuario.sNombre + " " : ""
+          }`}
           type="name"
-          placeholder="John"
+          placeholder={`${usuario.pNombre} ${
+            usuario.sNombre ? usuario.sNombre + " " : ""
+          }`}
           autoComplete="first name"
           required
+          disabled
         />
       </FormGrid>
       <FormGrid item xs={12} md={6}>
         <FormLabel htmlFor="last-name" required>
-          Last name
+          Apellidos
         </FormLabel>
         <OutlinedInput
           id="last-name"
-          name="last-name"
+          name={`${usuario.pApellido} ${usuario.sApellido}`}
           type="last-name"
-          placeholder="Snow"
+          placeholder={`${usuario.pApellido} ${usuario.sApellido}`}
           autoComplete="last name"
           required
-        />
-      </FormGrid>
-      <FormGrid item xs={12}>
-        <FormLabel htmlFor="address1" required>
-          Address line 1
-        </FormLabel>
-        <OutlinedInput
-          id="address1"
-          name="address1"
-          type="address1"
-          placeholder="Street name and number"
-          autoComplete="shipping address-line1"
-          required
-        />
-      </FormGrid>
-      <FormGrid item xs={12}>
-        <FormLabel htmlFor="address2">Address line 2</FormLabel>
-        <OutlinedInput
-          id="address2"
-          name="address2"
-          type="address2"
-          placeholder="Apartment, suite, unit, etc. (optional)"
-          autoComplete="shipping address-line2"
-          required
+          disabled
         />
       </FormGrid>
       <FormGrid item xs={6}>
-        <FormLabel htmlFor="city" required>
-          City
+        <FormLabel htmlFor="direccion" required>
+          Dirección
         </FormLabel>
         <OutlinedInput
           id="city"
-          name="city"
+          name={usuario.direccion}
           type="city"
-          placeholder="New York"
+          placeholder={usuario.direccion}
           autoComplete="City"
           required
+          disabled
         />
       </FormGrid>
       <FormGrid item xs={6}>
-        <FormLabel htmlFor="state" required>
-          State
+        <FormLabel htmlFor="correo" required>
+          Correo
         </FormLabel>
         <OutlinedInput
           id="state"
-          name="state"
+          name={usuario.correoUsuario}
           type="state"
-          placeholder="NY"
+          placeholder={usuario.correoUsuario}
           autoComplete="State"
           required
+          disabled
         />
       </FormGrid>
       <FormGrid item xs={6}>
-        <FormLabel htmlFor="zip" required>
-          Zip / Postal code
+        <FormLabel htmlFor="celu" required>
+          Celular
         </FormLabel>
         <OutlinedInput
           id="zip"
-          name="zip"
+          name={usuario.celular}
           type="zip"
-          placeholder="12345"
+          placeholder={usuario.celular}
           autoComplete="shipping postal-code"
           required
-        />
-      </FormGrid>
-      <FormGrid item xs={6}>
-        <FormLabel htmlFor="country" required>
-          Country
-        </FormLabel>
-        <OutlinedInput
-          id="country"
-          name="country"
-          type="country"
-          placeholder="United States"
-          autoComplete="shipping country"
-          required
-        />
-      </FormGrid>
-      <FormGrid item xs={12}>
-        <FormControlLabel
-          control={<Checkbox name="saveAddress" value="yes" />}
-          label="Usar dirección para envio"
+          disabled
         />
       </FormGrid>
     </Grid>
