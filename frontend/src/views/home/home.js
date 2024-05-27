@@ -1,5 +1,5 @@
 import "./home.css";
-import React, { useContext } from "react";
+import React, { useContext, useEffect, useState } from "react";
 import Footer from "../../components/footer/footer";
 import BannerCom from "../../components/banner/bannerCom";
 import logo from "./../../img/logo.png";
@@ -9,7 +9,12 @@ import sucursales from "./../../img/sucursales.jpg";
 import Sidebar1 from "../../components/sidebar/sidebar";
 import JustifiedTab from "../../components/tabs/tabs";
 import Productos from "../../components/productos/productos";
-import { ParallaxProvider, Parallax } from "react-scroll-parallax";
+import {
+  ParallaxProvider,
+  ParallaxBanner,
+  ParallaxBannerLayer,
+  Parallax,
+} from "react-scroll-parallax";
 import Fade1 from "../../components/carousel/carousel2";
 import herramientasb from "../../assets/img/bannerherramientas.jpg";
 import ofertab from "../../assets/img/itembanner.png";
@@ -20,21 +25,37 @@ import Card from "@mui/material/Card";
 import CardContent from "@mui/material/CardContent";
 import CardMedia from "@mui/material/CardMedia";
 import Typography from "@mui/material/Typography";
-import { CardActionArea } from "@mui/material";
+import { Button, CardActionArea, CardActions } from "@mui/material";
+import axios from "axios";
+
+
 
 const Home = () => {
+  const [productos, setProductos] = useState([]);
+  useEffect(() => {
+    axios
+      .get("http://localhost:3001/api/productos")
+      .then((response) => {
+        const productosData = response.data.map((producto) => ({
+          id: producto.idProducto,
+          nombre: producto.nombreProducto,
+          descripcion: producto.descripcion,
+          precio: producto.precioProducto,
+          image: producto.urlProducto,
+          categoria: producto.idTipoProducto,
+        }));
+        setProductos(productosData);
+      })
+      .catch((error) => {
+        console.error("Error al obtener los productos:", error);
+      });
+  }, []);
   const { login, authState } = useContext(AuthContext); // Usa el contexto de autenticación
   return (
     <ParallaxProvider>
       <div className="container-fluid contenidohome">
-        {" "}
-        {/* Wrap content in a container */}
         <div className="row">
-          {" "}
-          {/* Use Bootstrap row */}
           <div className="col p-0">
-            {" "}
-            {/* Adjust column width as needed */}
             <header>
               <FloatCarrito />
               <Sidebar1 />
@@ -69,7 +90,6 @@ const Home = () => {
                               <path d="M11.742 10.344a6.5 6.5 0 1 0-1.397 1.398h-.001q.044.06.098.115l3.85 3.85a1 1 0 0 0 1.415-1.414l-3.85-3.85a1 1 0 0 0-.115-.1zM12 6.5a5.5 5.5 0 1 1-11 0 5.5 5.5 0 0 1 11 0" />
                             </svg>
                           </button>
-                          {authState.usuario}
                           <input
                             className="searchinput"
                             type="search"

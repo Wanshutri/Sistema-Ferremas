@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useEffect, useState } from "react";
 import Slider from "react-slick";
 import hammer from "../../assets/img/martillo.jpg";
 import "./productoscarrusel.css";
@@ -10,7 +10,29 @@ import Button from "@mui/material/Button";
 import Typography from "@mui/material/Typography";
 import Divider from "@mui/material/Divider";
 import AddShoppingCartIcon from "@mui/icons-material/AddShoppingCart";
+import axios from "axios";
+import { Link } from "react-router-dom";
+
 function Responsiveproduct() {
+  const [productos, setProductos] = useState([]);
+  useEffect(() => {
+    axios
+      .get("http://localhost:3001/api/productos")
+      .then((response) => {
+        const productosData = response.data.map((producto) => ({
+          id: producto.idProducto,
+          nombre: producto.nombreProducto,
+          descripcion: producto.descripcion,
+          precio: producto.precioProducto,
+          image: producto.urlProducto,
+          categoria: producto.idTipoProducto,
+        }));
+        setProductos(productosData);
+      })
+      .catch((error) => {
+        console.error("Error al obtener los productos:", error);
+      });
+  }, []);
   var settings = {
     dots: false,
     infinite: true,
@@ -54,310 +76,45 @@ function Responsiveproduct() {
   return (
     <div className="slider-container c1prod">
       <Slider {...settings}>
-        <div className="dividerCardsCarrusel">
-          <Card sx={{ maxWidth: 345 }}>
-            <CardMedia
-              component="img"
-              alt="green iguana"
-              height="250"
-              image={hammer}
-            />
-            <Divider className="dividercarrusel" />
-            <CardContent className="cardcontentcarrusel">
-              <Typography
-                gutterBottom
-                variant="h5"
-                component="div"
-                className="titulocarruselprod"
-              >
-                Lizard
-              </Typography>
-              <Divider className="dividercarrusel" />
-              <Typography variant="body2" color="text.secondary">
-                Lizards are a widespread group of squamate reptiles, with over
-                6,000 species, ranging across all continents except Antarctica
-              </Typography>
-            </CardContent>
-            <Divider className="dividercarrusel" />
-            <CardActions className="cardactioncarrusel">
-              <Button size="small" className="buttonShopCarrusel">
-                <AddShoppingCartIcon />
-              </Button>
-              <Divider
-                orientation="vertical"
-                flexItem
-                className="dividercarrusel"
+        {productos.map((producto) => (
+          <div key={producto.id} className="dividerCardsCarrusel">
+            <Card sx={{ maxWidth: 345 }}>
+              <CardMedia
+                component="img"
+                alt={producto.nombre}
+                height="250"
+                image={ "http://localhost:3001/images/" + producto.image}
               />
-              <Button size="small">Detalles...</Button>
-            </CardActions>
-          </Card>
-        </div>
-        <div className="dividerCardsCarrusel">
-          <Card sx={{ maxWidth: 345 }}>
-            <CardMedia
-              component="img"
-              alt="green iguana"
-              height="250"
-              image={hammer}
-            />
-            <Divider className="dividercarrusel" />
-            <CardContent className="cardcontentcarrusel">
-              <Typography
-                gutterBottom
-                variant="h5"
-                component="div"
-                className="titulocarruselprod"
-              >
-                Lizard
-              </Typography>
               <Divider className="dividercarrusel" />
-              <Typography variant="body2" color="text.secondary">
-                Lizards are a widespread group of squamate reptiles, with over
-                6,000 species, ranging across all continents except Antarctica
-              </Typography>
-            </CardContent>
-            <Divider className="dividercarrusel" />
-            <CardActions className="cardactioncarrusel">
-              <Button size="small" className="buttonShopCarrusel">
-                <AddShoppingCartIcon />
-              </Button>
-              <Divider
-                orientation="vertical"
-                flexItem
-                className="dividercarrusel"
-              />
-              <Button size="small">Detalles</Button>
-            </CardActions>
-          </Card>
-        </div>
-        <div className="dividerCardsCarrusel">
-          <Card sx={{ maxWidth: 345 }}>
-            <CardMedia
-              component="img"
-              alt="green iguana"
-              height="250"
-              image={hammer}
-            />
-            <Divider className="dividercarrusel" />
-            <CardContent className="cardcontentcarrusel">
-              <Typography
-                gutterBottom
-                variant="h5"
-                component="div"
-                className="titulocarruselprod"
-              >
-                Lizard
-              </Typography>
+              <CardContent className="cardcontentcarrusel">
+                <Typography
+                  gutterBottom
+                  variant="h5"
+                  component="div"
+                  className="titulocarruselprod"
+                >
+                  {producto.nombre}
+                </Typography>
+                <Divider className="dividercarrusel" />
+                <Typography variant="body2" color="text.secondary">
+                  {producto.descripcion}
+                </Typography>
+              </CardContent>
               <Divider className="dividercarrusel" />
-              <Typography variant="body2" color="text.secondary">
-                Lizards are a widespread group of squamate reptiles, with over
-                6,000 species, ranging across all continents except Antarctica
-              </Typography>
-            </CardContent>
-            <Divider className="dividercarrusel" />
-            <CardActions className="cardactioncarrusel">
-              <Button size="small" className="buttonShopCarrusel">
-                <AddShoppingCartIcon />
-              </Button>
-              <Divider
-                orientation="vertical"
-                flexItem
-                className="dividercarrusel"
-              />
-              <Button size="small">Detalles...</Button>
-            </CardActions>
-          </Card>
-        </div>
-        <div className="dividerCardsCarrusel">
-          <Card sx={{ maxWidth: 345 }}>
-            <CardMedia
-              component="img"
-              alt="green iguana"
-              height="250"
-              image={hammer}
-            />
-            <Divider className="dividercarrusel" />
-            <CardContent className="cardcontentcarrusel">
-              <Typography
-                gutterBottom
-                variant="h5"
-                component="div"
-                className="titulocarruselprod"
-              >
-                Lizard
-              </Typography>
-              <Divider className="dividercarrusel" />
-              <Typography variant="body2" color="text.secondary">
-                Lizards are a widespread group of squamate reptiles, with over
-                6,000 species, ranging across all continents except Antarctica
-              </Typography>
-            </CardContent>
-            <Divider className="dividercarrusel" />
-            <CardActions className="cardactioncarrusel">
-              <Button size="small" className="buttonShopCarrusel">
-                <AddShoppingCartIcon />
-              </Button>
-              <Divider
-                orientation="vertical"
-                flexItem
-                className="dividercarrusel"
-              />
-              <Button size="small">Detalles...</Button>
-            </CardActions>
-          </Card>
-        </div>
-        <div className="dividerCardsCarrusel">
-          <Card sx={{ maxWidth: 345 }}>
-            <CardMedia
-              component="img"
-              alt="green iguana"
-              height="250"
-              image={hammer}
-            />
-            <Divider className="dividercarrusel" />
-            <CardContent className="cardcontentcarrusel">
-              <Typography
-                gutterBottom
-                variant="h5"
-                component="div"
-                className="titulocarruselprod"
-              >
-                Lizard
-              </Typography>
-              <Divider className="dividercarrusel" />
-              <Typography variant="body2" color="text.secondary">
-                Lizards are a widespread group of squamate reptiles, with over
-                6,000 species, ranging across all continents except Antarctica
-              </Typography>
-            </CardContent>
-            <Divider className="dividercarrusel" />
-            <CardActions className="cardactioncarrusel">
-              <Button size="small" className="buttonShopCarrusel">
-                <AddShoppingCartIcon />
-              </Button>
-              <Divider
-                orientation="vertical"
-                flexItem
-                className="dividercarrusel"
-              />
-              <Button size="small">Detalles...</Button>
-            </CardActions>
-          </Card>
-        </div>
-        <div className="dividerCardsCarrusel">
-          <Card sx={{ maxWidth: 345 }}>
-            <CardMedia
-              component="img"
-              alt="green iguana"
-              height="250"
-              image={hammer}
-            />
-            <Divider className="dividercarrusel" />
-            <CardContent className="cardcontentcarrusel">
-              <Typography
-                gutterBottom
-                variant="h5"
-                component="div"
-                className="titulocarruselprod"
-              >
-                Lizard
-              </Typography>
-              <Divider className="dividercarrusel" />
-              <Typography variant="body2" color="text.secondary">
-                Lizards are a widespread group of squamate reptiles, with over
-                6,000 species, ranging across all continents except Antarctica
-              </Typography>
-            </CardContent>
-            <Divider className="dividercarrusel" />
-            <CardActions className="cardactioncarrusel">
-              <Button size="small" className="buttonShopCarrusel">
-                <AddShoppingCartIcon />
-              </Button>
-              <Divider
-                orientation="vertical"
-                flexItem
-                className="dividercarrusel"
-              />
-              <Button size="small">Detalles...</Button>
-            </CardActions>
-          </Card>
-        </div>
-        <div className="dividerCardsCarrusel">
-          <Card sx={{ maxWidth: 345 }}>
-            <CardMedia
-              component="img"
-              alt="green iguana"
-              height="250"
-              image={hammer}
-            />
-            <Divider className="dividercarrusel" />
-            <CardContent className="cardcontentcarrusel">
-              <Typography
-                gutterBottom
-                variant="h5"
-                component="div"
-                className="titulocarruselprod"
-              >
-                Lizard
-              </Typography>
-              <Divider className="dividercarrusel" />
-              <Typography variant="body2" color="text.secondary">
-                Lizards are a widespread group of squamate reptiles, with over
-                6,000 species, ranging across all continents except Antarctica
-              </Typography>
-            </CardContent>
-            <Divider className="dividercarrusel" />
-            <CardActions className="cardactioncarrusel">
-              <Button size="small" className="buttonShopCarrusel">
-                <AddShoppingCartIcon />
-              </Button>
-              <Divider
-                orientation="vertical"
-                flexItem
-                className="dividercarrusel"
-              />
-              <Button size="small">Detalles...</Button>
-            </CardActions>
-          </Card>
-        </div>
-        <div className="dividerCardsCarrusel">
-          <Card sx={{ maxWidth: 345 }}>
-            <CardMedia
-              component="img"
-              alt="green iguana"
-              height="250"
-              image={hammer}
-            />
-            <Divider className="dividercarrusel" />
-            <CardContent className="cardcontentcarrusel">
-              <Typography
-                gutterBottom
-                variant="h5"
-                component="div"
-                className="titulocarruselprod"
-              >
-                Lizard
-              </Typography>
-              <Divider className="dividercarrusel" />
-              <Typography variant="body2" color="text.secondary">
-                Lizards are a widespread group of squamate reptiles, with over
-                6,000 species, ranging across all continents except Antarctica
-              </Typography>
-            </CardContent>
-            <Divider className="dividercarrusel" />
-            <CardActions className="cardactioncarrusel">
-              <Button size="small" className="buttonShopCarrusel">
-                <AddShoppingCartIcon />
-              </Button>
-              <Divider
-                orientation="vertical"
-                flexItem
-                className="dividercarrusel"
-              />
-              <Button size="small">Detalles...</Button>
-            </CardActions>
-          </Card>
-        </div>
+              <CardActions className="cardactioncarrusel">
+                <Button size="small" className="buttonShopCarrusel">
+                  <AddShoppingCartIcon />
+                </Button>
+                <Divider
+                  orientation="vertical"
+                  flexItem
+                  className="dividercarrusel"
+                />
+                <Button size="small" component={Link} to={`/detalleproducto/${producto.id}`}>Detalles...</Button>
+              </CardActions>
+            </Card>
+          </div>
+        ))}
       </Slider>
     </div>
   );

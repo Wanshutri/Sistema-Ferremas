@@ -1,16 +1,11 @@
-.imagencarousel {
-  width: 400px;
-  height: 550px;
-  margin-left: 175px;
-}
-
-.imagencarousel2 {
-  width: 350px;
-  height: 500px;
-  margin-left: 200px;
-}
-.imagencarousel3 {
-  width: 400px;
-  height: 500px;
-  margin-left: 175px;
-}
+.carousel-item {
+    display: flex;
+    justify-content: center;
+    align-items: center !important; /* Centra verticalmente el contenido */
+  }
+  
+  .imagencarousel {
+    max-width: 100%; /* Asegúrate de que la imagen no supere el ancho del contenedor */
+    max-height: 100%; /* Asegúrate de que la imagen no supere la altura del contenedor */
+    object-fit: contain;
+  }

@@ -24,6 +24,9 @@ import Chip from "@mui/material/Chip";
 import CardActions from "@mui/material/CardActions";
 import FloatCarrito from "../../components/FloatCarrito/FloatCarrito";
 import axios from "axios";
+import Sidebar1 from "../../components/sidebar/sidebar";
+import { Link } from "react-router-dom";
+
 
 function PaginaProducto() {
   const [anchorEl, setAnchorEl] = React.useState(null);
@@ -74,6 +77,7 @@ function PaginaProducto() {
       <header>
         <FloatCarrito />
         <BannerCom />
+        <Sidebar1 />
       </header>
       <body className={s.bodyprodpag}>
         <Box sx={{ flexGrow: 1 }}>
@@ -133,11 +137,11 @@ function PaginaProducto() {
                       <CardContent className="cardcontentcarrusel">
                         <br></br>
                         <Typography gutterBottom variant="h5" component="div">
-                          {product.title}
+                          <strong>{product.title}</strong>
                         </Typography>
                         <Divider>
                           <Chip
-                            label={product.category}
+                            label="Ferremas"
                             size="small"
                             color="warning"
                             sx={{ mr: 1 }}
@@ -146,7 +150,10 @@ function PaginaProducto() {
                         </Divider>
                         <br></br>
                         <Typography gutterBottom variant="h5" component="div">
-                          {product.price}
+                          {product.price.toLocaleString("es-CL", {
+                            style: "currency",
+                            currency: "CLP",
+                          })}
                         </Typography>
                         <Typography variant="body2" color="text.secondary">
                           {product.description}
@@ -155,7 +162,7 @@ function PaginaProducto() {
                       <Divider className="dividercarrusel" />
                       <CardActions className="cardactioncarrusel">
                         <Button size="small">Agregar al carrito</Button>
-                        <Button size="small">Ver detalles</Button>
+                        <Button size="small" component={Link} to={`/detalleproducto/${product.id}`}>Ver detalles</Button>
                       </CardActions>
                     </Card>
                   </div>

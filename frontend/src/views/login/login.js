@@ -15,27 +15,51 @@ import banner from "./../../assets/img/Verticalbanner.jpg";
 import { Link } from "react-router-dom";
 import { AuthContext } from "./../../js/AuthContext"; // Importa el contexto de autenticación
 import "./login.css";
+import FloatReturn from "./../../components/FloatCarrito/FloatReturn";
+
 
 function Login() {
   const [correo, setCorreo] = useState("");
   const [contrasena, setContrasena] = useState("");
   const [error, setError] = useState("");
-  const { login, authState } = useContext(AuthContext); // Usa el contexto de autenticación
+  const { login, logout, authState } = useContext(AuthContext); // Usa el contexto de autenticación
 
-  const accederLogin = async () => {
+  const accederLogin = async (e) => {
+    e.preventDefault();
     if (correo.trim() === "" || contrasena.trim() === "") {
       setError("Por favor, completa todos los campos.");
       return;
     }
     try {
       const result = await login(correo, contrasena);
+      console.log(result)
       if (result.success) {
-        window.location.href = "http://localhost:3000/";
+        const tipoUsuario = result.usuario.cargo
+        switch (tipoUsuario) {
+          case "Cliente":
+            window.location.href = "http://localhost:3000/";
+            break;
+          case "Contador":
+            window.location.href = "http://localhost:3000/contindex";
+            break;
+          case "Vendedor":
+            window.location.href = "http://localhost:3000/vendindex";
+            break;
+          case "Bodeguero":
+            window.location.href = "http://localhost:3000/bodeindex";
+            break;
+          case "Admin":
+            window.location.href = "http://localhost:3000/admin";
+            break;
+          default:
+            console.error('Tipo de usuario desconocido:', tipoUsuario);
+        }
       } else {
+        await logout();
         throw new Error(result.error);
       }
     } catch (error) {
-      setError("Hubo un problema con la autenticación: " + error.message);
+      setError("Problema al iniciar sesión: " + error.message);
     }
   };
 
@@ -45,6 +69,7 @@ function Login() {
         <MDBCard className="cartaslog">
           <MDBRow className="g-0">
             <MDBCol md="4">
+              
               <MDBCardImage
                 src={banner}
                 alt="login form"
@@ -54,6 +79,9 @@ function Login() {
                 }}
                 className="rounded-start w-100 "
               />
+              <Link to ="/">
+                <FloatReturn />
+              </Link>
             </MDBCol>
 
             <MDBCol md="8">
@@ -96,7 +124,7 @@ function Login() {
                 >
                   Login
                 </Button>
-                <Link to="/recuperarcontraseña">
+                <Link to="/recuperarcontrasena">
                   <p
                     className="small text-muted text1"
                     style={{ textAlign: "center" }}

@@ -18,7 +18,7 @@ export const obtenerProductosDesdeAPI = () => {
     .then((response) => response.data)
     .catch((error) => {
       console.error("Error al obtener productos:", error);
-      throw error; // Re-lanza el error para que pueda ser manejado fuera de la función si es necesario
+      throw error;
     });
 };
 
@@ -30,7 +30,7 @@ const ListaProductosCrud = () => {
     precioProducto: 0,
     idTipoProducto: 1,
     stock: 0,
-    urlProducto: "",
+    imageFile: null, // Nuevo campo para almacenar la imagen seleccionada
   });
 
   const [show, setShow] = useState(false);
@@ -39,28 +39,25 @@ const ListaProductosCrud = () => {
   const handleClose = () => {
     setShow(false);
     setModalTitle("Agregar Producto");
-    // Limpiar el estado del producto cuando se cierra el modal
     setProducto({
-      idProducto: "",
       nombreProducto: "",
       descripcion: "",
       precioProducto: 0,
       idTipoProducto: 1,
       stock: 0,
-      urlProducto: "",
+      imageFile: null,
     });
   };
+
   const handleShow = () => {
-    // Crear un nuevo objeto de producto con valores vacíos
-    const nuevoProducto = {
+    setProducto({
       nombreProducto: "",
       descripcion: "",
       precioProducto: 0,
       idTipoProducto: 1,
       stock: 0,
-      urlProducto: "",
-    };
-    setProducto(nuevoProducto);
+      imageFile: null,
+    });
     setModalTitle("Agregar Producto");
     setShow(true);
   };
@@ -80,6 +77,13 @@ const ListaProductosCrud = () => {
     });
   };
 
+  const handleImageChange = (e) => {
+    setProducto({
+      ...producto,
+      imageFile: e.target.files[0],
+    });
+  };
+
   const handleModificarProducto = (producto) => {
     setProducto(producto);
     setModalTitle("Modificar Producto");
@@ -91,11 +95,9 @@ const ListaProductosCrud = () => {
       .delete(`http://localhost:3001/api/productos/${idProducto}`)
       .then((response) => {
         console.log("Producto eliminado:", response.data);
-        // Vuelve a obtener la lista de productos después de eliminar uno
-        axios
-          .get("http://localhost:3001/api/productos")
-          .then((response) => {
-            setProductos(response.data);
+        obtenerProductosDesdeAPI()
+          .then((data) => {
+            setProductos(data);
           })
           .catch((error) => {
             console.error("Error al obtener productos:", error);
@@ -103,64 +105,45 @@ const ListaProductosCrud = () => {
       })
       .catch((error) => {
         console.error("Error al eliminar producto:", error);
-        // Maneja el error de acuerdo a tus requerimientos
       });
   };
 
-  const handleSubmit = (e) => {
+  const handleSubmit = async (e) => {
     e.preventDefault();
-    if (producto.idProducto) {
-      axios
-        .put(
+
+    const formData = new FormData();
+    formData.append("nombreProducto", producto.nombreProducto);
+    formData.append("descripcion", producto.descripcion);
+    formData.append("precioProducto", producto.precioProducto);
+    formData.append("idTipoProducto", producto.idTipoProducto);
+    formData.append("stock", producto.stock);
+    formData.append("image", producto.imageFile);
+
+    try {
+      if (producto.idProducto) {
+        await axios.put(
           `http://localhost:3001/api/productos/${producto.idProducto}`,
-          producto
-        )
-        .then((response) => {
-          console.log("Producto modificado:", response.data);
-          // Vuelve a obtener la lista de productos después de modificar uno
-          axios
-            .get("http://localhost:3001/api/productos")
-            .then((response) => {
-              setProductos(response.data);
-            })
-            .catch((error) => {
-              console.error("Error al obtener productos:", error);
-            });
-          setShow(false); // Cierra el modal después de guardar
-        })
-        .catch((error) => {
-          console.error("Error al modificar producto:", error);
-          // Maneja el error de acuerdo a tus requerimientos
+          formData,
+          { headers: { "Content-Type": "multipart/form-data" } }
+        );
+      } else {
+        await axios.post("http://localhost:3001/api/productos", formData, {
+          headers: { "Content-Type": "multipart/form-data" },
         });
-    } else {
-      // Si el producto no tiene un ID, significa que es nuevo y debe ser creado en la base de datos
-      axios
-        .post("http://localhost:3001/api/productos", producto)
-        .then((response) => {
-          console.log("Producto creado:", response.data);
-          // Vuelve a obtener la lista de productos después de crear uno
-          axios
-            .get("http://localhost:3001/api/productos")
-            .then((response) => {
-              setProductos(response.data);
-            })
-            .catch((error) => {
-              console.error("Error al obtener productos:", error);
-            });
-          setShow(false); // Cierra el modal después de guardar
-        })
-        .catch((error) => {
-          console.error("Error al crear producto:", error);
-          // Maneja el error de acuerdo a tus requerimientos
-        });
+      }
+
+      const updatedProducts = await obtenerProductosDesdeAPI();
+      setProductos(updatedProducts);
+      setShow(false);
+    } catch (error) {
+      console.error("Error al crear/modificar producto:", error);
     }
   };
 
   useEffect(() => {
-    axios
-      .get("http://localhost:3001/api/productos")
-      .then((response) => {
-        setProductos(response.data);
+    obtenerProductosDesdeAPI()
+      .then((data) => {
+        setProductos(data);
       })
       .catch((error) => {
         console.error("Error al obtener productos:", error);
@@ -169,150 +152,163 @@ const ListaProductosCrud = () => {
 
   return (
     <>
-      <div className={s.empLista}>
-        <div className={s.listaHeader}>
-          <h2>Productos</h2>
-          <Button variant="outline-success" onClick={handleShow}>
-            <FaPlusCircle />
-          </Button>
-        </div>
-        <div className={s.listaContainer}>
-          <table>
-            <thead>
-              <tr>
-                <th>Imagen</th>
-                <th>Nombre</th>
-                <th>Descripción</th>
-                <th>Precio</th>
-                <th>Stock</th>
-                <th>Menú</th>
-              </tr>
-            </thead>
-            <tbody>
-              {productos.map((producto) => (
-                <>
-                  <tr key={producto.idProducto}>
-                    <td>
-                      <div className={s.empDetalle}>
-                        <img
-                          src={
-                            "http://localhost:3001/images/" +
-                            producto.urlProducto
-                          }
-                          alt={producto.nombreProducto}
-                          className={s.imgprod}
-                        />
-                      </div>
-                    </td>
-                    <td>{producto.nombreProducto}</td>
-                    <td>{producto.descripcion}</td>
-                    <td>{producto.precioProducto}</td>
-                    <td>{producto.stock}</td>
-                    <td>
-                      <Dropdown>
-                        <Dropdown.Toggle variant="warning" id="dropdown-basic">
-                          <FaEllipsisV />
-                        </Dropdown.Toggle>
-                        <Dropdown.Menu>
-                          <Dropdown.Item
-                            onClick={() => handleModificarProducto(producto)}
-                          >
-                            Modificar
-                          </Dropdown.Item>
-                          <Dropdown.Item
-                            onClick={() =>
-                              handleEliminarProducto(producto.idProducto)
-                            }
-                          >
-                            Eliminar
-                          </Dropdown.Item>
-                        </Dropdown.Menu>
-                      </Dropdown>
-                    </td>
-                  </tr>
-                  <br></br>
-                </>
-              ))}
-            </tbody>
-          </table>
-        </div>
-      </div>
+  <div className={s.empLista}>
+    <div className={s.listaHeader}>
+      <h2>Productos</h2>
+      <Button variant="outline-success" onClick={handleShow}>
+        <FaPlusCircle />
+      </Button>
+    </div>
+    <div className={s.listaContainer}>
+      <table>
+        <thead>
+          <tr>
+            <th>Imagen</th>
+            <th>Nombre</th>
+            <th>Descripción</th>
+            <th>Precio</th>
+            <th>Stock</th>
+            <th>Menú</th>
+          </tr>
+        </thead>
+        <tbody>
+          {productos.map((producto) => (
+            <tr key={producto.idProducto}>
+              <td>
+                <div className={s.empDetalle}>
+                  <img
+                    src={
+                      "http://localhost:3001/images/" +
+                      producto.urlProducto
+                    }
+                    alt={producto.nombreProducto}
+                    className={s.imgprod}
+                  />
+                </div>
+              </td>
+              <td>{producto.nombreProducto}</td>
+              <td>{producto.descripcion}</td>
+              <td>{producto.precioProducto}</td>
+              <td>{producto.stock}</td>
+              <td>
+                <Dropdown>
+                  <Dropdown.Toggle
+                    variant="warning"
+                    id="dropdown-basic"
+                  >
+                    <FaEllipsisV />
+                  </Dropdown.Toggle>
+                  <Dropdown.Menu>
+                    <Dropdown.Item
+                      onClick={() =>
+                        handleModificarProducto(producto)
+                      }
+                    >
+                      Modificar
+                    </Dropdown.Item>
+                    <Dropdown.Item
+                      onClick={() =>
+                        handleEliminarProducto(producto.idProducto)
+                      }
+                    >
+                      Eliminar
+                    </Dropdown.Item>
+                  </Dropdown.Menu>
+                </Dropdown>
+              </td>
+            </tr>
+          ))}
+        </tbody>
+      </table>
+    </div>
+  </div>
 
-      <Modal show={show} onHide={handleClose}>
-        <Modal.Header closeButton>
-          <Modal.Title>Agregar Producto</Modal.Title>
-        </Modal.Header>
-        <Modal.Body>
-          <Form onSubmit={handleSubmit}>
-            <Form.Group className="mb-3">
-              <Form.Control
-                type="text"
-                name="nombreProducto"
-                value={producto.nombreProducto}
-                onChange={handleChange}
-                placeholder="Nombre de Producto"
-                required
-              />
-            </Form.Group>
-            <Form.Group className="mb-3">
-              <Form.Control
-                type="text"
-                name="descripcion"
-                value={producto.descripcion}
-                onChange={handleChange}
-                placeholder="Descripción de Producto"
-                required
-              />
-            </Form.Group>
-            <Form.Group className="mb-3">
-              <Form.Control
-                type="number"
-                name="precioProducto"
-                value={producto.precioProducto}
-                onChange={handleChange}
-                placeholder="Precio de Producto"
-                required
-              />
-            </Form.Group>
-            <FormControl fullWidth className="mb-3">
-              <InputLabel id="selectTipoLabel">Tipo Producto</InputLabel>
-              <Select
-                labelId="selectTipoLabel"
-                id="selectTipo"
-                value={producto.idTipoProducto}
-                label="Tipo de Producto"
-                onChange={handleSelectChange}
-              >
-                <MenuItem value={1}>Herramienta</MenuItem>
-                <MenuItem value={2}>Cosa 2</MenuItem>
-                <MenuItem value={3}>Material</MenuItem>
-              </Select>
-            </FormControl>
-            <Form.Group className="mb-3">
-              <Form.Control
-                type="number"
-                name="stock"
-                value={producto.stock}
-                onChange={handleChange}
-                placeholder="Stock de Producto"
-              />
-            </Form.Group>
-            <Button variant="primary" type="submit">
-              Guardar cambios
-            </Button>
-          </Form>
-        </Modal.Body>
-        <Modal.Footer>
-          <Button
-            variant="secondary"
-            onClick={handleClose}
-            style={{ margin: "0px" }}
+  <Modal show={show} onHide={handleClose}>
+    <Modal.Header closeButton>
+      <Modal.Title>{modalTitle}</Modal.Title>
+    </Modal.Header>
+    <Modal.Body>
+      <Form onSubmit={handleSubmit}>
+        <Form.Group className="mb-3">
+          <Form.Control
+            type="text"
+            name="nombreProducto"
+            value={producto.nombreProducto}
+            onChange={handleChange}
+            placeholder="Nombre de Producto"
+            required
+          />
+        </Form.Group>
+        <Form.Group className="mb-3">
+          <Form.Control
+            type="text"
+            name="descripcion"
+            value={producto.descripcion}
+            onChange={handleChange}
+            placeholder="Descripción de Producto"
+            required
+          />
+        </Form.Group>
+        <Form.Group className="mb-3">
+          <Form.Control
+            type="number"
+            name="precioProducto"
+            value={producto.precioProducto}
+            onChange={handleChange}
+            placeholder="Precio de Producto"
+            required
+          />
+        </Form.Group>
+        <FormControl fullWidth className="mb-3">
+          <InputLabel id="selectTipoLabel">Tipo Producto</InputLabel>
+          <Select
+            labelId="selectTipoLabel"
+            id="selectTipo"
+            value={producto.idTipoProducto}
+            label="Tipo de Producto"
+            onChange={handleSelectChange}
           >
-            Cerrar
-          </Button>
-        </Modal.Footer>
-      </Modal>
-    </>
+            <MenuItem value={1}>Herramienta</MenuItem>
+            <MenuItem value={2}>Cosa 2</MenuItem>
+            <MenuItem value={3}>Material</MenuItem>
+          </Select>
+        </FormControl>
+        <Form.Group className="mb-3">
+          <Form.Control
+            type="number"
+            name="stock"
+            value={producto.stock}
+            onChange={handleChange}
+            placeholder="Stock de Producto"
+          />
+        </Form.Group>
+        <Form.Group className="mb-3">
+          <Form.Label>Imagen de Producto</Form.Label>
+          <Form.Control
+            type="file"
+            name="image"
+            onChange={handleImageChange}
+            accept="image/*"
+            required
+          />
+        </Form.Group>
+        <Button variant="primary" type="submit">
+          Guardar cambios
+        </Button>
+      </Form>
+    </Modal.Body>
+    <Modal.Footer>
+      <Button
+        variant="secondary"
+        onClick={handleClose}
+        style={{ margin: "0px" }}
+      >
+        Cerrar
+      </Button>
+    </Modal.Footer>
+  </Modal>
+</>
+
   );
 };
 

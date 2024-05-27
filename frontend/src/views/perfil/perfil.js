@@ -1,4 +1,5 @@
-import React, { useState, useEffect } from "react";
+import React, { useState, useEffect, useContext } from "react";
+import { useNavigate } from "react-router-dom"; // Importa useNavigate
 import Button from "react-bootstrap/Button";
 import Col from "react-bootstrap/Col";
 import Row from "react-bootstrap/Row";
@@ -15,71 +16,36 @@ import Container from "react-bootstrap/Container";
 import { RiFileUploadFill } from "react-icons/ri";
 import { ParallaxProvider, Parallax } from "react-scroll-parallax";
 import Chip from "@mui/material/Chip";
-
-const fetchPedidos = () => {
-  return [
-    {
-      id: 1,
-      usuario: "Usuario1",
-      precio: "20 USD",
-      cantidad: 2,
-      productoId: "P001",
-    },
-    {
-      id: 2,
-      usuario: "Usuario1",
-      precio: "15 USD",
-      cantidad: 1,
-      productoId: "P002",
-    },
-    {
-      id: 3,
-      usuario: "Usuario1",
-      precio: "15 USD",
-      cantidad: 1,
-      productoId: "P002",
-    },
-    {
-      id: 4,
-      usuario: "Usuario1",
-      precio: "15 USD",
-      cantidad: 1,
-      productoId: "P002",
-    },
-    {
-      id: 5,
-      usuario: "Usuario1",
-      precio: "15 USD",
-      cantidad: 1,
-      productoId: "P002",
-    },
-    {
-      id: 6,
-      usuario: "Usuario1",
-      precio: "15 USD",
-      cantidad: 1,
-      productoId: "P002",
-    },
-    {
-      id: 7,
-      usuario: "Usuario1",
-      precio: "15 USD",
-      cantidad: 1,
-      productoId: "P002",
-    },
-  ];
-};
+import { AuthContext } from "./../../js/AuthContext"; // Importa el contexto de autenticación
+import ListGroup from 'react-bootstrap/ListGroup';
 
 function Perfil() {
   const [pedidos, setPedidos] = useState([]);
   const [currentPage, setCurrentPage] = useState(1);
+  const { authState } = useContext(AuthContext); // Usa el contexto de autenticación
+  const navigate = useNavigate(); // Usa useNavigate para redirigir
   const itemsPerPage = 5;
 
   useEffect(() => {
-    // Simula una llamada a una API para obtener los pedidos
-    const pedidos = fetchPedidos();
-    setPedidos(pedidos);
-  }, []);
+    // Redirige a la página de login si el usuario no está autenticado
+    if (!localStorage.getItem("user")) {
+      navigate("/login");
+    } else {
+      // Llamada a la API para obtener los pedidos del usuario
+      const fetchPedidos = async () => {
+        try {
+          const userId = authState.usuario.idUsuario; // Asegúrate de tener la lógica para obtener el ID del usuario actual
+          const response = await fetch(`http://localhost:3001/api/deposito-usuario/${userId}`);
+          if (!response.ok) {
+            throw new Error("Error al obtener los datos");
+          }
+          const data = await response.json();
+          setPedidos(data);
+        } catch (error) {}
+      };
+      fetchPedidos();
+    }
+  }, [authState.isAuthenticated, navigate]); // Agrega navigate a las dependencias
 
   const handlePageChange = (pageNumber) => {
     setCurrentPage(pageNumber);
@@ -91,6 +57,11 @@ function Perfil() {
   const currentItems = pedidos.slice(indexOfFirstItem, indexOfLastItem);
 
   const totalPages = Math.ceil(pedidos.length / itemsPerPage);
+
+  // No renderiza nada si no está autenticado
+  if (!authState.isAuthenticated) {
+    return null;
+  }
 
   return (
     <>
@@ -126,7 +97,7 @@ function Perfil() {
                                 />
                               </Divider>
                               <Card.Title>
-                                <h1>Minatozaki Sana!</h1>
+                                <h1>Bienvenido (nombre de usuario)</h1>
                               </Card.Title>
                               <Divider>
                                 <Chip
@@ -135,11 +106,12 @@ function Perfil() {
                                   className="chipperfil"
                                 />
                               </Divider>
-                              <Card.Text>
-                                Modelo de categoria vagina XXL Coreana real con
-                                palpitaciones externas al sonido del trafico
-                                urbano del perro actual del liam ley
-                              </Card.Text>
+                                  <ListGroup variant="flush">
+                                  <ListGroup.Item>Nombre Completo:(usuario)</ListGroup.Item>
+                                  <ListGroup.Item>Email:(email usu)</ListGroup.Item>
+                                  <ListGroup.Item>Dirección:(Dirección usu)</ListGroup.Item>
+                                  <ListGroup.Item>Celular:(+569... usu)</ListGroup.Item>
+                                </ListGroup>
                             </Card.Body>
                             <Card.Body className="d-flex justify-content-center"></Card.Body>
                           </Card>
@@ -154,39 +126,43 @@ function Perfil() {
                             Lista de Pedidos
                           </Card.Header>
                           <Card.Body>
-                            <Table striped bordered hover>
-                              <thead>
-                                <tr>
-                                  <th>#</th>
-                                  <th>Usuario</th>
-                                  <th>Precio</th>
-                                  <th>Cantidad</th>
-                                  <th>ID Producto</th>
-                                  <th>Boleta</th>
-                                </tr>
-                              </thead>
-                              <tbody>
-                                {currentItems.map((pedido) => (
-                                  <tr key={pedido.id}>
-                                    <td>{pedido.id}</td>
-                                    <td>{pedido.usuario}</td>
-                                    <td>{pedido.precio}</td>
-                                    <td>{pedido.cantidad}</td>
-                                    <td>{pedido.productoId}</td>
-                                    <td>
-                                      <Button
-                                        variant="success"
-                                        size="sm"
-                                        className="botonBoleta"
-                                      >
-                                        Comprobante{" "}
-                                        <RiFileUploadFill className="iconperfil" />
-                                      </Button>
-                                    </td>
+                            {currentItems.length === 0 ? (
+                              <p>No hay pedidos disponibles.</p>
+                            ) : (
+                              <Table striped bordered hover>
+                                <thead>
+                                  <tr>
+                                    <th>#</th>
+                                    <th>Usuario</th>
+                                    <th>Precio</th>
+                                    <th>Cantidad</th>
+                                    <th>ID Producto</th>
+                                    <th>Boleta</th>
                                   </tr>
-                                ))}
-                              </tbody>
-                            </Table>
+                                </thead>
+                                <tbody>
+                                  {currentItems.map((pedido) => (
+                                    <tr key={pedido.id}>
+                                      <td>{pedido.id}</td>
+                                      <td>{pedido.usuario}</td>
+                                      <td>{pedido.precio}</td>
+                                      <td>{pedido.cantidad}</td>
+                                      <td>{pedido.productoId}</td>
+                                      <td>
+                                        <Button
+                                          variant="success"
+                                          size="sm"
+                                          className="botonBoleta"
+                                        >
+                                          Comprobante{" "}
+                                          <RiFileUploadFill className="iconperfil" />
+                                        </Button>
+                                      </td>
+                                    </tr>
+                                  ))}
+                                </tbody>
+                              </Table>
+                            )}
                             <Pagination className="d-flex justify-content-center">
                               <Pagination.First
                                 onClick={() => handlePageChange(1)}

@@ -1,61 +1,88 @@
-import React, { useState, useContext } from "react";
-import logo from "./../../assets/img/logo.png";
-import "./registro.css";
-import { AuthContext } from "./../../js/AuthContext";
+import React, { useState, useContext, useEffect } from "react";
+import axios from "axios";
+import logo from './../../assets/img/logo.png';
+import './registro.css';
+import { AuthContext } from './../../js/AuthContext';
+import { Link } from "react-router-dom";
+import FloatReturn from "./../../components/FloatCarrito/FloatReturn";
 
 const Register = () => {
   const { login, authState } = useContext(AuthContext); // Usa el contexto de autenticación
+  const [error, setError] = useState("");
   const [usuario, setUsuario] = useState({
-    correoUsuario: "",
-    contrasenaUsuario: "",
-    rutUsuario: "",
-    pNombre: "",
-    sNombre: "",
-    pApellido: "",
-    sApellido: "",
-    fechaNac: "",
+    correoUsuario: '',
+    contrasenaUsuario: '',
+    rutUsuario: '',
+    pNombre: '',
+    sNombre: '',
+    pApellido: '',
+    sApellido: '',
+    fechaNac: '',
     celular: undefined,
-    direccion: "",
-    cargo: "Cliente",
+    direccion: '',
+    cargo : 'Cliente'
   });
-
+  
   const handleChange = (e) => {
     const { name, value } = e.target;
-    const newValue = name === "celular" ? parseInt(value) : value; // Convertir a número si el campo es 'celular'
+    const newValue = name === 'celular' ? parseInt(value) : value; // Convertir a número si el campo es 'celular'
     setUsuario({
       ...usuario,
-      [name]: newValue,
+      [name]: newValue
     });
   };
+  
 
   const handleSubmit = async (e) => {
     e.preventDefault();
     try {
       const response = await fetch("http://localhost:3001/api/usuarios", {
-        method: "POST",
+        method: 'POST',
         headers: {
-          "Content-Type": "application/json",
+          'Content-Type': 'application/json'
         },
-        body: JSON.stringify(usuario),
+        body: JSON.stringify(usuario)
       });
-      const data = await response.json();
-      console.log(data);
-      if (data) {
-        // Si la solicitud fue exitosa (código de respuesta 200-299), continuar
-        //await login(usuario.correoUsuario, usuario.contrasenaUsuario);
+      const data = await response.json()
+      if (data.error) {
+        throw new Error(data.error)
       } else {
-        // Si la solicitud falló, lanzar un error
-        throw new Error(`${response.status} ${response.statusText}`);
+        await login(usuario.correoUsuario, usuario.contrasenaUsuario);
       }
     } catch (error) {
-      console.error("Error al crear usuario:", error);
+      setError(error.message)
     }
   };
+  
 
-  // Redirigir al usuario si está autenticado
-  if (authState.isAuthenticated) {
-    window.location.href = "http://localhost:3000/";
-  }
+  useEffect(() => {
+    const fetchData = async () => {
+      if (authState.isAuthenticated) {
+        const tipoUsuario = authState.usuario.cargo;
+        switch (tipoUsuario) {
+          case "Cliente":
+            window.location.href = "http://localhost:3000/";
+            break;
+          case "Contador":
+            window.location.href = "http://localhost:3000/contindex";
+            break;
+          case "Vendedor":
+            window.location.href = "http://localhost:3000/vendindex";
+            break;
+          case "Bodeguero":
+            window.location.href = "http://localhost:3000/bodeindex";
+            break;
+          case "Admin":
+            window.location.href = "http://localhost:3000/admin";
+            break;
+          default:
+            console.error('Tipo de usuario desconocido:', tipoUsuario);
+        }
+      }
+    };
+  
+    fetchData();
+  }, [authState.isAuthenticated, authState.usuario]);
 
   return (
     <div
@@ -71,12 +98,12 @@ const Register = () => {
         <div className="card cartareg">
           <div className="card-body">
             <div>
+            <Link to ="/">
+                <FloatReturn />
+              </Link>
               <img src={logo} style={{ width: "30vh" }} alt="Logo" />
             </div>
-            <div
-              className="titulo"
-              style={{ textAlign: "center", marginBottom: "20px" }}
-            >
+            <div className="titulo" style={{ textAlign: "center", marginBottom: "20px" }}>
               <h2>Registro</h2>
             </div>
             <form onSubmit={handleSubmit}>
@@ -189,6 +216,7 @@ const Register = () => {
                   required
                 />
               </div>
+              {error && <p className="text-danger">{error}</p>}
               <button type="submit" className="btn btn-primary">
                 Registrarse
               </button>

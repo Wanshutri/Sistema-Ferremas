@@ -1,8 +1,9 @@
-import React from "react";
+import React, { useState, useEffect, useContext } from "react";
 import "./detalleProducto.css";
 import SearchAppBar from "./../../components/productos/barraproducto";
 import Footer from "./../../components/footer/footer";
 import logo from "./../../img/logo.png";
+import Imagenesproductos from "../../components/imagenesProductos/imagenesproductos";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import Sidebar1 from "../../components/sidebar/sidebar";
 import { ParallaxProvider, Parallax } from "react-scroll-parallax";
@@ -22,18 +23,9 @@ import Carousel3 from "../../components/carousel/carousel3";
 import Divider from "@mui/material/Divider";
 import Chip from "@mui/material/Chip";
 import FloatCarrito from "../../components/FloatCarrito/FloatCarrito";
-
-function ButtonSizes() {
-  return (
-    <Box sx={{ "& button": { m: 1 } }}>
-      <div className="botonagregarcarro">
-        <Button className="btnagregar" variant="contained" size="large">
-          Agregar al carro
-        </Button>
-      </div>
-    </Box>
-  );
-}
+import axios from "axios";
+import { useParams } from "react-router-dom";
+import { AuthContext } from "./../../js/AuthContext";
 
 function HalfRating() {
   return (
@@ -87,6 +79,68 @@ function FloatingActionButtonSize() {
 }
 
 const DetalleProducto = () => {
+  const { id } = useParams();
+  const [producto, setProducto] = useState(null);
+  const [cantidadProducto, setCantidad] = useState(1);
+  const { authState } = useContext(AuthContext);
+  const userId = authState.usuario;
+  console.log(userId);
+  const restarCantidad = () => {
+    if (cantidadProducto > 1) {
+      setCantidad(cantidadProducto - 1);
+    }
+  };
+
+  
+function ButtonSizes() {
+  const handleClick = () => {
+    agregarAlCarrito(userId, producto.idProducto, cantidadProducto);
+  };
+
+  return (
+    <Box sx={{ "& button": { m: 1 } }}>
+      <div className="botonagregarcarro">
+        <Button className="btnagregar" variant="contained" size="large" onClick={handleClick}>
+          Agregar al carro
+        </Button>
+      </div>
+    </Box>
+  );
+}
+
+  const agregarAlCarrito = async (idUsuario, idProducto, cantidadProducto) => {
+    try {
+      const response = await axios.post("http://localhost:3001/api/carrito", {
+        idUsuario,
+        idProducto,
+        cantidadProducto,
+      });
+      console.log(response.data); // Puedes manejar la respuesta como desees
+    } catch (error) {
+      console.error("Error al agregar producto al carrito:", error);
+    }
+  };
+
+  const sumarCantidad = () => {
+    setCantidad(cantidadProducto + 1);
+  };
+
+  useEffect(() => {
+    // Llamar a la API para obtener los detalles del producto según su ID
+    axios
+      .get(`http://localhost:3001/api/productos/${id}`)
+      .then((response) => {
+        setProducto(response.data);
+      })
+      .catch((error) => {
+        console.error("Error al obtener el producto:", error);
+      });
+  }, [id]);
+
+  if (!producto) {
+    return <div>Cargando...</div>;
+  }
+
   return (
     <ParallaxProvider>
       <div className="container-fluid detalleMain">
@@ -128,7 +182,12 @@ const DetalleProducto = () => {
                       <div className="card cartasdet">
                         <div className="card-body">
                           <div className="cardimagenes">
-                            <Carousel3 />
+                            <Carousel3
+                              imagen1={
+                                "http://localhost:3001/images/" +
+                                producto.urlProducto
+                              }
+                            />
                           </div>
 
                           <div className="form">
@@ -168,7 +227,7 @@ const DetalleProducto = () => {
                               className="chipdetalle"
                             />
                           </Divider>
-                          <h1>Marca-RescatarBD</h1>
+                          <h1>{producto.nombreProducto}</h1>
                           <Divider>
                             <Chip
                               label="Descripción"
@@ -178,8 +237,7 @@ const DetalleProducto = () => {
                           </Divider>
                           <br></br>
                           <p className="descripciondet">
-                            Taladro inalámbrico percutor 10 mm 12V + 2 baterías
-                            + 101 accesorios
+                            {producto.descripcion}
                           </p>
                         </div>
                         <div className="clasificacion">
@@ -208,13 +266,25 @@ const DetalleProducto = () => {
                               className="chipdetalle"
                             />
                           </Divider>
-                          <h1 className="preciodet">$15.000</h1>
+                          <h1 className="preciodet">
+                            {producto.precioProducto.toLocaleString("es-CL", {
+                              style: "currency",
+                              currency: "CLP",
+                            })}
+                          </h1>
                           <br></br>
                         </div>
                         <div className="contadorbtn">
-                          <button className="botonresta">-</button>
-                          <span>1</span>
-                          <button className="botonsuma">+</button>
+                          <button
+                            className="botonresta"
+                            onClick={restarCantidad}
+                          >
+                            -
+                          </button>
+                          <span>{cantidadProducto}</span>
+                          <button className="botonsuma" onClick={sumarCantidad}>
+                            +
+                          </button>
                         </div>
                         <ButtonSizes />
                       </div>

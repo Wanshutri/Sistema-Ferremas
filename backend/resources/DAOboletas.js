@@ -100,4 +100,5 @@ module.exports = {
   crearBoleta,
   actualizarBoleta,
   eliminarBoleta,
+  getProductosBoleta
 };

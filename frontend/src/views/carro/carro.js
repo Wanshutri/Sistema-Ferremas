@@ -1,6 +1,5 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import "./carro.css";
-import escalera from "./../../assets/img/escalerita.jpg";
 import Sidebar1 from "../../components/sidebar/sidebar";
 import BannerCom from "../../components/banner/bannerCom";
 import Footer from "../../components/footer/footer";
@@ -12,91 +11,122 @@ import Typography from "@mui/material/Typography";
 import { FaOpencart } from "react-icons/fa";
 import BasicBreadcrumbs from "../../components/productos/breadcrums";
 import Pagination from "react-bootstrap/Pagination";
-
-const products = [
-  {
-    id: 1,
-    name: "Ferreteria y construccion",
-    model: "Escalera de acero",
-    country: "Santiago",
-    price: 900000,
-  },
-  {
-    id: 2,
-    name: "Ferreteria y construccion",
-    model: "Escalera de acero",
-    country: "Santiago",
-    price: 900000,
-  },
-  {
-    id: 3,
-    name: "Ferreteria y construccion",
-    model: "Escalera de acero",
-    country: "Santiago",
-    price: 900000,
-  },
-  {
-    id: 4,
-    name: "Ferreteria y construccion",
-    model: "Escalera de acero",
-    country: "Santiago",
-    price: 900000,
-  },
-  {
-    id: 5,
-    name: "Ferreteria y construccion",
-    model: "Escalera de acero",
-    country: "Santiago",
-    price: 900000,
-  },
-  {
-    id: 6,
-    name: "Ferreteria y construccion",
-    model: "Escalera de acero",
-    country: "Santiago",
-    price: 900000,
-  },
-  {
-    id: 7,
-    name: "Ferreteria y construccion",
-    model: "Escalera de acero",
-    country: "Santiago",
-    price: 900000,
-  },
-  {
-    id: 8,
-    name: "Ferreteria y construccion",
-    model: "Escalera de acero",
-    country: "Santiago",
-    price: 900000,
-  },
-  {
-    id: 9,
-    name: "Ferreteria y construccion",
-    model: "Escalera de acero",
-    country: "Santiago",
-    price: 900000,
-  },
-  {
-    id: 10,
-    name: "Ferreteria y construccion",
-    model: "Escalera de acero",
-    country: "Santiago",
-    price: 900000,
-  },
-  {
-    id: 11,
-    name: "Ferreteria y construccion",
-    model: "Escalera de acero",
-    country: "Santiago",
-    price: 900000,
-  },
-];
+import axios from "axios";
+import { useNavigate } from "react-router-dom";
+import { Link } from "react-router-dom";
 
 const itemsPerPage = 5;
 
 function Carro() {
+  const navigate = useNavigate();
   const [currentPage, setCurrentPage] = useState(1);
+  const [products, setProducts] = useState([]);
+
+  const restarCantidad = async (index, idCarrito, idProducto) => {
+    const updatedProducts = [...products];
+    const updatedProduct = { ...updatedProducts[index] };
+    updatedProduct.cantidad -= 1;
+
+    try {
+      const response = await axios.delete("http://localhost:3001/api/carrito", {
+        data: { carrito: idCarrito, producto: idProducto },
+      });
+
+      if (
+        response.data.message === "Producto eliminado del carrito exitosamente"
+      ) {
+        if (updatedProduct.cantidad === 0) {
+          updatedProducts.splice(index, 1); // Eliminar el producto si la cantidad llega a 0
+        } else {
+          updatedProducts[index] = updatedProduct;
+        }
+        setProducts(updatedProducts);
+      } else {
+        console.error(
+          "Error al eliminar producto del carrito:",
+          response.data.error
+        );
+      }
+    } catch (error) {
+      console.error("Error al eliminar producto del carrito:", error);
+    }
+  };
+
+  const sumarCantidad = async (index, idProducto) => {
+    const idUsuario = localStorage.getItem("user");
+    const updatedProducts = [...products];
+    const updatedProduct = { ...updatedProducts[index] };
+    updatedProduct.cantidad += 1;
+    updatedProducts[index] = updatedProduct;
+
+    try {
+      const response = await axios.post("http://localhost:3001/api/carrito", {
+        usuario: idUsuario,
+        producto: idProducto,
+        cantidad: updatedProducts,
+      });
+
+      if (
+        response.data.message === "Producto agregado al carrito exitosamente"
+      ) {
+        setProducts(updatedProducts);
+      } else {
+        console.error(
+          "Error al agregar producto al carrito:",
+          response.data.error
+        );
+      }
+    } catch (error) {
+      console.error("Error al agregar producto al carrito:", error);
+    }
+  };
+
+  useEffect(() => {
+    const userId = localStorage.getItem("user");
+
+    const fetchProducts = async () => {
+      try {
+        const response = await axios.get(
+          `http://localhost:3001/api/carrito/${userId}`
+        );
+        if (!response.data) {
+          setProducts([]);
+        } else {
+          const pros = response.data;
+          const lpro = await Promise.all(
+            pros.map(async (p) => {
+              const pdata = await axios.get(
+                `http://localhost:3001/api/productos/${p.idProducto}`
+              );
+              const tp = await axios.get(
+                `http://localhost:3001/api/tipo-productos/${pdata.data.idTipoProducto}`
+              );
+              return {
+                idProducto: p.idProducto,
+                idCarrito: p.idCarrito,
+                precio: pdata.data.precioProducto,
+                descripcion: pdata.data.descripcion,
+                cantidad: p.cantidadProducto,
+                tipo: tp.data.nombreTipo,
+                nombre: pdata.data.nombreProducto,
+                urlProducto: pdata.data.urlProducto,
+              };
+            })
+          );
+          setProducts(lpro);
+        }
+      } catch (error) {
+        console.error("Error al obtener productos:", error);
+      }
+    };
+
+    if (!userId) {
+      navigate("/login");
+      return; // Agrega un retorno para evitar que el código se ejecute después de navegar
+    } else {
+      fetchProducts();
+    }
+  }, [navigate]);
 
   const handlePageChange = (pageNumber) => {
     setCurrentPage(pageNumber);
@@ -137,62 +167,88 @@ function Carro() {
                 <BasicBreadcrumbs />
               </div>
             </AppBar>
-            <table className="table align-middle mb-0 bg-white tablacarro">
-              <thead className="bg-light">
-                <tr>
-                  <th>Nombre</th>
-                  <th>Tipo de Producto</th>
-                  <th>Descripción</th>
-                  <th>Cantidad</th>
-                  <th>Precio</th>
-                </tr>
-              </thead>
-              <tbody>
-                {currentItems.map((product, index) => (
-                  <tr key={product.id}>
-                    <td>
-                      <div className="d-flex align-items-center">
-                        <img
-                          src={escalera}
-                          alt=""
-                          style={{ width: "100px", height: "100px" }}
-                          className="rounded-circle"
-                        />
-                        <div className="ms-3">
-                          <p className="fw-bold mb-1">{product.model}</p>
-                          <p className="text-muted mb-0"></p>
-                        </div>
-                      </div>
-                    </td>
-                    <td>
-                      <p className="fw-normal mb-1">{product.name}</p>
-                      <p className="text-muted mb-0">{product.country}</p>
-                    </td>
-                    <td>
-                      <p>
-                        Escalera de acero 4 peldaños alto 1.33 m Resistencia 150
-                        kg
-                      </p>
-                    </td>
-                    <td>
-                      <div className="counter">
-                        <button>-</button>
-                        <span>1</span>
-                        <button>+</button>
-                      </div>
-                    </td>
-                    <td>
-                      <button
-                        type="button"
-                        className="btn btn-link btn-sm btn-rounded"
-                      >
-                        <p>${product.price}</p>
-                      </button>
-                    </td>
+            {products.length !== 0 ? (
+              <table className="table align-middle mb-0 bg-white tablacarro">
+                <thead className="bg-light">
+                  <tr>
+                    <th>Nombre</th>
+                    <th>Tipo de Producto</th>
+                    <th>Descripción</th>
+                    <th>Cantidad</th>
+                    <th>Precio</th>
                   </tr>
-                ))}
-              </tbody>
-            </table>
+                </thead>
+                <tbody>
+                  {currentItems.map((product, index) => (
+                    <tr key={index}>
+                      <td>
+                        <div className="d-flex align-items-center">
+                          <img
+                            src={`http://localhost:3001/images/${product.urlProducto}`}
+                            alt=""
+                            style={{ width: "100px", height: "100px" }}
+                            className="rounded-circle"
+                          />
+                          <div className="ms-3">
+                            <p className="fw-bold mb-1">{product.nombre}</p>
+                          </div>
+                        </div>
+                      </td>
+                      <td>
+                        <p className="fw-normal mb-1">{product.tipo}</p>
+                      </td>
+                      <td>
+                        <p>{product.descripcion}</p>
+                      </td>
+                      <td>
+                        <div className="counter">
+                          <button
+                            onClick={() =>
+                              restarCantidad(
+                                index,
+                                product.idCarrito,
+                                product.idProducto
+                              )
+                            }
+                          >
+                            -
+                          </button>
+                          <span>{product.cantidad}</span>
+                          <button
+                            onClick={() =>
+                              sumarCantidad(
+                                index,
+                                product.idCarrito,
+                                product.idProducto
+                              )
+                            }
+                          >
+                            +
+                          </button>
+                        </div>
+                      </td>
+                      <td>
+                        <button
+                          type="button"
+                          className="btn btn-link btn-sm btn-rounded"
+                        >
+                          <p>
+                            {product.precio.toLocaleString("es-CL", {
+                              style: "currency",
+                              currency: "CLP",
+                            })}
+                          </p>
+                        </button>
+                      </td>
+                    </tr>
+                  ))}
+                </tbody>
+              </table>
+            ) : (
+              <div className="empty-cart-message">
+                <p>¡El carrito está vacío!</p>
+              </div>
+            )}
             <Pagination className="pagination-controlsdetalle">
               <Pagination.First onClick={() => handlePageChange(1)} />
               <Pagination.Prev
@@ -215,9 +271,11 @@ function Carro() {
               <Pagination.Last onClick={() => handlePageChange(totalPages)} />
             </Pagination>
             <div className="button-container">
-              <Button className="btnpagar" variant="success" size="lg">
-                Pagar
-              </Button>
+              <Link to="/checkout" className="btnpagar">
+                <Button variant="success" size="lg">
+                  Pagar
+                </Button>
+              </Link>
             </div>
           </Parallax>
         </main>

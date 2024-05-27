@@ -8,8 +8,7 @@ const Content = () => {
   return (
     <div className={s.content1}>
       <ContentHeader />
-      <AdminCard />
-      <ListaEmpleados />
+      <AdminCard /> 
     </div>
   );
 };

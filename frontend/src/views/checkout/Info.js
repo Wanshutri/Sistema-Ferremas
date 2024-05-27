@@ -1,35 +1,11 @@
 import * as React from "react";
 import PropTypes from "prop-types";
-
 import List from "@mui/material/List";
 import ListItem from "@mui/material/ListItem";
 import ListItemText from "@mui/material/ListItemText";
 import Typography from "@mui/material/Typography";
 
-const products = [
-  {
-    name: "Plan profesional para culiar al Rulos",
-    desc: "Subscripcion mensual",
-    price: "$150.000",
-  },
-  {
-    name: "Dedicated support",
-    desc: "Included in the Professional plan",
-    price: "Free",
-  },
-  {
-    name: "Hardware",
-    desc: "Devices needed for development",
-    price: "$69.99",
-  },
-  {
-    name: "Landing page template",
-    desc: "License",
-    price: "$49.99",
-  },
-];
-
-function Info({ totalPrice }) {
+function Info({ products, totalPrice }) {
   return (
     <React.Fragment>
       <Typography variant="subtitle2" color="text.secondary">
@@ -39,15 +15,18 @@ function Info({ totalPrice }) {
         {totalPrice}
       </Typography>
       <List disablePadding>
-        {products.map((product) => (
-          <ListItem key={product.name} sx={{ py: 1, px: 0 }}>
+        {products.map((producto) => (
+          <ListItem key={producto.idProducto} sx={{ py: 1, px: 0 }}>
             <ListItemText
               sx={{ mr: 2 }}
-              primary={product.name}
-              secondary={product.desc}
+              primary={producto.nombreProducto}
+              secondary={producto.descripcion}
             />
             <Typography variant="body1" fontWeight="medium">
-              {product.price}
+              {producto.precioProducto?.toLocaleString("es-CL", {
+                style: "currency",
+                currency: "CLP",
+              })}
             </Typography>
           </ListItem>
         ))}
@@ -57,6 +36,14 @@ function Info({ totalPrice }) {
 }
 
 Info.propTypes = {
+  products: PropTypes.arrayOf(
+    PropTypes.shape({
+      id: PropTypes.number.isRequired,
+      nombre: PropTypes.string.isRequired,
+      descripcion: PropTypes.string.isRequired,
+      precio: PropTypes.number.isRequired,
+    })
+  ).isRequired,
   totalPrice: PropTypes.string.isRequired,
 };
 

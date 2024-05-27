@@ -13,13 +13,12 @@ const Footer = () => {
     <div className="footer">
       <div className="footer-left col-md-4 col-sm-6">
         <p className="about">
-          <span> Acerca de la Compañia</span> Ut congue augue non tellus
-          bibendum, in varius tellus condimentum. In scelerisque nibh tortor,
-          sed rhoncus odio condimentum in. Sed sed est ut sapien ultrices
-          eleifend. Integer tellus est, vehicula eu lectus tincidunt, ultricies
-          feugiat leo. Suspendisse tellus elit, pharetra in hendrerit ut,
-          aliquam quis augue. Nam ut nibh mollis, tristique ante sed, viverra
-          massa.
+          <span> Acerca de la Compañia</span> 
+                 Ferremas es una empresa líder en ferretería que 
+                 ofrece productos de alta calidad y servicios excepcionales 
+                 para satisfacer las necesidades de construcción y mantenimiento 
+                 de sus clientes. Se compromete con la innovación y la sostenibilidad, 
+                 aspirando a seguir creciendo y siendo un aliado confiable para cualquier proyecto.
         </p>
         <div className="icons">
           <a href="https://www.facebook.com/felipe.andradevargas">

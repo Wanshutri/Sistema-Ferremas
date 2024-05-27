@@ -9,10 +9,12 @@ import FormControl from "@mui/material/FormControl";
 import Select from "@mui/material/Select";
 import axios from "axios";
 import { FaPlusCircle } from "react-icons/fa";
-
+import { Table } from "react-bootstrap";
 
 const ListaEmpleadosCrud = () => {
   const [usuarios, setUsuarios] = useState([]);
+  const [modalTitle, setModalTitle] = useState("Agregar Usuario");
+
   const [usuario, setUsuario] = useState({
     correoUsuario: "",
     contrasenaUsuario: "",
@@ -24,32 +26,140 @@ const ListaEmpleadosCrud = () => {
     fechaNac: "",
     celular: "",
     direccion: "",
-    administrador: false,
-    contador: false,
-    bodeguero: false,
-    cliente: true,
-    vendedor: false,
+    cargo: "Contador", // Valor por defecto para el cargo
   });
+
+  const obtenerUsuariosDesdeAPI = () => {
+    return axios
+      .get("http://localhost:3001/api/usuarios")
+      .then((response) => response.data)
+      .catch((error) => {
+        console.error("Error al obtener usuarios:", error);
+        throw error;
+      });
+  };
 
   const handleChange = (e) => {
     const { name, value } = e.target;
+    const newValue = name === "celular" ? parseInt(value) : value; // Convertir a número si el campo es 'celular'
     setUsuario({
       ...usuario,
-      [name]: value,
+      [name]: newValue,
     });
   };
 
   const handleSubmit = (e) => {
     e.preventDefault();
+    if (modalTitle === "Agregar Usuario") {
+      // Crear nuevo usuario
+      axios
+        .post("http://localhost:3001/api/usuarios", {
+          correoUsuario: usuario.correoUsuario,
+          contrasenaUsuario: usuario.contrasenaUsuario,
+          rutUsuario: usuario.rutUsuario,
+          pNombre: usuario.pNombre,
+          sNombre: usuario.sNombre,
+          pApellido: usuario.pApellido,
+          sApellido: usuario.sApellido,
+          fechaNac: usuario.fechaNac,
+          celular: usuario.celular,
+          direccion: usuario.direccion,
+          cargo: usuario.cargo,
+        })
+        .then((response) => {
+          console.log("Usuario creado:", response.data);
+          // Actualizar la lista de usuarios
+          obtenerUsuariosDesdeAPI()
+            .then((data) => {
+              setUsuarios(data);
+            })
+            .catch((error) => {
+              console.error("Error al obtener usuarios:", error);
+            });
+          // Limpiar el formulario y cerrar el modal
+          setUsuario({
+            correoUsuario: "",
+            contrasenaUsuario: "",
+            rutUsuario: "",
+            pNombre: "",
+            sNombre: "",
+            pApellido: "",
+            sApellido: "",
+            fechaNac: "",
+            celular: "",
+            direccion: "",
+            cargo: "Contador", // Puedes establecer el valor por defecto nuevamente
+          });
+          handleClose(); // Cerrar el modal después de enviar los datos
+        })
+        .catch((error) => {
+          console.error("Error al crear usuario:", error);
+        });
+    } else if (modalTitle === "Modificar Usuario") {
+      // Modificar usuario existente
+      axios
+        .put(`http://localhost:3001/api/usuarios/${usuario.idUsuario}`, usuario)
+        .then((response) => {
+          console.log("Usuario modificado:", response.data);
+          // Actualizar la lista de usuarios
+          obtenerUsuariosDesdeAPI()
+            .then((data) => {
+              setUsuarios(data);
+            })
+            .catch((error) => {
+              console.error("Error al obtener usuarios:", error);
+            });
+          // Cerrar el modal después de enviar los datos
+          handleClose();
+        })
+        .catch((error) => {
+          console.error("Error al modificar usuario:", error);
+        });
+    }
+  };
+
+  const handleEliminarUsuario = (idUsuario) => {
     axios
-      .post("http://localhost:3001/api/usuarios", usuario)
+      .delete(`http://localhost:3001/api/usuarios/${idUsuario}`)
       .then((response) => {
-        console.log("Usuario creado:", response.data);
-        // Aquí podrías redirigir a otra página, mostrar un mensaje de éxito, etc.
+        console.log("Usuario eliminado:", response.data);
+        obtenerUsuariosDesdeAPI()
+          .then((data) => {
+            setUsuarios(data);
+          })
+          .catch((error) => {
+            console.error("Error al obtener usuarios:", error);
+          });
       })
       .catch((error) => {
-        console.error("Error al crear usuario:", error);
+        console.error("Error al eliminar usuarios:", error);
       });
+  };
+
+  const handleCrearUsuario = (usuario) => {
+    setModalTitle("Agregar Usuario");
+    setShow(true);
+    setUsuario({
+      idUsuario: "",
+      correoUsuario: "",
+      contrasenaUsuario: "",
+      rutUsuario: "",
+      pNombre: "",
+      sNombre: "",
+      pApellido: "",
+      sApellido: "",
+      fechaNac: "",
+      celular: "",
+      direccion: "",
+      cargo: "Contador", // Puedes establecer el valor por defecto nuevamente
+    });
+  };
+
+  const handleModificarUsuario = (usuario) => {
+    setModalTitle("Modificar Usuario");
+    setShow(true);
+    const usuarioModificado = { ...usuario };
+    setUsuario(usuarioModificado);
   };
 
   const [show, setShow] = useState(false);
@@ -57,20 +167,17 @@ const ListaEmpleadosCrud = () => {
   const handleClose = () => setShow(false);
   const handleShow = () => setShow(true);
 
-  const [cargo, setCargo] = React.useState("");
-
-  const handleChange2 = (event) => {
-    setCargo(event.target.value);
-  };
-
   useEffect(() => {
-    axios.get("http://localhost:3001/api/usuarios")
-      .then(response => {
+    axios
+      .get("http://localhost:3001/api/usuarios")
+      .then((response) => {
         // Filtrar los empleados para mostrar solo aquellos que no tienen el cargo de cliente
-        const empleadosFiltrados = response.data.filter(usuario => usuario.cargo !== 'cliente');
+        const empleadosFiltrados = response.data.filter(
+          (usuario) => usuario.cargo !== "cliente"
+        );
         setUsuarios(empleadosFiltrados);
       })
-      .catch(error => {
+      .catch((error) => {
         console.error("Error al obtener la lista de empleados:", error);
       });
   }, []);
@@ -81,39 +188,67 @@ const ListaEmpleadosCrud = () => {
         <div className={s.listaHeader}>
           <h2>Empleados</h2>
           <div>
-            <select>
-              <option value="contador">Contadores</option>
-              <option value="vendedor">Vendedores</option>
-              <option value="bodeguero">Bodegueros</option>
-            </select>
-            <Button variant="outline-success" onClick={handleShow}>
+            <Button variant="outline-success" onClick={handleCrearUsuario}>
               <FaPlusCircle />
             </Button>
           </div>
         </div>
         <div className={s.listaContainer}>
-          {usuarios.map((usuarios) => (
-            <div className={s.lista2}>
-              <div className={s.empDetalle}>
-                <img src={Imagen1} alt={usuarios.pNombre} />
-                <h2>
-                  {usuarios.pNombre} {usuarios.sNombre}
-                </h2>
-              </div>
-              <span>{usuarios.cargo}</span>
-              <span>{usuarios.correoUsuario}</span>
-              <span className="empTodo">:</span>
-            </div>
-          ))}
+          <Table striped bordered hover>
+            <thead>
+              <tr>
+                <th>Nombre</th>
+                <th>Cargo</th>
+                <th>Correo</th>
+                <th>Acciones</th>
+              </tr>
+            </thead>
+            <tbody>
+              {usuarios.map((usuario) => (
+                <tr key={usuario.id}>
+                  <td>
+                    {usuario.pNombre} {usuario.sNombre}
+                  </td>
+                  <td>{usuario.cargo}</td>
+                  <td>{usuario.correoUsuario}</td>
+                  <td>
+                    <FormControl>
+                      <Select defaultValue="">
+                        <MenuItem value="" disabled>
+                          Acciones
+                        </MenuItem>
+                        <MenuItem
+                          value="eliminar"
+                          onClick={() =>
+                            handleEliminarUsuario(usuario.idUsuario)
+                          }
+                        >
+                          Eliminar
+                        </MenuItem>
+                        <MenuItem
+                          value="modificar"
+                          onClick={() => handleModificarUsuario(usuario)}
+                        >
+                          Modificar
+                        </MenuItem>
+                      </Select>
+                    </FormControl>
+                  </td>
+                </tr>
+              ))}
+            </tbody>
+          </Table>
         </div>
       </div>
 
       <Modal show={show} onHide={handleClose}>
         <Modal.Header closeButton>
-          <Modal.Title>Registrar Empleado</Modal.Title>
+          <Modal.Title>{modalTitle}</Modal.Title>
         </Modal.Header>
         <Modal.Body>
           <form onSubmit={handleSubmit}>
+            {/* Tus campos de entrada aquí */}
+            {/* Ejemplo: */}
             <div className="mb-3">
               <input
                 type="email"
@@ -229,30 +364,30 @@ const ListaEmpleadosCrud = () => {
                 <Select
                   labelId="selectCargoLabel"
                   id="selectCargo"
-                  value={cargo}
+                  value={usuario.cargo}
                   label="Cargo"
-                  onChange={handleChange2}
+                  onChange={handleChange}
+                  name="cargo"
                 >
-                  <MenuItem value={"contador"}>Contador</MenuItem>
-                  <MenuItem value={"vendedor"}>Vendedor</MenuItem>
-                  <MenuItem value={"bodeguero"}>Bodeguero</MenuItem>
+                  <MenuItem value={"Contador"}>Contador</MenuItem>
+                  <MenuItem value={"Vendedor"}>Vendedor</MenuItem>
+                  <MenuItem value={"Bodeguero"}>Bodeguero</MenuItem>
                 </Select>
               </FormControl>
             </div>
+            {/* Fin de tus campos de entrada */}
+            <Button
+              variant="secondary"
+              onClick={handleClose}
+              style={{ marginRight: "10px" }}
+            >
+              Cerrar
+            </Button>
+            <Button variant="primary" type="submit">
+              Guardar cambios
+            </Button>
           </form>
         </Modal.Body>
-        <Modal.Footer>
-          <Button
-            variant="secondary"
-            onClick={handleClose}
-            style={{ margin: "0px" }}
-          >
-            Cerrar
-          </Button>
-          <Button variant="primary" type="submit" onClick={handleClose}>
-            Guardar cambios
-          </Button>
-        </Modal.Footer>
       </Modal>
     </>
   );

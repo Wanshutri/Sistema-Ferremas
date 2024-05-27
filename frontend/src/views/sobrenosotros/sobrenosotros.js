@@ -92,15 +92,10 @@ const Sobrenosotros = () => {
                           </Divider>
 
                           <p className="card-text">
-                            "Lorem ipsum dolor sit amet, consectetur adipiscing
-                            elit, sed do eiusmod tempor incididunt ut labore et
-                            dolore magna aliqua. Ut enim ad minim veniam, quis
-                            nostrud exercitation ullamco laboris nisi ut aliquip
-                            ex ea commodo consequat. Duis aute irure dolor in
-                            reprehenderit in voluptate velit esse cillum dolore
-                            eu fugiat nulla pariatur. Excepteur sint occaecat
-                            cupidatat non proident, sunt in culpa qui officia
-                            deserunt mollit anim id est laborum."
+                            Dirección:
+                              Santiago de Chile,
+                              Puente alto,
+                              Villa Ferroviaria, 0161.
                           </p>
                           <Divider>
                             <Chip
@@ -110,10 +105,9 @@ const Sobrenosotros = () => {
                             />
                           </Divider>
                           <p className="card-text">
-                            Somos un equipo comprometido con brindarte el mejor
-                            servicio posible.
                           </p>
                           <p>
+                            {" "}
                             Nuestros horarios están diseñados para adaptarse a
                             tus necesidades: de lunes a viernes, de 9:00 a.m. a
                             6:00 p.m., y los sábados de 10:00 a.m. a 2:00 p.m.
@@ -130,15 +124,9 @@ const Sobrenosotros = () => {
                           </Divider>
 
                           <p className="card-text">
-                            "Lorem ipsum dolor sit amet, consectetur adipiscing
-                            elit, sed do eiusmod tempor incididunt ut labore et
-                            dolore magna aliqua. Ut enim ad minim veniam, quis
-                            nostrud exercitation ullamco laboris nisi ut aliquip
-                            ex ea commodo consequat. Duis aute irure dolor in
-                            reprehenderit in voluptate velit esse cillum dolore
-                            eu fugiat nulla pariatur. Excepteur sint occaecat
-                            cupidatat non proident, sunt in culpa qui officia
-                            deserunt mollit anim id est laborum."
+                            Puedes comunicarte con nuestro equipo a través del formulario 
+                            de contacto en nuestra página web o enviándonos un correo electrónico 
+                            a info@ferremas.com. Estamos aquí para ayudarte con cualquier consulta que tengas.
                           </p>
                           <hr></hr>
                         </div>

@@ -12,7 +12,7 @@ import Divider from "@mui/material/Divider";
 import AccountBalanceRoundedIcon from "@mui/icons-material/AccountBalanceRounded";
 import CreditCardRoundedIcon from "@mui/icons-material/CreditCardRounded";
 import WarningRoundedIcon from "@mui/icons-material/WarningRounded";
-
+import { PayPalScriptProvider, PayPalButtons } from "@paypal/react-paypal-js";
 export default function PaymentForm() {
   const [paymentType, setPaymentType] = React.useState("creditCard");
 
@@ -71,7 +71,7 @@ export default function PaymentForm() {
                 sx={{ display: "flex", alignItems: "center", gap: 1 }}
               >
                 <AccountBalanceRoundedIcon color="primary" fontSize="small" />
-                <Typography fontWeight="medium">Bank account</Typography>
+                <Typography fontWeight="medium">Paypal</Typography>
               </CardContent>
             </CardActionArea>
           </Card>
@@ -206,39 +206,33 @@ export default function PaymentForm() {
             gap: 2,
           }}
         >
-          <Alert severity="warning" icon={<WarningRoundedIcon />}>
-            Your order will be processed once we receive the funds.
-          </Alert>
-          <Typography variant="subtitle1" fontWeight="medium">
-            Bank account
-          </Typography>
-          <Typography variant="body1" gutterBottom>
-            Please transfer the payment to the bank account details shown below.
-          </Typography>
-          <Box sx={{ display: "flex", gap: 1 }}>
-            <Typography variant="body1" color="text.secondary">
-              Bank:
-            </Typography>
-            <Typography variant="body1" fontWeight="medium">
-              Mastercredit
-            </Typography>
-          </Box>
-          <Box sx={{ display: "flex", gap: 1 }}>
-            <Typography variant="body1" color="text.secondary">
-              Account number:
-            </Typography>
-            <Typography variant="body1" fontWeight="medium">
-              123456789
-            </Typography>
-          </Box>
-          <Box sx={{ display: "flex", gap: 1 }}>
-            <Typography variant="body1" color="text.secondary">
-              Routing number:
-            </Typography>
-            <Typography variant="body1" fontWeight="medium">
-              987654321
-            </Typography>
-          </Box>
+          <PayPalScriptProvider
+            options={{ "client-id": "AV7RbVPozcoaIgXrxjWQU5WWnGyMyZmMBfauJ16FdFEVU12RTDtFOxSNZzG2GdQUqx5wA6DMwkNR-UfZ" }}
+          >
+            <PayPalButtons
+              createOrder={(data, actions) => {
+                return actions.order.create({
+                  purchase_units: [
+                    {
+                      amount: {
+                        value: "1.00", // Monto de la compra en USD
+                      },
+                    },
+                  ],
+                });
+              }}
+              onApprove={(data, actions) => {
+                // Ejecutar código cuando el pago es aprobado poner crearboleta API aqui
+                // Redirigir al usuario a tu sitio web o realizar otras acciones necesarias
+                // Por ejemplo, puedes redirigir al usuario a una página de confirmación
+                window.location.href = "http://localhost:3000";
+              }}
+              onError={(err) => {
+                // Manejar errores de PayPal
+                console.error("Error al procesar el pago:", err);
+              }}
+            />
+          </PayPalScriptProvider>
         </Box>
       )}
     </Stack>

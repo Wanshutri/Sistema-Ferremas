@@ -43,6 +43,14 @@ const Sidebarcontador = ({ handleTabClick }) => {
         <a
           href=""
           className={styles.item}
+          onClick={(e) => handleClick("depositos", e)}
+        >
+          <BiTask className={styles.icon} />
+          Depositos
+        </a>
+        <a
+          href=""
+          className={styles.item}
           onClick={(e) => handleClick("informe", e)}
         >
           <BiSolidReport className={styles.icon} />

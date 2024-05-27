@@ -1,3 +1,4 @@
+
 import React, { useEffect, useState } from "react";
 import s from "./ListaEmpleados.module.css";
 import Table from "@mui/material/Table";
@@ -10,6 +11,9 @@ import Paper from "@mui/material/Paper";
 import DropdownButton from "react-bootstrap/DropdownButton";
 import Dropdown from "react-bootstrap/Dropdown";
 import ButtonGroup from "react-bootstrap/ButtonGroup";
+import axios from "axios";
+import jsPDF from "jspdf";
+import "jspdf-autotable";
 
 const TAX_RATE = 0.07;
 
@@ -18,18 +22,72 @@ function ccyFormat(num) {
 }
 
 function Informe() {
-  const [rows, setRows] = useState([]);
+  const [boletas, setBoletas] = useState([]);
 
   useEffect(() => {
-    fetch("/api/reportesFinancieros")
-      .then((response) => response.json())
-      .then((data) => setRows(data))
+    axios
+      .get("http://localhost:3001/api/boletas")
+      .then((response) => setBoletas(response.data))
       .catch((error) => console.error("Error fetching data:", error));
   }, []);
 
-  const invoiceSubtotal = rows.reduce((sum, row) => sum + row.monto, 0);
+  const invoiceSubtotal = boletas.reduce(
+    (sum, boleta) => sum + boleta.totalclp,
+    0
+  );
   const invoiceTaxes = TAX_RATE * invoiceSubtotal;
   const invoiceTotal = invoiceTaxes + invoiceSubtotal;
+
+  const filterBoletas = (period) => {
+    const now = new Date();
+    if (period === "Mensual") {
+      return boletas.filter((boleta) => {
+        const boletaDate = new Date(boleta.fechaBoleta);
+        return (
+          boletaDate.getFullYear() === now.getFullYear() &&
+          boletaDate.getMonth() === now.getMonth()
+        );
+      });
+    } else if (period === "Anual") {
+      return boletas.filter(
+        (boleta) => new Date(boleta.fechaBoleta).getFullYear() === now.getFullYear()
+      );
+    }
+    return boletas;
+  };
+
+  const handleDownloadPDF = (period) => {
+    const filteredBoletas = filterBoletas(period);
+    const invoiceSubtotal = filteredBoletas.reduce(
+      (sum, boleta) => sum + boleta.totalclp,
+      0
+    );
+    const invoiceTaxes = TAX_RATE * invoiceSubtotal;
+    const invoiceTotal = invoiceTaxes + invoiceSubtotal;
+
+    const doc = new jsPDF();
+    doc.text(`Informe de Boletas (${period})`, 10, 10);
+    doc.autoTable({
+      head: [["ID", "Fecha", "Monto", "Usuario"]],
+      body: filteredBoletas.map((boleta) => [
+        boleta.idBoleta,
+        boleta.fechaBoleta,
+        ccyFormat(boleta.totalclp),
+        boleta.nombreCompleto,
+      ]),
+    });
+
+    const finalY = doc.previousAutoTable.finalY || 10;
+
+    // Agregar el impuesto con el porcentaje y el subtotal con el signo de dólar
+    doc.text(`Impuesto: ${(TAX_RATE * 100).toFixed(0)} %`, 10, finalY + 20);
+    doc.text(`Subtotal: ${ccyFormat(invoiceSubtotal)}`, 10, finalY + 30);
+    doc.text(`Total: ${ccyFormat(invoiceTotal)}`, 10, finalY + 40);
+
+    doc.save(`informe_boletas_${period.toLowerCase()}.pdf`);
+  };
+  
+  
 
   return (
     <div className={s.empLista}>
@@ -44,9 +102,11 @@ function Informe() {
                 <TableCell align="left" colSpan={3}>
                   Detalles
                 </TableCell>
+                <TableCell></TableCell>
                 <TableCell align="right">Valor</TableCell>
               </TableRow>
               <TableRow>
+                <TableCell align="left">ID</TableCell>
                 <TableCell>Fecha</TableCell>
                 <TableCell align="right">Monto</TableCell>
                 <TableCell align="right">Usuario</TableCell>
@@ -54,12 +114,17 @@ function Informe() {
               </TableRow>
             </TableHead>
             <TableBody>
-              {rows.map((row, index) => (
+              {boletas.map((boleta, index) => (
                 <TableRow key={index}>
-                  <TableCell>{row.fecha}</TableCell>
-                  <TableCell align="right">{ccyFormat(row.monto)}</TableCell>
-                  <TableCell align="right">{row.idUsuario}</TableCell>
-                  <TableCell align="right">{ccyFormat(row.monto)}</TableCell>
+                  <TableCell align="left">{boleta.idBoleta}</TableCell>
+                  <TableCell>{boleta.fechaBoleta}</TableCell>
+                  <TableCell align="right">
+                    {ccyFormat(boleta.totalclp)}
+                  </TableCell>
+                  <TableCell align="right">{boleta.nombreCompleto}</TableCell>
+                  <TableCell align="right">
+                    {ccyFormat(boleta.totalclp)}
+                  </TableCell>
                 </TableRow>
               ))}
               <TableRow>
@@ -91,8 +156,12 @@ function Informe() {
             title="Imprimir Informe..."
             id="bg-nested-dropdown"
           >
-            <Dropdown.Item eventKey="1">Mensual</Dropdown.Item>
-            <Dropdown.Item eventKey="2">Anual</Dropdown.Item>
+            <Dropdown.Item eventKey="1" onClick={() => handleDownloadPDF("Mensual")}>
+              Mensual
+            </Dropdown.Item>
+            <Dropdown.Item eventKey="2" onClick={() => handleDownloadPDF("Anual")}>
+              Anual
+            </Dropdown.Item>
           </DropdownButton>
         </ButtonGroup>
       </div>

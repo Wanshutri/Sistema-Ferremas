@@ -120,7 +120,7 @@ export default function AddressForm() {
       <FormGrid item xs={12}>
         <FormControlLabel
           control={<Checkbox name="saveAddress" value="yes" />}
-          label="Use this address for payment details"
+          label="Usar dirección para envio"
         />
       </FormGrid>
     </Grid>

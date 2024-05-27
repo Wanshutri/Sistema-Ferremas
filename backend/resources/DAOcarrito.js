@@ -75,37 +75,23 @@ function agregarProductoAlCarrito(
   cantidadProducto,
   callback
 ) {
-  // Obtener el carrito del usuario
-  getCarritoPorUsuario(idUsuario, (error, carrito) => {
-    if (error) {
-      return callback(error, null);
-    }
-
-    if (!carrito || carrito.error) {
-      return callback(null, {
-        message: "No se pudo agregar producto al carrito",
-        error: "No se encontró el carrito",
+  const connection = conectar();
+  const query =
+    "INSERT INTO detalle_carrito (idCarrito, idProducto, cantidadProducto) VALUES ((SELECT idCarrito FROM carrito WHERE idUsuario = ?), ?, ?)";
+  connection.query(
+    query,
+    [idUsuario, idProducto, cantidadProducto],
+    (error, results, fields) => {
+      connection.end();
+      if (error) {
+        return callback(error, null);
+      }
+      callback(null, {
+        id: results.insertId,
+        message: "Producto agregado al carrito exitosamente",
       });
     }
-
-    const connection = conectar();
-    const query =
-      "INSERT INTO detalle_carrito (idCarrito, idProducto, cantidadProducto) VALUES (?, ?, ?)";
-    connection.query(
-      query,
-      [carrito[0].idCarrito, idProducto, cantidadProducto],
-      (error, results, fields) => {
-        connection.end();
-        if (error) {
-          return callback(error, null);
-        }
-        callback(null, {
-          id: results.insertId,
-          message: "Producto agregado al carrito exitosamente",
-        });
-      }
-    );
-  });
+  );
 }
 
 function eliminarProductoDelCarrito(idCarrito, idProducto, callback) {

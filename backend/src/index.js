@@ -31,6 +31,7 @@ const {
   getBoleta,
   crearBoleta,
   eliminarBoleta,
+  getProductosBoleta
 } = require("./../resources/DAOboletas");
 const {
   getCarritoPorUsuario,
@@ -727,7 +728,7 @@ app.post("/api/usuarios", (req, res) => {
     if (err) {
       res.send({ message: "Error al crear usuario", error: err.message });
     } else {
-      res.json({ id: insertId, message: "Usuario creado exitosamente" });
+      res.json({ message: "Usuario creado exitosamente" });
     }
   });
 });
@@ -842,7 +843,7 @@ app.put("/api/boletas/:id", (req, res) => {
   });
 });
 
-// Ruta para eliminar un usuario
+// Ruta para eliminar una boleta
 app.delete("/api/boletas/:id", (req, res) => {
   const id = req.params.id;
   eliminarBoleta(id, (err, success) => {
@@ -871,11 +872,6 @@ app.get("/api/carrito/:id", (req, res) => {
         error: error.message,
       });
     }
-
-    if (carrito.error) {
-      return res.send({ message: carrito.message, error: carrito.error });
-    }
-
     res.json(carrito);
   });
 });
@@ -942,43 +938,51 @@ app.post("/api/carrito", (req, res) => {
 });
 
 // Ruta para eliminar un producto de un carrito DELETE EJEMPLO: /api/carrito?carrito=456&producto=789
-app.delete("/api/carrito", (req, res) => {
+app.delete("/api/carrito", async (req, res) => {
   const idCarrito = req.body.carrito;
   const idProducto = req.body.producto;
 
-  // Verificar que se proporcionen los parámetros necesarios
   if (!idCarrito) {
     return res.send({
-      message: " Error al eliminar producto del carrito",
+      message: "Error al eliminar producto del carrito",
       error: "Falta id del carrito",
     });
   }
 
   if (!idProducto) {
     return res.send({
-      message: " Error al eliminar producto del carrito",
+      message: "Error al eliminar producto del carrito",
       error: "Falta id del producto",
     });
   }
 
-  eliminarProductoDelCarrito(idCarrito, idProducto, (error, success) => {
-    if (error) {
-      res.send({
+  try {
+    // Verificar la cantidad actual del producto en el carrito
+    const productoEnCarrito = await obtenerProductoEnCarrito(idCarrito, idProducto);
+    if (!productoEnCarrito) {
+      return res.send({
         message: "Error al eliminar producto del carrito",
-        error: error.message,
+        error: "Producto no encontrado en el carrito",
       });
-    } else {
-      if (success) {
-        res.json({ message: "Producto eliminado del carrito exitosamente" });
-      } else {
-        res.send({
-          message: " Error al eliminar producto del carrito",
-          error: "Producto no encontrado en el carrito",
-        });
-      }
     }
-  });
+
+    if (productoEnCarrito.cantidad > 1) {
+      // Reducir la cantidad en 1
+      await actualizarCantidadProducto(idCarrito, idProducto, productoEnCarrito.cantidadProducto - 1);
+      res.json({ message: "Cantidad de producto reducida en el carrito exitosamente" });
+    } else {
+      // Eliminar el producto del carrito si la cantidad es 1
+      await eliminarProductoDelCarrito(idCarrito, idProducto);
+      res.json({ message: "Producto eliminado del carrito exitosamente" });
+    }
+  } catch (error) {
+    res.send({
+      message: "Error al eliminar producto del carrito",
+      error: error.message,
+    });
+  }
 });
+
 
 //ORDENES DE PEDIDO
 

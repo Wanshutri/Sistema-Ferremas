@@ -31,7 +31,7 @@ export const AuthProvider = ({ children }) => {
           usuario: data.usuario,
           isAuthenticated: true,
         });
-        return { success: true };
+        return { success: true, usuario: data.usuario };
       } else {
         throw new Error(data.error);
       }

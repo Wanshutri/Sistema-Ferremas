@@ -1,44 +1,52 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import Content from "../../components/ContadorComp/Content";
 import Profile from "../../components/AdminComp/Profile";
 import s from "./containdex.module.css";
 import Sidebarcontador from "../../components/sidebarcontador/sidebarcontador";
 import { DataGrid } from "@mui/x-data-grid";
 import Informe from "../../components/AdminComp/Informe";
+import axios from "axios";
+import CrudV from "../../components/VendedorComp/CrudV";
 
 const columns = [
-  { field: "id", headerName: "ID", width: 70 },
-  { field: "firstName", headerName: "First name", width: 130 },
-  { field: "lastName", headerName: "Last name", width: 130 },
-  {
-    field: "pago",
-    headerName: "Pago",
-    type: "number",
-    width: 120,
-  },
+  { field: "idBoleta", headerName: "ID Boleta", width: 100 },
+  { field: "fechaBoleta", headerName: "Fecha", width: 130 },
+  { field: "totalclp", headerName: "Total (CLP)", type: "number", width: 120 },
+  { field: "nombreCompleto", headerName: "Nombre Completo", width: 200 },
+  { field: "correo", headerName: "Correo", width: 200 },
 ];
 
-const rows = [
-  { id: 1, lastName: "Snow", firstName: "Jon", pago: 35000 },
-  { id: 2, lastName: "Lannister", firstName: "Cersei", pago: 42000 },
-  { id: 3, lastName: "Lannister", firstName: "Jaime", pago: 45000 },
-  { id: 4, lastName: "Stark", firstName: "Arya", pago: 16000 },
-  { id: 5, lastName: "Targaryen", firstName: "Daenerys", pago: 0 },
-  { id: 6, lastName: "Melisandre", firstName: null, pago: 150000 },
-  { id: 7, lastName: "Clifford", firstName: "Ferrara", pago: 44000 },
-  { id: 8, lastName: "Frances", firstName: "Rossini", pago: 36000 },
-  { id: 9, lastName: "Roxie", firstName: "Harvey", pago: 65000 },
-  { id: 10, lastName: "Roxie", firstName: "Harvey", pago: 65000 },
-  { id: 11, lastName: "Roxie", firstName: "Harvey", pago: 65000 },
-  { id: 12, lastName: "Roxie", firstName: "Harvey", pago: 65000 },
-];
+export const obtenerBoletassDesdeAPI = () => {
+  return axios
+    .get("http://localhost:3001/api/boletas")
+    .then((response) => response.data)
+    .catch((error) => {
+      console.error("Error al obtener boletas:", error);
+      throw error; // Re-lanza el error para que pueda ser manejado fuera de la función si es necesario
+    });
+};
 
 const Containdex = () => {
+  const [boletas, setBoletas] = useState([]);
   const [activeTab, setActiveTab] = useState("dashboard");
+
+  useEffect(() => {
+    fetchBoletas();
+  }, []);
+
+  const fetchBoletas = async () => {
+    try {
+      const response = await axios.get("http://localhost:3001/api/boletas");
+      setBoletas(response.data);
+    } catch (error) {
+      console.error("Error fetching boletas:", error);
+    }
+  };
 
   const handleTabClick = (tab) => {
     setActiveTab(tab);
   };
+
   return (
     <div id="root" className={s.customBackground}>
       <div className={s.dashboard}>
@@ -46,23 +54,19 @@ const Containdex = () => {
         <div className={s.dashboardcontent}>
           {activeTab === "dashboard" && <Content />}
           {activeTab === "pagos" && (
-            <tablaPago>
-              <div style={{ height: 400, width: "100%" }}>
-                <DataGrid
-                  rows={rows}
-                  columns={columns}
-                  initialState={{
-                    pagination: {
-                      paginationModel: { page: 0, pageSize: 5 },
-                    },
-                  }}
-                  pageSizeOptions={[5, 10]}
-                  checkboxSelection
-                />
-              </div>{" "}
-            </tablaPago>
+            <div style={{ height: 400, width: "100%" }}>
+              <DataGrid
+                rows={boletas}
+                columns={columns}
+                pageSize={5}
+                checkboxSelection
+                getRowId={(row) => row.idBoleta} // Indicar que idBoleta es el identificador único
+              />
+            </div>
           )}
+          {activeTab === "depositos" && <CrudV />}
           {activeTab === "informe" && <Informe />}
+          
           <Profile />
         </div>
       </div>

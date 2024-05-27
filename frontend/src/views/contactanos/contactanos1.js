@@ -1,10 +1,18 @@
 import React from "react";
 import Footer from "../../components/footer/footer";
 import BannerCom from "../../components/banner/bannerCom";
+import logo from "./../../img/logo.png";
 import ModalContactanos from "../../components/modalContactanos/modalcontact";
 import "./contactanos.css";
 import Sidebar1 from "../../components/sidebar/sidebar";
-import { Parallax, ParallaxProvider } from "react-scroll-parallax";
+import JustifiedTab from "../../components/tabs/tabs";
+import {
+  Parallax,
+  ParallaxProvider,
+  ParallaxBannerLayer,
+  ParallaxBanner,
+} from "react-scroll-parallax";
+import fondo from "../../assets/img/ferreteriabricolaje.jpg";
 import Formulario from "../../components/formcontact/formContact";
 import FloatCarrito from "../../components/FloatCarrito/FloatCarrito";
 
@@ -45,35 +53,24 @@ const Contactanos = () => {
                     <div className="col-sm-6 mb-3 mb-sm-0 mt-4">
                       <div className="card cartasdet">
                         <div className="card-body">
-                          <h5 className="card-title">
-                            Special title treatment
-                          </h5>
+                          <h5 className="card-tittle">¡Hablemos! Estamos ansiosos por escucharte</h5>
                           <p className="card-text">
-                            "Lorem ipsum dolor sit amet, consectetur adipiscing
-                            elit, sed do eiusmod tempor incididunt ut labore et
-                            dolore magna aliqua. Ut enim ad minim veniam, quis
-                            nostrud exercitation ullamco laboris nisi ut aliquip
-                            ex ea commodo consequat. Duis aute irure dolor in
-                            reprehenderit in voluptate velit esse cillum dolore
-                            eu fugiat nulla pariatur. Excepteur sint occaecat
-                            cupidatat non proident, sunt in culpa qui officia
-                            deserunt mollit anim id est laborum."
+                            En Ferremas, tu opinión es crucial para nosotros. 
+                            Valoramos tus comentarios y estamos comprometidos a mejorar continuamente 
+                            para satisfacer tus necesidades. Si tienes alguna pregunta, sugerencia o problema, 
+                            no dudes en ponerte en contacto con nosotros.
                           </p>
                           <p className="card-text">
-                            "Lorem ipsum dolor sit amet, consectetur adipiscing
-                            elit, sed do eiusmod tempor incididunt ut labore et
-                            dolore magna aliqua. Ut enim ad minim veniam, quis
-                            nostrud exercitation ullamco laboris nisi ut aliquip
-                            ex ea commodo consequat. Duis aute irure dolor in
-                            reprehenderit in voluptate velit esse cillum dolore
-                            eu fugiat nulla pariatur. Excepteur sint occaecat
-                            cupidatat non proident, sunt in culpa qui officia
-                            deserunt mollit anim id est laborum."
+                            Por eso, te invitamos a que nos contactes a través de nuestro formulario de contacto a continuación. 
+                            Ya sea para compartir tus comentarios, hacernos preguntas o informarnos sobre cualquier problema que puedas enfrentar, 
+                            estamos aquí para escucharte y trabajar contigo para encontrar soluciones. Estamos aquí para ayudarte y asegurarnos de que tengas la mejor experiencia 
+                            posible con nuestros productos y servicios. ¡Gracias por confiar en nosotros como tu proveedor 
+                            de insumos de ferretería de confianza!
                           </p>
                           <hr></hr>
 
                           <div className="comentarioscontact">
-                            <label >Comentarios</label>
+                            <label for="floatingTextarea2">Comentarios</label>
                           </div>
                         </div>
 

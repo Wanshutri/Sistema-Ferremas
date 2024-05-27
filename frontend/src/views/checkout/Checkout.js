@@ -1,5 +1,6 @@
 import * as React from "react";
 import PropTypes from "prop-types";
+import { useState, useEffect } from "react";
 import Box from "@mui/material/Box";
 import Button from "@mui/material/Button";
 import Card from "@mui/material/Card";
@@ -10,11 +11,17 @@ import Stack from "@mui/material/Stack";
 import Step from "@mui/material/Step";
 import StepLabel from "@mui/material/StepLabel";
 import Stepper from "@mui/material/Stepper";
+import ToggleButton from "@mui/material/ToggleButton";
+import ToggleButtonGroup from "@mui/material/ToggleButtonGroup";
 import Typography from "@mui/material/Typography";
+
 import { createTheme, ThemeProvider } from "@mui/material/styles";
+import axios from "axios";
 import ArrowBackRoundedIcon from "@mui/icons-material/ArrowBackRounded";
+import AutoAwesomeRoundedIcon from "@mui/icons-material/AutoAwesomeRounded";
 import ChevronLeftRoundedIcon from "@mui/icons-material/ChevronLeftRounded";
 import ChevronRightRoundedIcon from "@mui/icons-material/ChevronRightRounded";
+
 import AddressForm from "./AddressForm";
 import getCheckoutTheme from "./getCheckoutTheme";
 import Info from "./Info";
@@ -45,7 +52,7 @@ ToggleCustomTheme.propTypes = {
   toggleCustomTheme: PropTypes.func.isRequired,
 };
 
-const steps = ["Shipping address", "Payment details", "Review your order"];
+const steps = ["Formulario Usuario", "Detalle de Pago", "Finaliza"];
 
 const logoStyle = {
   width: "250px",
@@ -73,6 +80,8 @@ export default function Checkout() {
   const checkoutTheme = createTheme(getCheckoutTheme(mode));
   const defaultTheme = createTheme({ palette: { mode } });
   const [activeStep, setActiveStep] = React.useState(0);
+  const [products, setProducts] = useState([]);
+  const [totalPrice, setTotalPrice] = useState("0");
 
   const toggleCustomTheme = () => {
     setShowCustomTheme((prev) => !prev);
@@ -85,6 +94,33 @@ export default function Checkout() {
   const handleBack = () => {
     setActiveStep(activeStep - 1);
   };
+
+  useEffect(() => {
+    const fetchCartProducts = async () => {
+      try {
+        const userId = localStorage.getItem("user");
+        const response = await axios.get(`http://localhost:3001/api/carrito/${userId}`);
+        const cartProducts = response.data;
+
+        // Calcular el precio total del carrito
+        let total = 0;
+        cartProducts.forEach((producto) => {
+          total += producto.precioProducto;
+        });
+        setTotalPrice(total.toLocaleString("es-CL", {
+          style: "currency",
+          currency: "CLP",
+        }));
+
+        setProducts(cartProducts);
+      } catch (error) {
+        console.error("Error al obtener productos del carrito:", error);
+      }
+    };
+
+    fetchCartProducts();
+  }, []);
+
 
   return (
     <ThemeProvider theme={showCustomTheme ? checkoutTheme : defaultTheme}>
@@ -133,7 +169,7 @@ export default function Checkout() {
               maxWidth: 500,
             }}
           >
-            <Info totalPrice={activeStep >= 2 ? "$144.97" : "$134.98"} />
+            <Info  products={products} totalPrice={totalPrice} />
           </Box>
         </Grid>
         <Grid
@@ -201,7 +237,7 @@ export default function Checkout() {
                 {steps.map((label) => (
                   <Step
                     sx={{
-                      ":first-child": { pl: 0 },
+                      ":first-of-type": { pl: 0 },
                       ":last-child": { pr: 0 },
                     }}
                     key={label}
@@ -260,7 +296,7 @@ export default function Checkout() {
               {steps.map((label) => (
                 <Step
                   sx={{
-                    ":first-child": { pl: 0 },
+                    ":first-of-type": { pl: 0 },
                     ":last-child": { pr: 0 },
                     "& .MuiStepConnector-root": { top: { xs: 6, sm: 12 } },
                   }}
@@ -347,9 +383,7 @@ export default function Checkout() {
                       width: { xs: "100%", sm: "fit-content" },
                     }}
                   >
-                    {activeStep === steps.length - 1
-                      ? "Finalizar Pedido"
-                      : "Siguiente"}
+                    {activeStep === steps.length - 1 ? "Finalizar Pedido" : "Siguiente"}
                   </Button>
                 </Box>
               </React.Fragment>

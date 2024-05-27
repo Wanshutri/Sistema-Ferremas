@@ -13,6 +13,7 @@ import {
 import logo from "./../../assets/img/logo.png";
 import banner from "./../../assets/img/Verticalbanner.jpg";
 import { Link } from "react-router-dom";
+import FloatReturn2 from "./../../components/FloatCarrito/FloatReturn2";
 
 function RestablecerContraseña() {
   return (
@@ -30,7 +31,11 @@ function RestablecerContraseña() {
                 }}
                 className="rounded-start w-100"
               />
+               <Link to ="/login">
+                <FloatReturn2 />
+              </Link>
             </MDBCol>
+           
 
             <MDBCol md="8">
               <MDBCardBody className="d-flex flex-column">

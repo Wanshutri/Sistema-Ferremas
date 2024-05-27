@@ -1,9 +1,10 @@
 import "./sidebar.css";
-import React, { useState } from "react";
+import React, { useState,useContext } from "react";
 import Button from "react-bootstrap/Button";
 import Offcanvas from "react-bootstrap/Offcanvas";
 import Collapse from "react-bootstrap/Collapse";
 import Form from "react-bootstrap/Form";
+import { AuthContext } from "./../../js/AuthContext"; 
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import {
   faMagnifyingGlass,
@@ -14,6 +15,7 @@ import {
   faCircleQuestion,
   faReceipt,
   faHammer,
+  
 } from "@fortawesome/free-solid-svg-icons";
 import { faWhatsapp } from "@fortawesome/free-brands-svg-icons/faWhatsapp";
 import logo from "../../img/logo.png";
@@ -26,7 +28,7 @@ import { Link } from "react-router-dom";
 function Sidebar1({ onTabChange }) {
   const [show, setShow] = useState(false);
   const [open, setOpen] = useState(false);
-
+  const { logout, authState } = useContext(AuthContext);
   const handleClose = () => setShow(false);
   const handleShow = () => setShow(true);
 
@@ -71,6 +73,13 @@ function Sidebar1({ onTabChange }) {
               Home
             </Button>
           </Link>
+          
+          <Link to="/perfil">
+            <Button className="btn btn-primary b1" aria-current="page">
+              <FontAwesomeIcon icon={faUser} className="iconleftmenu" />
+              Perfil
+            </Button>
+          </Link>
 
           <Link to="/sobrenosotros">
             <Button className="btn btn-primary b1" aria-current="page">
@@ -78,12 +87,12 @@ function Sidebar1({ onTabChange }) {
               Sobre nosotros
             </Button>
           </Link>
-
+          <Link to="/paginaproducto">
           <Button className="btn btn-primary b1" aria-current="page">
             <FontAwesomeIcon icon={faHammer} shake className="iconleftmenu" />{" "}
             Productos{" "}
           </Button>
-
+          </Link>
           <Link to="/contactanos">
             <Button className="btn btn-primary b1" aria-current="page">
               <FontAwesomeIcon icon={faLocationDot} className="iconleftmenu" />
@@ -147,26 +156,27 @@ function Sidebar1({ onTabChange }) {
             </button>
           </Form>
         </Offcanvas.Body>
-        <Link to={"/registro"}>
-          <Button className="btn btn-primary b2">
-            <FontAwesomeIcon icon={faUser} className="iconleftmenu" />
-            Registrar
-          </Button>
-        </Link>
-        <Link to={"/login"}>
-          <Button className="btn btn-primary b2">
-            <FontAwesomeIcon icon={faUser} className="iconleftmenu" />
-            Iniciar sesión
-          </Button>
-        </Link>
-        <Button className="btn btn-primary b2">
-          <FontAwesomeIcon
-            icon={faRightFromBracket}
-            beat
-            className="iconleftmenu"
-          />
-          Cerrar sesión
+        {!authState.isAuthenticated ? (
+        <>
+          <Link to={"/registro"}>
+            <Button className="btn btn-primary b1">
+              <FontAwesomeIcon icon={faUser} className="iconleftmenu" />
+              Registrar
+            </Button>
+          </Link>
+          <Link to={"/login"}>
+            <Button className="btn btn-primary b1">
+              <FontAwesomeIcon icon={faUser} className="iconleftmenu" />
+              Iniciar sesión
+            </Button>
+          </Link>
+        </>
+      ) : (
+        <Button className="btn btn-primary b1" onClick={logout}>
+          <FontAwesomeIcon icon={faRightFromBracket} beat className="iconleftmenu" />
+          Cerrar sesión 
         </Button>
+      )}
       </Offcanvas>
     </>
   );
