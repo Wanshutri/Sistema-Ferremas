@@ -1,6 +1,6 @@
 import * as React from "react";
 import PropTypes from "prop-types";
-import { useState, useEffect } from "react";
+import { useState, useEffect, createContext } from "react";
 import Box from "@mui/material/Box";
 import Button from "@mui/material/Button";
 import Card from "@mui/material/Card";
@@ -30,6 +30,7 @@ import PaymentForm from "./PaymentForm";
 import Review from "./Review";
 import logof from "./../../assets/img/logo.png";
 
+const TotalPriceContext = createContext();
 function ToggleCustomTheme({ showCustomTheme, toggleCustomTheme }) {
   return (
     <Box
@@ -96,21 +97,77 @@ export default function Checkout() {
   };
 
   useEffect(() => {
+    const userId = localStorage.getItem("user");
+
     const fetchCartProducts = async () => {
       try {
-        const userId = localStorage.getItem("user");
-        const response = await axios.get(`http://localhost:3001/api/carrito/${userId}`);
-        const cartProducts = response.data;
+        const response = await axios.get(
+          `http://localhost:3001/api/carrito/${userId}`
+        );
+        if (!response.data) {
+          setProducts([]);
+        } else {
+          const pros = response.data;
+          const lpro = await Promise.all(
+            pros.map(async (p) => {
+              const pdata = await axios.get(
+                `http://localhost:3001/api/productos/${p.idProducto}`
+              );
+              const tp = await axios.get(
+                `http://localhost:3001/api/tipo-productos/${pdata.data.idTipoProducto}`
+              );
 
+              return {
+                idProducto: p.idProducto,
+                idCarrito: p.idCarrito,
+                precio: pdata.data.precioProducto,
+                descripcion: pdata.data.descripcion,
+                cantidad: p.cantidadProducto,
+                tipo: tp.data.nombreTipo,
+                nombre: pdata.data.nombreProducto,
+                urlProducto: pdata.data.urlProducto,
+              };
+            })
+          );
+          setProducts(lpro);
+          let total = 0;
+          lpro.forEach((producto) => {
+            total += producto.precio;
+          });
+          setTotalPrice(
+            total.toLocaleString("es-CL", {
+              style: "currency",
+              currency: "CLP",
+            })
+          );
+          const calculatedTotalPrice = total; // tu lógica de cálculo aquí
+          setTotalPrice(calculatedTotalPrice);
+          localStorage.setItem("totalPrice", calculatedTotalPrice);
+        }
+      } catch (error) {
+        console.error("Error al obtener productos:", error);
+      }
+    };
+
+    const fetchProducts = async () => {
+      try {
+        const userId = localStorage.getItem("user");
+        const response = await axios.get(
+          `http://localhost:3001/api/carrito/${userId}`
+        );
+        const cartProducts = response.data;
+        console.log(cartProducts);
         // Calcular el precio total del carrito
         let total = 0;
         cartProducts.forEach((producto) => {
           total += producto.precioProducto;
         });
-        setTotalPrice(total.toLocaleString("es-CL", {
-          style: "currency",
-          currency: "CLP",
-        }));
+        setTotalPrice(
+          total.toLocaleString("es-CL", {
+            style: "currency",
+            currency: "CLP",
+          })
+        );
 
         setProducts(cartProducts);
       } catch (error) {
@@ -120,7 +177,6 @@ export default function Checkout() {
 
     fetchCartProducts();
   }, []);
-
 
   return (
     <ThemeProvider theme={showCustomTheme ? checkoutTheme : defaultTheme}>
@@ -169,7 +225,7 @@ export default function Checkout() {
               maxWidth: 500,
             }}
           >
-            <Info  products={products} totalPrice={totalPrice} />
+            <Info products={products} totalPrice={totalPrice} />
           </Box>
         </Grid>
         <Grid
@@ -383,7 +439,9 @@ export default function Checkout() {
                       width: { xs: "100%", sm: "fit-content" },
                     }}
                   >
-                    {activeStep === steps.length - 1 ? "Finalizar Pedido" : "Siguiente"}
+                    {activeStep === steps.length - 1
+                      ? "Finalizar Pedido"
+                      : "Siguiente"}
                   </Button>
                 </Box>
               </React.Fragment>
