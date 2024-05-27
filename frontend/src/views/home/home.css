@@ -1,64 +1,63 @@
 .logo-img {
-    width: 30%;
+  width: 30%;
 }
 
 .form-div {
-    width: 50%;
-    height: 45%;
-    margin: 0 auto;
-    border: 1px solid black;
-    border-radius: 25px;
+  width: 50%;
+  height: 45%;
+  margin: 0 auto;
+  border: 1px solid black;
+  border-radius: 25px;
 }
 
 .form-div input {
-    border: 0;
-    width: 87.5%;
+  border: 0;
+  width: 87.5%;
 }
 
 .form-div input:focus {
-    outline: none;
+  outline: none;
 }
 
 .btnsearch {
-    width: 10%;
-    height: auto;
-    transition: transform 0.3s ease;
+  width: 10%;
+  height: auto;
+  transition: transform 0.3s ease;
 }
 
 .btnsearch:hover {
-    transform: scale(1.05);
+  transform: scale(1.05);
 }
 
 .search-div {
-    margin-left: 15%;
-    align-items: center;
-    margin-top: 5%;
+  margin-left: 15%;
+  align-items: center;
+  margin-top: 5%;
 }
 
 .bi-search {
-    width: 80%;
-    height: 80%;
+  width: 80%;
+  height: 80%;
 }
 
 .parallax-bg {
-    background-image: url('../../assets/img/inicioferreteria.jpg');
-    background-position: top;
+  background-image: url("../../assets/img/inicioferreteria.jpg");
+  background-position: top;
 }
 
 .divsearch {
-    background-color: white;
+  background-color: white;
 }
 
 .searchinput {
-    border-top-right-radius: 15%;
-    border-bottom-right-radius: 15%;
+  border-top-right-radius: 15%;
+  border-bottom-right-radius: 15%;
 }
 
-
-.contenidohome{
-    background-image: url("./../../assets/img/inicioferreteria.jpg");
-    background-blend-mode: darken;
-    background-repeat: no-repeat;
-    background-size: cover;
-    background-color: rgba(0, 0, 0, 0.293);
+.contenidohome {
+  background-image: url("./../../assets/img/inicioferreteria.jpg");
+  background-blend-mode: darken;
+  background-repeat: no-repeat;
+  background-size: cover;
+  background-color: rgba(0, 0, 0, 0.293);
 }

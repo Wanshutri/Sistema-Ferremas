@@ -1,56 +1,54 @@
 .c1prod {
-    margin-bottom: 100px;
-    
+  margin-bottom: 100px;
 }
 
-.cardactioncarrusel{
-    background-color: #f8ba35;
+.cardactioncarrusel {
+  background-color: #f8ba35;
 
-    Button{
-
-        font-weight: bold !important;
-    }
+  Button {
+    font-weight: bold !important;
+  }
 }
 
-.titulocarruselprod{
-    text-align: center;
-    font-weight: bold;
-    color: rgb(101, 101, 101);
+.titulocarruselprod {
+  text-align: center;
+  font-weight: bold;
+  color: rgb(101, 101, 101);
 }
 
-.cardcontentcarrusel{
-    background-color: #f8ba35;
-    background: linear-gradient( #2951a0 10%, #fdfdfd 10%);
+.cardcontentcarrusel {
+  background-color: #f8ba35;
+  background: linear-gradient(#2951a0 10%, #fdfdfd 10%);
 }
 
-.buttonShopCarrusel:hover{
-    background-color: #2951a0 !important;
-    color: white;
+.buttonShopCarrusel:hover {
+  background-color: #2951a0 !important;
+  color: white;
 }
 
-.dividerCardsCarrusel{
-    border-radius: 5px;
-    margin: 2px;
+.dividerCardsCarrusel {
+  border-radius: 5px;
+  margin: 2px;
 }
 
 .cardbody {
-    background-color: #f8ba35;
-    background: linear-gradient( #2951a0 10%, #f8ba35 10%);
+  background-color: #f8ba35;
+  background: linear-gradient(#2951a0 10%, #f8ba35 10%);
 
-    .cardtitle {
-        margin-top: 5px;
-        color: #2951a0;
-    }
+  .cardtitle {
+    margin-top: 5px;
+    color: #2951a0;
+  }
 
-    .cardtext{
-        color: white !important;
-    }
+  .cardtext {
+    color: white !important;
+  }
 }
 
 .cardbutton {
-    --bs-btn-bg: #2951a0 !important;
+  --bs-btn-bg: #2951a0 !important;
 }
 
-.dividercarrusel{
-    background-color: #2951a0;
+.dividercarrusel {
+  background-color: #2951a0;
 }

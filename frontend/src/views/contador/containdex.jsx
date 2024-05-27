@@ -2,9 +2,7 @@ import React, { useState } from "react";
 import Content from "../../components/ContadorComp/Content";
 import Profile from "../../components/AdminComp/Profile";
 import s from "./containdex.module.css";
-import CrudC from "../../components/ContadorComp/CrudC";
 import Sidebarcontador from "../../components/sidebarcontador/sidebarcontador";
-import tablaPago from "../../components/tablaPago/tablaPago";
 import { DataGrid } from "@mui/x-data-grid";
 import Informe from "../../components/AdminComp/Informe";
 
@@ -18,7 +16,6 @@ const columns = [
     type: "number",
     width: 120,
   },
-
 ];
 
 const rows = [
@@ -57,7 +54,6 @@ const Containdex = () => {
                   initialState={{
                     pagination: {
                       paginationModel: { page: 0, pageSize: 5 },
-
                     },
                   }}
                   pageSizeOptions={[5, 10]}

@@ -1,6 +1,6 @@
 import React from "react";
 import { BiLogoHtml5 } from "react-icons/bi";
-import s from './Content.module.css'
+import s from "./Content.module.css";
 
 const course = [
   {
@@ -23,7 +23,9 @@ const AdminCard = () => {
       {course.map((item) => (
         <div className={s.carta}>
           <div className={s.cardCover}>{item.icon}</div>
-          <div className={s.cardTitle}><h2>{item.title}</h2></div>
+          <div className={s.cardTitle}>
+            <h2>{item.title}</h2>
+          </div>
         </div>
       ))}
     </div>

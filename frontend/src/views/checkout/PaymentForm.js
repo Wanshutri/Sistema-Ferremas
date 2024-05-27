@@ -1,63 +1,23 @@
 import * as React from "react";
-
 import Alert from "@mui/material/Alert";
 import Box from "@mui/material/Box";
 import Card from "@mui/material/Card";
 import CardActionArea from "@mui/material/CardActionArea";
 import CardContent from "@mui/material/CardContent";
-import Checkbox from "@mui/material/Checkbox";
 import FormControl from "@mui/material/FormControl";
-import FormControlLabel from "@mui/material/FormControlLabel";
-import FormLabel from "@mui/material/FormLabel";
-import OutlinedInput from "@mui/material/OutlinedInput";
 import RadioGroup from "@mui/material/RadioGroup";
 import Stack from "@mui/material/Stack";
 import Typography from "@mui/material/Typography";
 import Divider from "@mui/material/Divider";
-
 import AccountBalanceRoundedIcon from "@mui/icons-material/AccountBalanceRounded";
 import CreditCardRoundedIcon from "@mui/icons-material/CreditCardRounded";
-import SimCardRoundedIcon from "@mui/icons-material/SimCardRounded";
 import WarningRoundedIcon from "@mui/icons-material/WarningRounded";
-
-import { styled } from "@mui/system";
-
-const FormGrid = styled("div")(() => ({
-  display: "flex",
-  flexDirection: "column",
-}));
 
 export default function PaymentForm() {
   const [paymentType, setPaymentType] = React.useState("creditCard");
-  const [cardNumber, setCardNumber] = React.useState("");
-  const [cvv, setCvv] = React.useState("");
-  const [expirationDate, setExpirationDate] = React.useState("");
 
   const handlePaymentTypeChange = (event) => {
     setPaymentType(event.target.value);
-  };
-
-  const handleCardNumberChange = (event) => {
-    const value = event.target.value.replace(/\D/g, "");
-    const formattedValue = value.replace(/(\d{4})(?=\d)/g, "$1 ");
-    if (value.length <= 16) {
-      setCardNumber(formattedValue);
-    }
-  };
-
-  const handleCvvChange = (event) => {
-    const value = event.target.value.replace(/\D/g, "");
-    if (value.length <= 3) {
-      setCvv(value);
-    }
-  };
-
-  const handleExpirationDateChange = (event) => {
-    const value = event.target.value.replace(/\D/g, "");
-    const formattedValue = value.replace(/(\d{2})(?=\d{2})/, "$1/");
-    if (value.length <= 4) {
-      setExpirationDate(formattedValue);
-    }
   };
 
   return (
@@ -160,16 +120,23 @@ export default function PaymentForm() {
               className="dividerayuda"
             />
 
-            <Box sx={{ display: "flex",
-             justifyContent: "space-between",
-             paddingTop: "10px" }}
+            <Box
+              sx={{
+                display: "flex",
+                justifyContent: "space-between",
+                paddingTop: "10px",
+              }}
             >
               <Typography fontWeight="bold" variant="tittle">
                 Monto total a transferir:
               </Typography>
             </Box>
-            <Box sx={{ justifyContent: "space-between",paddingBottom: "15px" }}>
-              <Typography fontWeight="bold" variant="tittle" color={"blue"}>$10.000</Typography>
+            <Box
+              sx={{ justifyContent: "space-between", paddingBottom: "15px" }}
+            >
+              <Typography fontWeight="bold" variant="tittle" color={"blue"}>
+                $10.000
+              </Typography>
               <Typography variant="subtitle2">
                 Este monto puede estar asociado a un comprobante o a la suma de
                 ellos.
@@ -183,7 +150,9 @@ export default function PaymentForm() {
                 gap: 2,
               }}
             >
-              <Box sx={{ justifyContent: "space-between",paddingBottom: "15px" }}>
+              <Box
+                sx={{ justifyContent: "space-between", paddingBottom: "15px" }}
+              >
                 <Typography fontWeight="bold" variant="tittle">
                   Destinatario:
                 </Typography>
@@ -191,14 +160,18 @@ export default function PaymentForm() {
               </Box>
             </Box>
 
-            <Box sx={{ justifyContent: "space-between",paddingBottom: "15px" }}>
+            <Box
+              sx={{ justifyContent: "space-between", paddingBottom: "15px" }}
+            >
               <Typography fontWeight="bold" variant="tittle">
                 RUT:
               </Typography>
               <Typography variant="subtitle2">11.111.111-1</Typography>
             </Box>
 
-            <Box sx={{ justifyContent: "space-between",paddingBottom: "15px" }}>
+            <Box
+              sx={{ justifyContent: "space-between", paddingBottom: "15px" }}
+            >
               <Typography fontWeight="bold" variant="tittle">
                 Cuenta de destino (alternativas posibles):
               </Typography>

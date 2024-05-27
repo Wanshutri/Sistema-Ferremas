@@ -29,10 +29,10 @@
     transition: 0.3s ease-in-out;
 
     .empDetalle {
-        display: flex;
-        align-items: center;
-        gap: 20px;
-        color: #526d82;
+      display: flex;
+      align-items: center;
+      gap: 20px;
+      color: #526d82;
 
       img {
         height: 50px;
@@ -43,10 +43,8 @@
     }
   }
 
-
   .lista2:hover {
     background: #dde6ed;
     border-radius: 10px;
   }
-
 }

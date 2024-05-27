@@ -1,6 +1,4 @@
 import React, { useState, useEffect } from "react";
-import Form from "react-bootstrap/Form";
-import InputGroup from "react-bootstrap/InputGroup";
 import Button from "react-bootstrap/Button";
 import Col from "react-bootstrap/Col";
 import Row from "react-bootstrap/Row";
@@ -12,16 +10,10 @@ import Sidebar1 from "../../components/sidebar/sidebar";
 import Footer from "../../components/footer/footer";
 import BannerCom from "../../components/banner/bannerCom";
 import Card from "react-bootstrap/Card";
-import ListGroup from "react-bootstrap/ListGroup";
 import sana from "./../../img/sana.jpg";
 import Container from "react-bootstrap/Container";
 import { RiFileUploadFill } from "react-icons/ri";
-import {
-  ParallaxProvider,
-  ParallaxBanner,
-  ParallaxBannerLayer,
-  Parallax,
-} from "react-scroll-parallax";
+import { ParallaxProvider, Parallax } from "react-scroll-parallax";
 import Chip from "@mui/material/Chip";
 
 const fetchPedidos = () => {
@@ -79,7 +71,6 @@ const fetchPedidos = () => {
 };
 
 function Perfil() {
-  const [validated, setValidated] = useState(false);
   const [pedidos, setPedidos] = useState([]);
   const [currentPage, setCurrentPage] = useState(1);
   const itemsPerPage = 5;
@@ -128,13 +119,21 @@ function Perfil() {
                             />
                             <Card.Body>
                               <Divider>
-                                <Chip label="Nombre" size="small" className="chipperfil"/>
+                                <Chip
+                                  label="Nombre"
+                                  size="small"
+                                  className="chipperfil"
+                                />
                               </Divider>
                               <Card.Title>
                                 <h1>Minatozaki Sana!</h1>
                               </Card.Title>
                               <Divider>
-                                <Chip label="Acerca de mi" size="small" className="chipperfil" />
+                                <Chip
+                                  label="Acerca de mi"
+                                  size="small"
+                                  className="chipperfil"
+                                />
                               </Divider>
                               <Card.Text>
                                 Modelo de categoria vagina XXL Coreana real con

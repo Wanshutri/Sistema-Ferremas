@@ -1,32 +1,30 @@
-.card{
-    margin-top: 15px;
-
+.card {
+  margin-top: 15px;
 }
 
-
-.btn.btn-secondary{
-    display: flex;
-    margin-left: 40%;
-    margin-top: 10px; 
+.btn.btn-secondary {
+  display: flex;
+  margin-left: 40%;
+  margin-top: 10px;
 }
 
-.modalcont{
-    display: flex;
-    text-align: center;
-    justify-content: center;
-    margin-bottom: 5px;
+.modalcont {
+  display: flex;
+  text-align: center;
+  justify-content: center;
+  margin-bottom: 5px;
 }
 
-.contactanostodo{
-    background-image: url("./../../assets/img/inicioferreteria.jpg");
-    background-blend-mode: darken;
-    background-repeat: no-repeat;
-    background-size: cover;
-    background-color: rgba(0, 0, 0, 0.293);
+.contactanostodo {
+  background-image: url("./../../assets/img/inicioferreteria.jpg");
+  background-blend-mode: darken;
+  background-repeat: no-repeat;
+  background-size: cover;
+  background-color: rgba(0, 0, 0, 0.293);
 }
 
-.comentarioscontact{
-    text-align: center;
-    font-size: 20px;
-    font-weight: bold;
+.comentarioscontact {
+  text-align: center;
+  font-size: 20px;
+  font-weight: bold;
 }

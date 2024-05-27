@@ -1,18 +1,16 @@
-import React, { useState, useEffect } from 'react';
-import s from './ListaProductos.module.css'
-import Imagen1 from "./../../assets/img/martillo.jpg";
-import { obtenerProductosDesdeAPI } from './ListaProductosCrud';
-
+import React, { useState, useEffect } from "react";
+import s from "./ListaProductos.module.css";
+import { obtenerProductosDesdeAPI } from "./ListaProductosCrud";
 
 const ListaProductos = () => {
   const [productos, setProductos] = useState([]);
 
   useEffect(() => {
     obtenerProductosDesdeAPI()
-      .then(productos => {
+      .then((productos) => {
         setProductos(productos);
       })
-      .catch(error => {
+      .catch((error) => {
         console.error("Error al obtener productos:", error);
         // Maneja el error de acuerdo a tus necesidades
       });
@@ -30,10 +28,18 @@ const ListaProductos = () => {
       </div>
       <div className={s.listaContainer}>
         {productos.map((producto) => (
-          <div className={s.lista2} key={producto.idProducto}> {/* Asegúrate de usar una clave única para cada producto */}
+          <div className={s.lista2} key={producto.idProducto}>
+            {" "}
+            {/* Asegúrate de usar una clave única para cada producto */}
             <div className={s.empDetalle}>
-              <img src={"http://localhost:3001/images/"+producto.urlProducto} alt={producto.nombreProducto} className={s.imgprod} />
-              <h2>{producto.nombreProducto} {producto.apellido}</h2>
+              <img
+                src={"http://localhost:3001/images/" + producto.urlProducto}
+                alt={producto.nombreProducto}
+                className={s.imgprod}
+              />
+              <h2>
+                {producto.nombreProducto} {producto.apellido}
+              </h2>
             </div>
             <span>{producto.descripcion}</span>
             <span>{producto.precioProducto}</span>
@@ -46,4 +52,4 @@ const ListaProductos = () => {
   );
 };
 
-export default ListaProductos
+export default ListaProductos;

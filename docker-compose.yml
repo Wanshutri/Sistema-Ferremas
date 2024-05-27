@@ -15,8 +15,8 @@ services:
       - mysqldb_ferremas
     networks:
       - ferremas_network
-    #expose:
-     # - "3001"
+    expose:
+      - "3001"
     ports:
       - "3001:3001"
 

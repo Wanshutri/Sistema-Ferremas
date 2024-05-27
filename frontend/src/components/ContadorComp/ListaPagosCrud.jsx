@@ -1,15 +1,5 @@
-import React, { useState } from "react";
 import s from "./ListaPagos.module.css";
 import Imagen1 from "./../../assets/img/martillo.jpg";
-import Button from "react-bootstrap/Button";
-import Form from "react-bootstrap/Form";
-import Modal from "react-bootstrap/Modal";
-import InputLabel from '@mui/material/InputLabel';
-import MenuItem from '@mui/material/MenuItem';
-import FormControl from '@mui/material/FormControl';
-import Select, { SelectChangeEvent } from '@mui/material/Select';
-import axios from "axios";
-import { FaPlusCircle } from "react-icons/fa";
 
 const Pagos = [
   {
@@ -22,17 +12,6 @@ const Pagos = [
 ];
 
 const ListaPagosCrud = () => {
-  
-
-
-  const [show, setShow] = useState(false);
-
-  const handleClose = () => setShow(false);
-  const handleShow = () => setShow(true);
-
-  const [cargo, setCargo] = React.useState('');
-
-
   return (
     <>
       <div className={s.empLista}>
@@ -55,7 +34,6 @@ const ListaPagosCrud = () => {
           ))}
         </div>
       </div>
-
     </>
   );
 };

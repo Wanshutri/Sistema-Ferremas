@@ -1,65 +1,64 @@
-.cuadro-informacion{
-    background-color: #ffff;
-    padding: 5rem;
-    display: grid;
-    text-align: inherit;
-    grid-auto-flow: inherit;
-    margin: 8rem;
-    border-radius: 5px;
-    border: 5px;
-    border-color: #2951a0;
-    border-style: groove;
-    gap: 1rem;
-    
+.cuadro-informacion {
+  background-color: #ffff;
+  padding: 5rem;
+  display: grid;
+  text-align: inherit;
+  grid-auto-flow: inherit;
+  margin: 8rem;
+  border-radius: 5px;
+  border: 5px;
+  border-color: #2951a0;
+  border-style: groove;
+  gap: 1rem;
 }
-.cuadro-informacion h1{
-    text-align: center;
-    font-weight: 100; 
-    text-decoration: underline;
-    
+.cuadro-informacion h1 {
+  text-align: center;
+  font-weight: 100;
+  text-decoration: underline;
 }
 
-.icono{
-    height: 30px;
-    width: 30px;
+.icono {
+  height: 30px;
+  width: 30px;
 }
 
-.iconayuda{
-    font-size: 50px;
-    margin-right: 10px;
-    
+.iconayuda {
+  font-size: 50px;
+  margin-right: 10px;
 }
 
-.dividerayuda{
-    background-color: #022f8a;
+.dividerayuda {
+  background-color: #022f8a;
 }
-.titulotipografia1{
-    color: #2951a0;
+.titulotipografia1 {
+  color: #2951a0;
 }
-.tipografia1{
-    text-align: left;
+.tipografia1 {
+  text-align: left;
 }
 
-.divacordion{
-    margin-left: 38px;
+.divacordion {
+  margin-left: 38px;
 }
 
 .cartasayuda {
-    animation: myAnim2 2s ease 0s 1 normal forwards;
+  animation: myAnim2 2s ease 0s 1 normal forwards;
 }
 
 .contayuda {
-    background: linear-gradient(#2951a0 10%,white 40%,rgba(128, 128, 128, 0.511) 60%);
-    
+  background: linear-gradient(
+    #2951a0 10%,
+    white 40%,
+    rgba(128, 128, 128, 0.511) 60%
+  );
 }
 
-
 @keyframes myAnim2 {
-	0% {
-		box-shadow: 0 0 0 0 rgba(0, 0, 0, 0);
-	}
+  0% {
+    box-shadow: 0 0 0 0 rgba(0, 0, 0, 0);
+  }
 
-	100% {
-		box-shadow: -22px -12px 20px -12px rgb(0, 0, 0);
-	}
+  100% {
+    box-shadow: -22px -12px 20px -12px rgb(0, 0, 0);
+  }
 }

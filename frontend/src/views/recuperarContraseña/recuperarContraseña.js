@@ -69,9 +69,7 @@ function RestablecerContraseña() {
                 >
                   ¿No tienes cuenta? <br></br>
                   <Link to="/registro">
-                  <a  style={{ color: "#393f81" }}>
-                    Registrate aqui
-                  </a>
+                    <a style={{ color: "#393f81" }}>Registrate aqui</a>
                   </Link>
                 </p>
 

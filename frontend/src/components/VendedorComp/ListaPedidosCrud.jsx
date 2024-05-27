@@ -1,25 +1,6 @@
 import React, { useState, useEffect } from "react";
 import s from "./ListaPedidos.module.css";
-import Imagen1 from "./../../assets/img/martillo.jpg";
-import Button from "react-bootstrap/Button";
-import Form from "react-bootstrap/Form";
-import Modal from "react-bootstrap/Modal";
-import InputLabel from "@mui/material/InputLabel";
-import MenuItem from "@mui/material/MenuItem";
-import FormControl from "@mui/material/FormControl";
-import Select, { SelectChangeEvent } from "@mui/material/Select";
 import axios from "axios";
-import { FaPlusCircle } from "react-icons/fa";
-
-const Pedidos = [
-  {
-    imagen: Imagen1,
-    nombre: "Martillo",
-    apellido: "#1231",
-    cargo: "20-05-25",
-    correo: "negrito_sabroso@gmail.com",
-  },
-];
 
 export const obtenerDepositosDesdeAPI = () => {
   return axios
@@ -33,7 +14,6 @@ export const obtenerDepositosDesdeAPI = () => {
 
 const ListaPedidosCrud = () => {
   const [depositos, setDepositos] = useState([]);
-  const [estado, setEstado] = useState("");
 
   useEffect(() => {
     obtenerDepositosDesdeAPI().then(setDepositos).catch(console.error);

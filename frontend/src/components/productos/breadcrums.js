@@ -1,13 +1,13 @@
-import React from 'react';
-import { useLocation } from 'react-router-dom';
-import Typography from '@mui/material/Typography';
-import Breadcrumbs from '@mui/material/Breadcrumbs';
-import Link from '@mui/material/Link';
+import React from "react";
+import { useLocation } from "react-router-dom";
+import Typography from "@mui/material/Typography";
+import Breadcrumbs from "@mui/material/Breadcrumbs";
+import Link from "@mui/material/Link";
 import "./breadcrumbs.css";
 
 function handleClick(event) {
   event.preventDefault();
-  console.info('You clicked a breadcrumb.');
+  console.info("You clicked a breadcrumb.");
 }
 
 const routeNameMap = {
@@ -27,22 +27,22 @@ const routeNameMap = {
   "/vendindex": "Vendedor",
   "/bodeindex": "Bodeguero",
   "/contindex": "Contador",
-  "/perfil": "Perfil"
+  "/perfil": "Perfil",
 };
 
 export default function BasicBreadcrumbs() {
   const location = useLocation();
-  const pathnames = location.pathname.split('/').filter((x) => x);
-  
+  const pathnames = location.pathname.split("/").filter((x) => x);
+
   return (
-    <div role="presentation" onClick={handleClick} className='breadcrubsdiv'>
+    <div role="presentation" onClick={handleClick} className="breadcrubsdiv">
       <Breadcrumbs aria-label="breadcrumb">
         <Link underline="hover" color="inherit" href="/">
           Home
         </Link>
         {pathnames.map((value, index) => {
           const isLast = index === pathnames.length - 1;
-          const to = `/${pathnames.slice(0, index + 1).join('/')}`;
+          const to = `/${pathnames.slice(0, index + 1).join("/")}`;
 
           return isLast ? (
             <Typography color="text.primary" key={to}>

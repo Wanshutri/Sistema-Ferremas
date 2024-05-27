@@ -1,6 +1,5 @@
 import React, { useState, useContext } from "react";
 import {
-  MDBBtn,
   MDBContainer,
   MDBCard,
   MDBCardBody,
@@ -14,9 +13,8 @@ import Button from "react-bootstrap/esm/Button";
 import logo from "./../../assets/img/logo.png";
 import banner from "./../../assets/img/Verticalbanner.jpg";
 import { Link } from "react-router-dom";
-import { AuthContext } from './../../js/AuthContext'; // Importa el contexto de autenticación
+import { AuthContext } from "./../../js/AuthContext"; // Importa el contexto de autenticación
 import "./login.css";
-
 
 function Login() {
   const [correo, setCorreo] = useState("");
@@ -30,13 +28,12 @@ function Login() {
       return;
     }
     try {
-      const result = await login(correo, contrasena)
+      const result = await login(correo, contrasena);
       if (result.success) {
         window.location.href = "http://localhost:3000/";
       } else {
-        throw new Error(result.error)
+        throw new Error(result.error);
       }
-      
     } catch (error) {
       setError("Hubo un problema con la autenticación: " + error.message);
     }

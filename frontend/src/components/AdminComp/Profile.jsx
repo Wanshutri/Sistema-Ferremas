@@ -40,7 +40,9 @@ const Profile = () => {
                 <div className={s.courseCover}>{course.icon}</div>
                 <div className={s.nombreCourse}>
                   <h5 className={s.tituloCourse}>{course.titulo}</h5>
-                  <span className={s.descripcionCourse}>{course.descripcion}</span>
+                  <span className={s.descripcionCourse}>
+                    {course.descripcion}
+                  </span>
                 </div>
               </div>
               <div className="action">:</div>

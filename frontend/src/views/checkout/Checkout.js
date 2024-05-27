@@ -1,6 +1,5 @@
 import * as React from "react";
 import PropTypes from "prop-types";
-
 import Box from "@mui/material/Box";
 import Button from "@mui/material/Button";
 import Card from "@mui/material/Card";
@@ -11,17 +10,11 @@ import Stack from "@mui/material/Stack";
 import Step from "@mui/material/Step";
 import StepLabel from "@mui/material/StepLabel";
 import Stepper from "@mui/material/Stepper";
-import ToggleButton from "@mui/material/ToggleButton";
-import ToggleButtonGroup from "@mui/material/ToggleButtonGroup";
 import Typography from "@mui/material/Typography";
-
 import { createTheme, ThemeProvider } from "@mui/material/styles";
-
 import ArrowBackRoundedIcon from "@mui/icons-material/ArrowBackRounded";
-import AutoAwesomeRoundedIcon from "@mui/icons-material/AutoAwesomeRounded";
 import ChevronLeftRoundedIcon from "@mui/icons-material/ChevronLeftRounded";
 import ChevronRightRoundedIcon from "@mui/icons-material/ChevronRightRounded";
-
 import AddressForm from "./AddressForm";
 import getCheckoutTheme from "./getCheckoutTheme";
 import Info from "./Info";
@@ -354,7 +347,9 @@ export default function Checkout() {
                       width: { xs: "100%", sm: "fit-content" },
                     }}
                   >
-                    {activeStep === steps.length - 1 ? "Finalizar Pedido" : "Siguiente"}
+                    {activeStep === steps.length - 1
+                      ? "Finalizar Pedido"
+                      : "Siguiente"}
                   </Button>
                 </Box>
               </React.Fragment>

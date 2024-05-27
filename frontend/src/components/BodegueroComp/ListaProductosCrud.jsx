@@ -1,13 +1,12 @@
 import React, { useState, useEffect } from "react";
 import s from "./ListaProductos.module.css";
-import Imagen1 from "./../../assets/img/martillo.jpg";
 import Button from "react-bootstrap/Button";
 import Form from "react-bootstrap/Form";
 import Modal from "react-bootstrap/Modal";
 import InputLabel from "@mui/material/InputLabel";
 import MenuItem from "@mui/material/MenuItem";
 import FormControl from "@mui/material/FormControl";
-import Select, { SelectChangeEvent } from "@mui/material/Select";
+import Select from "@mui/material/Select";
 import axios from "axios";
 import Dropdown from "react-bootstrap/Dropdown";
 
@@ -31,7 +30,7 @@ const ListaProductosCrud = () => {
     precioProducto: 0,
     idTipoProducto: 1,
     stock: 0,
-    urlProducto:"",
+    urlProducto: "",
   });
 
   const [show, setShow] = useState(false);
@@ -48,7 +47,7 @@ const ListaProductosCrud = () => {
       precioProducto: 0,
       idTipoProducto: 1,
       stock: 0,
-      urlProducto:"",
+      urlProducto: "",
     });
   };
   const handleShow = () => {
@@ -59,17 +58,11 @@ const ListaProductosCrud = () => {
       precioProducto: 0,
       idTipoProducto: 1,
       stock: 0,
-      urlProducto:"",
+      urlProducto: "",
     };
     setProducto(nuevoProducto);
     setModalTitle("Agregar Producto");
     setShow(true);
-  };
-
-  const [tipoP, setTipoP] = React.useState("");
-
-  const handleChange2 = (event) => {
-    setTipoP(event.target.value);
   };
 
   const handleChange = (e) => {
@@ -197,36 +190,48 @@ const ListaProductosCrud = () => {
             </thead>
             <tbody>
               {productos.map((producto) => (
-                <><tr key={producto.idProducto}>
-                  <td>
-                    <div className={s.empDetalle}>
-                      <img src={"http://localhost:3001/images/" + producto.urlProducto} alt={producto.nombreProducto} className={s.imgprod} />
-                    </div>
-                  </td>
-                  <td>{producto.nombreProducto}</td>
-                  <td>{producto.descripcion}</td>
-                  <td>{producto.precioProducto}</td>
-                  <td>{producto.stock}</td>
-                  <td>
-                    <Dropdown>
-                      <Dropdown.Toggle variant="warning" id="dropdown-basic">
-                        <FaEllipsisV />
-                      </Dropdown.Toggle>
-                      <Dropdown.Menu>
-                        <Dropdown.Item
-                          onClick={() => handleModificarProducto(producto)}
-                        >
-                          Modificar
-                        </Dropdown.Item>
-                        <Dropdown.Item
-                          onClick={() => handleEliminarProducto(producto.idProducto)}
-                        >
-                          Eliminar
-                        </Dropdown.Item>
-                      </Dropdown.Menu>
-                    </Dropdown>
-                  </td>
-                </tr><br></br></>
+                <>
+                  <tr key={producto.idProducto}>
+                    <td>
+                      <div className={s.empDetalle}>
+                        <img
+                          src={
+                            "http://localhost:3001/images/" +
+                            producto.urlProducto
+                          }
+                          alt={producto.nombreProducto}
+                          className={s.imgprod}
+                        />
+                      </div>
+                    </td>
+                    <td>{producto.nombreProducto}</td>
+                    <td>{producto.descripcion}</td>
+                    <td>{producto.precioProducto}</td>
+                    <td>{producto.stock}</td>
+                    <td>
+                      <Dropdown>
+                        <Dropdown.Toggle variant="warning" id="dropdown-basic">
+                          <FaEllipsisV />
+                        </Dropdown.Toggle>
+                        <Dropdown.Menu>
+                          <Dropdown.Item
+                            onClick={() => handleModificarProducto(producto)}
+                          >
+                            Modificar
+                          </Dropdown.Item>
+                          <Dropdown.Item
+                            onClick={() =>
+                              handleEliminarProducto(producto.idProducto)
+                            }
+                          >
+                            Eliminar
+                          </Dropdown.Item>
+                        </Dropdown.Menu>
+                      </Dropdown>
+                    </td>
+                  </tr>
+                  <br></br>
+                </>
               ))}
             </tbody>
           </table>
