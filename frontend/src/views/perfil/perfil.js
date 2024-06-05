@@ -148,29 +148,22 @@ function Perfil() {
                                     <th>#</th>
                                     <th>Usuario</th>
                                     <th>Precio</th>
-                                    <th>Cantidad</th>
-                                    <th>ID Producto</th>
-                                    <th>Boleta</th>
+                                   
+                                    <th>Fecha</th>
+                                    <th>Estado</th>
+                                    
                                   </tr>
                                 </thead>
                                 <tbody>
                                   {currentItems.map((pedido) => (
-                                    <tr key={pedido.id}>
-                                      <td>{pedido.id}</td>
-                                      <td>{pedido.usuario}</td>
-                                      <td>{pedido.precio}</td>
-                                      <td>{pedido.cantidad}</td>
-                                      <td>{pedido.productoId}</td>
-                                      <td>
-                                        <Button
-                                          variant="success"
-                                          size="sm"
-                                          className="botonBoleta"
-                                        >
-                                          Comprobante{" "}
-                                          <RiFileUploadFill className="iconperfil" />
-                                        </Button>
-                                      </td>
+                                    <tr key={pedido.idDeposito}>
+                                      <td>{pedido.idDeposito}</td>
+                                      <td>{usuario.pNombre} {usuario.pApellido}</td>
+                                      <td>{pedido.monto}</td>
+                                    
+                                      <td>{pedido.fechaDeposito}</td>
+                                      <td>{pedido.estadoDeposito}</td>
+                                      
                                     </tr>
                                   ))}
                                 </tbody>

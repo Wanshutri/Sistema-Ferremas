@@ -103,8 +103,6 @@ CREATE TABLE deposito(
     FOREIGN KEY (idUsuario) REFERENCES usuario(idUsuario)
 );
 
-INSERT INTO usuario (correoUsuario, contrasenaUsuario, rutUsuario, pNombre, sNombre, pApellido, sApellido, fechaNac, celular, direccion, cargo) 
-VALUES ('fe.valenzuelav@duocuc.cl', 'judas123', '21244616-5', 'Felipe', null, 'Valenzuela', 'Vivanco', '2004-04-29', 123456789, 'Calle de las reinas magicas.', 'Admin');
 
 INSERT INTO tipo_producto (nombreTipo)
 VALUES ('Herramientas');

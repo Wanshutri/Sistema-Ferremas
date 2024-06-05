@@ -1,12 +1,14 @@
-import React from "react";
+import React, { useEffect, useState } from "react";
 import ProfileHeader from "./ProfileHeader";
 import s from "./Profile.module.css";
-import userpic from "./../../assets/img/userDefault.jpg";
+import userpic from "./../../assets/img/userFoto.png";
 import { BiAtom } from "react-icons/bi";
+import { AuthContext } from "./../../js/AuthContext"; // Importa el contexto de autenticación
+import axios from "axios";
 
 const course = [
   {
-    titulo: "HTML CSS",
+    titulo: "Correo",
     icon: <BiAtom />,
     descripcion: "2 Magister",
   },
@@ -22,7 +24,30 @@ const course = [
   },
 ];
 
+
 const Profile = () => {
+  const [usuario, setUsuario] = useState({});
+
+  useEffect(() => {
+  
+    if (!localStorage.getItem("user")) {
+    } else {
+      const fetchPedidos = async () => {
+        try {
+          const userId = localStorage.getItem("user");
+          const responseUsuario = await axios.get(
+            `http://localhost:3001/api/usuarios/${userId}`
+          );
+            setUsuario(responseUsuario.data);
+        } catch (error) {
+          console.error("Error al obtener los datos", error);
+        }
+      };
+      fetchPedidos();
+    }
+  }, []);
+  
+
   return (
     <div className={s.perfilAdm}>
       <ProfileHeader />
@@ -30,8 +55,8 @@ const Profile = () => {
       <div className={s.perfilUser}>
         <div className={s.detalleUser}>
           <img src={userpic} alt="" />
-          <h3 className={s.username}>Blanco Rico</h3>
-          <span className={s.cargoTxt}>CEO</span>
+          <h3 className={s.username}>{usuario.pNombre} {usuario.pApellido}</h3>
+          <span className={s.cargoTxt}>{usuario.cargo}</span>
         </div>
         <div className={s.extraUser}>
           {course.map((course) => (

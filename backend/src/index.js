@@ -384,6 +384,7 @@ app.get("/api/productos/:id", (req, res) => {
 
 // Ruta para crear un nuevo producto
 app.post("/api/productos", (req, res) => {
+  
   uploader.upload(req, res, (err) => {
     if (err) {
       fs.unlink(req.file.path, (err) => {
@@ -440,63 +441,115 @@ app.post("/api/productos", (req, res) => {
 // Ruta para actualizar un producto existente
 app.put("/api/productos/:id", (req, res) => {
   const id = req.params.id;
-  if (!req.body.nombreProducto) {
-    return res.send({
-      message: "Error al actualizar el producto",
-      error: "Debe haber un nombre de producto",
-    });
-  }
-  if (!req.body.descripcion) {
-    return res.send({
-      message: "Error al actualizar el producto",
-      error: "Debe haber una descripcion de producto",
-    });
-  }
-  if (!req.body.precioProducto) {
-    return res.send({
-      message: "Error al actualizar el producto",
-      error: "Debe haber un precio de producto",
-    });
-  }
-  if (!req.body.idTipoProducto) {
-    return res.send({
-      message: "Error al actualizar el producto",
-      error: "Debe tener un tipo de producto vinculado",
-    });
-  }
-  if (!req.body.stock) {
-    return res.send({
-      message: "Error al actualizar el producto",
-      error: "Debe tener un stock de producto",
-    });
-  }
-  const nuevoProducto = {
-    nombreProducto: req.body.nombreProducto,
-    descripcion: req.body.descripcion,
-    precioProducto: req.body.precioProducto,
-    idTipoProducto: req.body.idTipoProducto,
-    stock: req.body.stock,
-  };
-  actualizarProducto(id, nuevoProducto, (error, success) => {
-    if (error) {
+
+  uploader.upload(req, res, (err) => {
+    console.log(req.body)
+    if (err) {
+      fs.unlink(req.file.path, (err) => {
+        if (err) {
+          return res.send({
+            message: "Error al eliminar el archivo del sistema de archivos",
+            error: err.message,
+          });
+        }
+      });
+      if (err.code === "INVALID_FILE_TYPE") {
+        return res.send({
+          message: "Error al subir la imagen",
+          error: "Solo se admiten formatos de imagen",
+        });
+      }
       return res.send({
-        message: "Error al actualizar producto",
-        error: error.message,
+        message: "Error al subir la imagen",
+        error: err.message,
       });
     }
-    if (success) {
-      res.send({
-        message: "Producto actualizado exitosamente",
-        producto: nuevoProducto,
-      });
-    } else {
-      res.send({
-        message: "Error al actualizar producto",
-        error: "Producto no encontrado",
+
+    if (!req.body.nombreProducto) {
+      return res.send({
+        message: "Error al actualizar el producto",
+        error: "Debe haber un nombre de producto",
       });
     }
+    if (!req.body.descripcion) {
+      return res.send({
+        message: "Error al actualizar el producto",
+        error: "Debe haber una descripcion de producto",
+      });
+    }
+    if (!req.body.precioProducto) {
+      return res.send({
+        message: "Error al actualizar el producto",
+        error: "Debe haber un precio de producto",
+      });
+    }
+    if (!req.body.idTipoProducto) {
+      return res.send({
+        message: "Error al actualizar el producto",
+        error: "Debe tener un tipo de producto vinculado",
+      });
+    }
+    if (!req.body.stock) {
+      return res.send({
+        message: "Error al actualizar el producto",
+        error: "Debe tener un stock de producto",
+      });
+    }
+
+    const nuevoProducto = {
+      nombreProducto: req.body.nombreProducto,
+      descripcion: req.body.descripcion,
+      precioProducto: req.body.precioProducto,
+      idTipoProducto: req.body.idTipoProducto,
+      stock: req.body.stock,
+    };
+
+    if (req.file) {
+      nuevoProducto.urlProducto = req.file.filename;
+    }
+
+    actualizarProducto(id, nuevoProducto, (error, success) => {
+      if (error) {
+        if (req.file) {
+          fs.unlink(req.file.path, (err) => {
+            if (err) {
+              return res.send({
+                message: "Error al eliminar el archivo del sistema de archivos",
+                error: err.message,
+              });
+            }
+          });
+        }
+        return res.send({
+          message: "Error al actualizar producto",
+          error: error.message,
+        });
+      }
+      if (success) {
+        res.send({
+          message: "Producto actualizado exitosamente",
+          producto: nuevoProducto,
+        });
+      } else {
+        if (req.file) {
+          fs.unlink(req.file.path, (err) => {
+            if (err) {
+              return res.send({
+                message: "Error al eliminar el archivo del sistema de archivos",
+                error: err.message,
+              });
+            }
+          });
+        }
+        res.send({
+          message: "Error al actualizar producto",
+          error: "Producto no encontrado",
+        });
+      }
+    });
   });
 });
+
 
 // Ruta para eliminar un producto
 app.delete("/api/productos/:id", (req, res) => {
