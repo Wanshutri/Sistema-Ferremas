@@ -1,9 +1,13 @@
-import React, {useState} from "react";
+import React, {useState, useContext} from "react";
 import { RiLogoutCircleLine } from "react-icons/ri";
 import s from "./Profile.module.css";
+import { AuthContext } from "./../../js/AuthContext"; 
+import { useNavigate } from 'react-router-dom';
 
 function ProfileHeader() {
   const [dropdownVisible, setDropdownVisible] = useState(false);
+  const { logout, authState } = useContext(AuthContext);
+  const navigate = useNavigate();
 
   const toggleDropdown = () => {
     setDropdownVisible(!dropdownVisible);
@@ -11,7 +15,8 @@ function ProfileHeader() {
 
   const handleLogout = () => {
 
-    console.log("Cerrando sesión...");
+    logout();
+    navigate('/login');
   };
 
   return (
